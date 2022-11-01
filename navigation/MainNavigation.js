@@ -2,6 +2,7 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createDrawerNavigator } from "@react-navigation/drawer";
 import { Ionicons } from "@expo/vector-icons";
 
 //Basic Course
@@ -26,6 +27,7 @@ import PostDeatilScreen from "../screens/Community/PostDetailScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
+const Drawer = createDrawerNavigator();
 const NewCourse = () => {
     return(
         <Stack.Navigator>
@@ -48,7 +50,7 @@ const MyCourses = () => {
     return(
         <Stack.Navigator initialRouteName="My Courses">
             {/* เดะมาเปลี่ยนชื่อ detail กับ inner */}
-            <Stack.Screen name="My Courses" component={BasicCoursesScreen} />
+            <Stack.Screen name="My Courses" component={MyCoursesScreen} />
             <Stack.Screen name="Play a Course" component={PlayACourseScreen} />
             <Stack.Screen name="Edit Course" component={EditMyCourseScreen} />
         </Stack.Navigator>
@@ -111,7 +113,9 @@ const MainCoursesTab = () => {
 const MainNavigation = () => {
     return(
         <NavigationContainer>
-            <MainCoursesTab/>
+            <Drawer.Navigator screenOptions={{headerShown : false}}>
+                <Drawer.Screen name="Home" component={MainCoursesTab}/>
+            </Drawer.Navigator>
         </NavigationContainer>
     )
 }

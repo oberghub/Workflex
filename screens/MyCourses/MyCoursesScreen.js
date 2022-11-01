@@ -1,11 +1,23 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { Button, StyleSheet, Text, View, ScrollView } from 'react-native';
 
 export default function MyCoursesScreen({route, navigation}) {
+  // const itemData = (data) => {
+  //   return(
+    
+  //   )
+  // }
   return (
     <View style={styles.container}>
+      {/* <View style={{
+        width : "90%",
+        height : 150,
+        borderRadius : 10,
+        backgroundColor : "lightblue"
+      }}>
+      </View> */}
       <Text>My Course</Text>
-      <StatusBar style="auto" />
+      <Button title="Go to work out!" onPress={() => {navigation.navigate("Play a Course")}} />
     </View>
   );
 }
@@ -16,5 +28,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  gridItem: {
+    flex: 1,
+    margin: 15,
+    height: 150,
+    alignItems: 'center',
   },
 });
