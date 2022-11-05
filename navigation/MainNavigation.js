@@ -42,7 +42,7 @@ const BasicCourses = () => {
             {/* เดะมาเปลี่ยนชื่อ detail กับ inner */}
             <Stack.Screen name="Basic Course" component={BasicCoursesScreen} />
             <Stack.Screen name="Course Detail" component={CourseDetailScreen}  options={({ route }) => ({
-          title: route.params.categoryTitle.toString(),
+            title: route.params.categoryTitle.toString(),
         })}/>
             <Stack.Screen name="Inner Course" component={InnerCourseScreen} />
         </Stack.Navigator>
