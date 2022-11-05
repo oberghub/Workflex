@@ -1,6 +1,12 @@
 import { useState } from 'react';
 import { StyleSheet, Modal, Pressable, Text, View, TouchableOpacity, TextInput, ScrollView, Alert } from 'react-native';
 import { Ionicons } from "@expo/vector-icons";
+import { MYCATEGORIES as data } from "../../data/dummy-data";
+import { EXECISES as data1 } from "../../data/dummy-data";
+import Category from '../../models/category';
+import MyCategory from '../../models/myCategory';
+import Execise from '../../models/execise';
+import { getAssetByID } from 'react-native-web/dist/cjs/modules/AssetRegistry';
 export default function NewCourseScreen({route, navigation}) {
   const [courseName, setCourseName] = useState("")
   const [posture, setPosture] = useState("")
@@ -79,16 +85,30 @@ export default function NewCourseScreen({route, navigation}) {
   
   const CheckCourseNameValidate = () => {
     if(courseName == ""){
+      getID()
       setCourseNameValidate(false)
     }
     else{
+      getID()
       setCourseNameValidate(true)
       saveData() //ทำจริงค่อยแก้ตรงฟังก์ชันนี้
     }
   }
-
+  let idnum = 0
+  let id = ""
+  let courseTemp= ""
+  const getID = () =>{
+      idnum= data.length+1
+      id= "mc"+idnum
+  }
   const saveData = () => {
-    console.log({courseName : courseName, exerciseList : exerciseList})
+    data.push(new MyCategory(id, courseName, "#f5d142"))//หาสีมาใส่
+    for(let i =0; i < exerciseList.length;i++){
+      data1.push(new Execise(exerciseList[i].id,exerciseList[i].name,exerciseList[i].sec,id))
+    }
+    console.log(data)
+    // console.log(data1)
+    // console.log({idmc:id, courseName : courseName, exerciseList : exerciseList})
   }
   return (
     <View style={styles.container}>

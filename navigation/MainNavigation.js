@@ -53,7 +53,9 @@ const MyCourses = () => {
         <Stack.Navigator initialRouteName="My Courses">
             {/* เดะมาเปลี่ยนชื่อ detail กับ inner */}
             <Stack.Screen name="My Courses" component={MyCoursesScreen} />
-            <Stack.Screen name="Play a Course" component={PlayACourseScreen} />
+            <Stack.Screen name="Play a Course" component={PlayACourseScreen} options={({ route }) => ({
+          title: route.params.title.toString(),
+        })}/>
             <Stack.Screen name="Edit Course" component={EditMyCourseScreen} />
         </Stack.Navigator>
     )

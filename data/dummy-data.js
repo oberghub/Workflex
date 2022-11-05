@@ -1,5 +1,7 @@
 import Category from "../models/category";
+import Execise from "../models/execise";
 import Meal from "../models/meals";
+import MyCategory from "../models/myCategory";
 
 export const CATEGORIES = [
   new Category("c1", "เด็ก", "#f5428d", "https://www.prachachat.net/wp-content/uploads/2019/07/dlf06110762p1-728x515.jpg"),
@@ -7,7 +9,12 @@ export const CATEGORIES = [
   new Category("c3", "วัยกลางคน", "#f5a442", "https://s7d1.scene7.com/is/image/mcdonalds/t-mcdonalds-Hamburger:1-3-product-tile-desktop?wid=829&hei=515&dpr=off"),
   new Category("c4", "วัยสูงอายุ", "#f5d142","https://www.thespruceeats.com/thmb/a2081g-3p7gDU-7vjdhm2-FGjV0=/1896x1422/smart/filters:no_upscale()/GettyImages-697310048-594c507f5f9b58f0fcb236f0.jpg")
 ];
-
+export const MYCATEGORIES = [
+  new MyCategory("mc1", "First My Course", "#f5d142")
+];
+export const EXECISES =[
+  new Execise("0", "Jumping Jack", "30","mc1")
+]
 export const MEALS = [
   new Meal(
     "m1",
