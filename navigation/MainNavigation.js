@@ -98,7 +98,7 @@ const MainCoursesTab = () => {
                 }}/>
             <Tab.Screen name="Calculator Tab" component={HealthCalculatorScreen}
                 options={{
-                    title : "Calculator BMI",
+                    title : "Calculator",
                     tabBarIcon : ({color, size}) => {
                         return <Ionicons name="ios-calculator-outline" size={size} color={color} />
                     }

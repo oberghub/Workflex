@@ -4,16 +4,20 @@ import Meal from "../models/meals";
 import MyCategory from "../models/myCategory";
 
 export const CATEGORIES = [
-  new Category("c1", "เด็ก", "#f5428d", "https://www.prachachat.net/wp-content/uploads/2019/07/dlf06110762p1-728x515.jpg"),
-  new Category("c2", "วัยรุ่น", "#f54242", "https://post.healthline.com/wp-content/uploads/2021/07/Starbucks_Food_Spinach_Feta_Wrap-1200x628-facebook-1200x628.jpg"),
-  new Category("c3", "วัยกลางคน", "#f5a442", "https://s7d1.scene7.com/is/image/mcdonalds/t-mcdonalds-Hamburger:1-3-product-tile-desktop?wid=829&hei=515&dpr=off"),
-  new Category("c4", "วัยสูงอายุ", "#f5d142","https://www.thespruceeats.com/thmb/a2081g-3p7gDU-7vjdhm2-FGjV0=/1896x1422/smart/filters:no_upscale()/GettyImages-697310048-594c507f5f9b58f0fcb236f0.jpg")
+  new Category("c1", "พื้นฐานวัยเด็ก เสริมสร้างภูมิคุ้มกัน", "#f5428d", "https://www.prachachat.net/wp-content/uploads/2019/07/dlf06110762p1-728x515.jpg"),
+  new Category("c2", "วัยรุ่นวัยทีน หุ่นลีนง่ายๆ", "#f54242", "https://yourteenmag.com/wp-content/uploads/2018/09/teenagers-hanging-with-friends-1135x540.jpg"),
+  new Category("c3", "อย่าลืมรักษาสุขภาพก่อนแก่นะ", "#f5a442", "https://www.theorthodontists.com.au/theme/theorthodontistscomau/assets/public/Image/header-images/adults.png"),
+  new Category("c4", "ออกกำลังกายเบาๆกับสังคมวัยสูงอายุ", "#f5d142","https://www.uvu.edu/communityed/images/elder/eq-home-01.jpg") 
 ];
 export const MYCATEGORIES = [
-  new MyCategory("mc1", "First My Course", "#f5d142")
+  new MyCategory("mc1", "My First Course", "#f5d142"),
+  new MyCategory("mc2", "Good Morning!", "#FF4444")
 ];
 export const EXECISES =[
-  new Execise("0", "Jumping Jack", "30","mc1")
+  new Execise("0", "Jumping Jack", 30,"mc1"),
+  new Execise("0", "Sit Up", 45,"mc2"),
+  new Execise("1", "Doggy", 68, "mc2"),
+  new Execise("2", "Woman on top", 125, "mc2")
 ]
 export const MEALS = [
   new Meal(

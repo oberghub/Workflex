@@ -8,16 +8,29 @@ const BasicCoursesScreen = ({navigation})  => {
       <View style={[styles.shadowbox, {width : "100%", padding : 10}]}>
 
         <FlatList data={data} renderItem={({item, index}) => 
-            <View style={{height : 290, 
+            <View style={{height : 320, 
                           width : '100%',
                           borderWidth : 1, 
                           borderColor : 'lightgray', 
-                          borderRadius : 10,
+                          borderRadius : 5,
                           marginBottom : 15,
-                          backgroundColor : '#fff'}}>      
+                          backgroundColor : '#F2F2F2'}}>      
               <View style={styles.gridItem}>
                 <Image source={{ uri: item.image }} style={styles.bgImage}/>
-                <Text style={styles.txtImg}>{item.title}</Text>
+                {/* <Text style={styles.txtImg}>{item.title}</Text> */}
+              </View>
+
+              <View style={{position : 'absolute', width : '95%', top : 160, paddingTop : 10, paddingRight : 10, paddingLeft : 10}}>
+
+                <Text style={{marginLeft : 10}}>
+                  <Text style={{fontWeight : '700'}}>Course</Text> : {item.title}
+                </Text>
+
+                <Text style={{marginLeft : 10, marginTop : 10}}>
+                  <Text style={{fontWeight : '700'}}>Detail</Text> : Lorem ipsum dolor sit amet, putent quaestio quaerendum ea mei. Nulla legimus nonumes ei pro, 
+                  et stet falli tacimates eos, eu usu omnis mundi prodesset.
+                </Text>
+
               </View>
 
               <TouchableOpacity style={{width : '100%', 
@@ -45,6 +58,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor : '#fff'
   },
   gridItem: {
     flex: 1,
@@ -80,9 +94,9 @@ const styles = StyleSheet.create({
   },
   bgImage: {
     width: "100%",
-    height: 250,
+    height: 150,
     marginTop : -5,
-    borderRadius : 10,
+    borderRadius : 3,
   },
   title: {
     fontSize: 20,

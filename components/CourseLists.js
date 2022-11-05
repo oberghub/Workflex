@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     flex: 1,
     margin: 0,
     paddingTop:5,
-    height: 500,
+    height: 200,
   },
   txtImg:{
         flex: 1,

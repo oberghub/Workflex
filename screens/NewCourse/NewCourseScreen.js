@@ -1,12 +1,10 @@
 import { useState } from 'react';
-import { StyleSheet, Modal, Pressable, Text, View, TouchableOpacity, TextInput, ScrollView, Alert } from 'react-native';
+import { RefreshControl, StyleSheet, Modal, Pressable, Text, View, TouchableOpacity, TextInput, ScrollView, Alert } from 'react-native';
 import { Ionicons } from "@expo/vector-icons";
 import { MYCATEGORIES as data } from "../../data/dummy-data";
 import { EXECISES as data1 } from "../../data/dummy-data";
-import Category from '../../models/category';
 import MyCategory from '../../models/myCategory';
 import Execise from '../../models/execise';
-import { getAssetByID } from 'react-native-web/dist/cjs/modules/AssetRegistry';
 export default function NewCourseScreen({route, navigation}) {
   const [courseName, setCourseName] = useState("")
   const [posture, setPosture] = useState("")
@@ -20,11 +18,23 @@ export default function NewCourseScreen({route, navigation}) {
 
   const [modalVisible, setModalVisible] = useState(false)
 
+  const randomColor = Math.floor(Math.random()*16777215).toString(16);
+
   //Example Data
   const [exerciseList, setExerciseList] = useState([
-    {name : "Jumping Jack", sec : 20, id : 1},
-    {name : "Sit Up", sec : 25, id : 2}
+    // {name : "Jumping Jack", sec : 20, id : 1},
+    // {name : "Sit Up", sec : 25, id : 2}
   ])
+
+  const [refreshing, setRefreshing] = useState(false);
+  const reloadComp = () => {
+    setRefreshing(true)
+
+    setTimeout(() => {
+      setRefreshing(false)
+      console.log("eiei")
+    }, 1000)
+  }
 
   const deleteExList = (index) => {
     Alert.alert(
@@ -102,13 +112,12 @@ export default function NewCourseScreen({route, navigation}) {
       id= "mc"+idnum
   }
   const saveData = () => {
-    data.push(new MyCategory(id, courseName, "#f5d142"))//หาสีมาใส่
+    data.push(new MyCategory(id, courseName, "#"+randomColor))//หาสีมาใส่
     for(let i =0; i < exerciseList.length;i++){
       data1.push(new Execise(exerciseList[i].id,exerciseList[i].name,exerciseList[i].sec,id))
     }
-    console.log(data)
-    // console.log(data1)
-    // console.log({idmc:id, courseName : courseName, exerciseList : exerciseList})
+    navigation.navigate("My Course Tab")
+    console.log(randomColor)
   }
   return (
     <View style={styles.container}>
@@ -139,10 +148,10 @@ export default function NewCourseScreen({route, navigation}) {
             onChangeText={setPosture}
             value={posture}
           />
-          <View style={styles.timecon}>
+          <View style={[styles.timecon, {justifyContent : 'flex-end'}]}>
             <TextInput
               style={styles.secinput}
-              width="50%"
+              width="60%"
               onChangeText={setSec}
               value={sec}
               keyboardType='numeric'
@@ -151,44 +160,51 @@ export default function NewCourseScreen({route, navigation}) {
           </View>
        </View>
        {/* Save posture */}
-        <TouchableOpacity style={styles.saveBox}
+        <TouchableOpacity style={[styles.saveBox, {backgroundColor : 'lightblue'}]}
                         onPress={() => {
                           CheckpostureValidate({name : posture, sec : sec, id : exerciseList.length+1 })
                         }}>
-                        <Ionicons name="ios-add" size={30} color={"black"} /> 
+                        <Ionicons name="ios-add" size={30} color={"white"} /> 
         </TouchableOpacity>
       </View>
 
       {/* Show a posture */}
+      {exerciseList.length == 0 ? <Text style={{textAlign : 'center', fontSize : 32, fontWeight : '700', color : 'lightgray'}}>No posture yet.</Text> : 
       <ScrollView style={{width : '100%', padding : 10}}>
-        {exerciseList.map((item, index) => <View key={index} style={styles.render}>
-                    <View style={{width : '70%', marginLeft : 15}}>
-                      <Text style={{fontSize : 22, fontWeight : '700'}}>{item.name}</Text>
-                      <Text style={{fontSize : 16, fontWeight : '500'}}>{item.sec < 60 ? item.sec + " Sec" : parseInt(item.sec/60) + " Min " + item.sec%60 + " Sec"}</Text>
-                    </View>
-                    <View style={{width : "30%", flexDirection : 'row', marginLeft : 10}}>
-                      <Ionicons style={{marginRight : 15}} name="ios-create-outline" size={20} color={"black"}
-                      onPress={() => {editExList(item, true)
-                                      setCurrentIndex(index)}} /> 
-                      <Ionicons name="ios-trash-outline" size={20} color={"red"} 
-                      onPress={() => {deleteExList(index)}} /> 
-                    </View>
-                  </View>)}
-      </ScrollView>
+      {exerciseList.map((item, index) => <View key={index} style={styles.render}>
+                  <View style={{width : '70%', marginLeft : 15}}>
+                    <Text style={{fontSize : 22, fontWeight : '700'}}>{item.name}</Text>
+                    <Text style={{fontSize : 16, fontWeight : '500'}}>{item.sec < 60 ? item.sec + " Sec" : parseInt(item.sec/60) + " Min " + item.sec%60 + " Sec"}</Text>
+                  </View>
+                  <View style={{width : "30%", flexDirection : 'row', position : 'absolute', right : 0, backgroundColor : 'blue'}}>
+                    <Ionicons style={{position : 'absolute', right : 40}} name="ios-create-outline" size={20} color={"black"}
+                    onPress={() => {editExList(item, true)
+                                    setCurrentIndex(index)}} /> 
+                    <Ionicons style={{position : 'absolute', right : 15,}}  name="ios-trash-outline" size={20} color={"red"} 
+                    onPress={() => {deleteExList(index)}} /> 
+                  </View>
+                </View>)}
+      </ScrollView>}
 
       {/* Save all data */}
-      <TouchableOpacity style={[styles.saveBox, {marginTop : 20}]}
+      <TouchableOpacity style={[styles.saveBox, {marginTop : 20, backgroundColor : 'lightgreen', width : '98%'}]}
+                        refreshControl={
+                          <RefreshControl 
+                          refreshing={refreshing} 
+                          onRefresh={() => {pullMe()}}/>
+                        }
                         onPress={() => {
                           CheckCourseNameValidate()
+                          reloadComp()
                         }}>
-                        <Ionicons name="ios-save-outline" size={20} color={"black"} /> 
+                        <Ionicons name="ios-save" size={20} color={"white"} /> 
         </TouchableOpacity>
 
 
         {/* Edit Modal */}
         <View style={styles.centeredView}>
           <Modal
-            animationType="slide"
+            animationType="fade"
             transparent={true}
             visible={modalVisible}
             onRequestClose={() => {
@@ -196,7 +212,7 @@ export default function NewCourseScreen({route, navigation}) {
               setModalVisible(!modalVisible);
             }}
           >
-            <View style={{width : '100%', marginTop : '75%'}}>
+            <View style={{width : '100%',  position : 'absolute' , top : 300}}>
               <View style={styles.modalView}>
                 <Text style={styles.modalText}>Edit Posture</Text>
 
@@ -220,13 +236,13 @@ export default function NewCourseScreen({route, navigation}) {
 
                 <View style={{flexDirection : 'row'}}>
                   <Pressable
-                      style={[styles.button, styles.buttonClose, {marginRight : 15, backgroundColor : '#FF4545'}]}
+                      style={[styles.button, styles.buttonClose, {marginRight : 15, backgroundColor : '#FF9595'}]}
                       onPress={() => setModalVisible(!modalVisible)}
                     >
                       <Text style={styles.textStyle}>Cancel</Text>
                     </Pressable>
                     <Pressable
-                      style={[styles.button, styles.buttonClose, {backgroundColor : '#00FF06'}]}
+                      style={[styles.button, styles.buttonClose, {backgroundColor : 'lightblue'}]}
                       onPress={() => editExList({name : editPosture, sec : editSec == "" ? 30 : editSec}, false)}
                     >
                       <Text style={styles.textStyle}>Save</Text>
@@ -312,13 +328,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 22,
-    width : '100%'
+    width : '100%',
   },
   modalView: {
     margin: 20,
     backgroundColor: "white",
-    borderRadius: 20,
+    borderRadius: 5,
     padding: 35,
     alignItems: "center",
     shadowColor: "#000",
