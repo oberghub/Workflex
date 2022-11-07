@@ -10,8 +10,8 @@ const MyCoursesScreen = ({ navigation }) => {
   const [exerciseList, setExerciseList] = useState(posture);
   // const [postureLen, setPostureLen] = useState(posture.length)
   const sumOfSec = (time) => {
-    const min = parseInt(time.map(time => time.sec).reduce((prev, curr) => prev + curr) / 60)
-    const sec = time.map(time => time.sec).reduce((prev, curr) => prev + curr) % 60
+    const min = parseInt(time.map(time => time.sec+15).reduce((prev, curr) => prev + curr) / 60)
+    const sec = time.map(time => time.sec+15).reduce((prev, curr) => prev + curr) % 60
     return min == 0 ? " : " + sec + " sec" : " : " + min + " min " + sec + " sec"
   }
   // const [data, setMyCourse] = useState([

@@ -1,6 +1,8 @@
-import { StatusBar } from 'expo-status-bar';
+import React, { useState } from 'react';
 import { TouchableOpacity } from 'react-native';
 import { StyleSheet, Text, View } from 'react-native';
+import CountDown from 'react-native-countdown-component';
+
 
 export default function PlayACourse({route, navigation}) {
   const {postureData} = route.params
@@ -8,11 +10,31 @@ export default function PlayACourse({route, navigation}) {
     const min = Math.floor(time/60)
     const sec = time%60
   }
+  const [run, setRun] = useState(true);
+  const pause = () => {
+    if (run == true) {
+      setRun(false);
+    } else {
+      setRun(true);
+    }
+  }
 
   return (
     <View style={styles.container}>
-      <Text style={{fontSize : 40, fontWeight : '700'}}>Jumping Jack</Text>
-      <Text style={{fontSize : 80, fontWeight : '500'}}>00 : 00</Text>
+      <Text style={{fontSize : 40, fontWeight : '700'}}>Hello</Text>
+      <CountDown
+        until={30}
+        size={30}
+        onFinish={() => alert('Finished')}
+        onPress={() => pause()}
+        digitStyle={{backgroundColor: '#FFF'}}
+        digitTxtStyle={{color: 'red'}}
+        timeToShow={['M', 'S']}
+        timeLabels={{m: null, s: null}}
+        separatorStyle={{color: 'black'}}
+        showSeparator
+        running={run}
+      />
       <TouchableOpacity style={{
           height : 50,
           width : '70%',
@@ -20,7 +42,7 @@ export default function PlayACourse({route, navigation}) {
           alignItems : 'center',
           justifyContent : 'center',
           borderRadius : 5,
-        }}>
+        }} onPress={pause}>
         <Text style={{fontSize : 22,
           fontWeight : '500'}}>Stop</Text>
       </TouchableOpacity>
