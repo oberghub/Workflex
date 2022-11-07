@@ -17,6 +17,7 @@ export default function PlayACourse({route, navigation}) {
     } else {
       setRun(true);
     }
+    console.log(postureData)
   }
 
   return (
@@ -26,8 +27,7 @@ export default function PlayACourse({route, navigation}) {
         until={30}
         size={30}
         onFinish={() => alert('Finished')}
-        onPress={() => pause()}
-        digitStyle={{backgroundColor: '#FFF'}}
+        digitStyle={{backgroundColor: 'lightgreen'}}
         digitTxtStyle={{color: 'red'}}
         timeToShow={['M', 'S']}
         timeLabels={{m: null, s: null}}
@@ -42,6 +42,7 @@ export default function PlayACourse({route, navigation}) {
           alignItems : 'center',
           justifyContent : 'center',
           borderRadius : 5,
+          marginTop: 20,
         }} onPress={pause}>
         <Text style={{fontSize : 22,
           fontWeight : '500'}}>Stop</Text>
