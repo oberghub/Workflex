@@ -10,14 +10,14 @@ export const CATEGORIES = [
   new Category("c4", "ออกกำลังกายเบาๆกับสังคมวัยสูงอายุ", "#f5d142","https://www.uvu.edu/communityed/images/elder/eq-home-01.jpg") 
 ];
 export const MYCATEGORIES = [
-  new MyCategory("mc1", "My First Course", "#f5d142"),
-  new MyCategory("mc2", "Good Morning!", "#FF4444")
+  // new MyCategory("mc0", "My First Course", "#f5d142"),
+  // new MyCategory("mc2", "Good Morning!", "#FF4444")
 ];
 export const EXECISES =[
-  new Execise("0", "Jumping Jack", 30,"mc1"),
-  new Execise("0", "Sit Up", 45,"mc2"),
-  new Execise("1", "Doggy", 68, "mc2"),
-  new Execise("2", "Woman on top", 125, "mc2")
+  // new Execise("0", "Jumping Jack", 30,"mc0"),
+  // new Execise("1", "Sit Up", 45,"mc2"),
+  // new Execise("0", "Doggy", 68, "mc2"),
+  // new Execise("1", "Woman on top", 125, "mc2")
 ]
 export const MEALS = [
   new Meal(

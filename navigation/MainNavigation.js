@@ -12,7 +12,7 @@ import InnerCourseScreen from "../screens/BasicCourses/InnerCourseScreen";
 
 //My Course
 import MyCoursesScreen from "../screens/MyCourses/MyCoursesScreen";
-import EditMyCourseScreen from "../screens/MyCourses/EditMyCourseScreen";
+import MyCourseDetail from "../screens/MyCourses/MyCourseDetailScreen";
 import PlayACourseScreen from "../screens/MyCourses/PlayACourseScreen";
 
 import HealthCalculatorScreen from "../screens/Calculate/HealthCalcutarorScreen";
@@ -31,7 +31,15 @@ const Drawer = createDrawerNavigator();
 const NewCourse = () => {
     return(
         <Stack.Navigator>
-            <Stack.Screen name="New Course" component={NewCourseScreen}/>
+            <Stack.Screen name="New Course" component={NewCourseScreen} options={{
+          headerStyle: {
+            backgroundColor: '#FD841F',
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+        }}/>
             <Stack.Screen name="Set Exercise Detail" component={SetDetailExerciseScreen}/>
         </Stack.Navigator>
     )
@@ -40,11 +48,33 @@ const BasicCourses = () => {
     return(
         <Stack.Navigator initialRouteName="Basic Course">
             {/* เดะมาเปลี่ยนชื่อ detail กับ inner */}
-            <Stack.Screen name="Basic Course" component={BasicCoursesScreen} />
+            <Stack.Screen name="Basic Course" component={BasicCoursesScreen}   options={{
+          headerStyle: {
+            backgroundColor: '#FD841F',
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+        }}/>
             <Stack.Screen name="Course Detail" component={CourseDetailScreen}  options={({ route }) => ({
-            title: route.params.categoryTitle.toString(),
+            title: route.params.categoryTitle.toString(),headerStyle: {
+                backgroundColor: '#FD841F',
+              },
+              headerTintColor: '#fff',
+              headerTitleStyle: {
+                fontWeight: 'bold',
+              },
         })}/>
-            <Stack.Screen name="Inner Course" component={InnerCourseScreen} />
+            <Stack.Screen name="Inner Course" component={InnerCourseScreen} options={{
+          headerStyle: {
+            backgroundColor: '#FD841F',
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+        }}/>
         </Stack.Navigator>
     )
 }
@@ -52,11 +82,34 @@ const MyCourses = () => {
     return(
         <Stack.Navigator initialRouteName="My Courses">
             {/* เดะมาเปลี่ยนชื่อ detail กับ inner */}
-            <Stack.Screen name="My Courses" component={MyCoursesScreen} />
-            <Stack.Screen name="Play a Course" component={PlayACourseScreen} options={({ route }) => ({
+            <Stack.Screen name="My Courses" component={MyCoursesScreen} options={{
+          headerStyle: {
+            backgroundColor: '#FD841F',
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+        }}/>
+          <Stack.Screen name="My Course Detail" component={MyCourseDetail} options={({ route }) => ({
           title: route.params.title.toString(),
+          headerStyle: {
+            backgroundColor: '#FD841F',
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
         })}/>
-            <Stack.Screen name="Edit Course" component={EditMyCourseScreen} />
+            <Stack.Screen name="Play a Course" component={PlayACourseScreen} options={{
+          headerStyle: {
+            backgroundColor: '#FD841F',
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+        }}/>
         </Stack.Navigator>
     )
 }
@@ -64,8 +117,16 @@ const Community = () => {
     return(
         <Stack.Navigator initialRouteName="Community">
             {/* เดะมาเปลี่ยนชื่อ detail กับ inner */}
-            <Stack.Screen name="Community" component={CommunityScreen} />
-            <Stack.Screen name="Post Detail" component={PostDeatilScreen} />
+            <Stack.Screen name="Community" component={CommunityScreen} options={{
+              headerStyle: {
+                backgroundColor: '#FD841F',
+              },
+              headerTintColor : "white"}} />
+            <Stack.Screen name="Post Detail" component={PostDeatilScreen} options={{
+              headerStyle: {
+                backgroundColor: '#FD841F',
+            },
+            headerTintColor : "white"}}/>
         </Stack.Navigator>
     )
 }

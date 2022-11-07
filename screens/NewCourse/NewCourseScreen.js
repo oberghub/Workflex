@@ -11,6 +11,7 @@ export default function NewCourseScreen({route, navigation}) {
   const [sec, setSec] = useState("30")
   const [postureValidate, setPostureValidate] = useState(true)
   const [courseNameValidate, setCourseNameValidate] = useState(true)
+  const [id , setId] = useState(0)
 
   const [editPosture, setEditPosture] = useState("")
   const [editSec, setEditSec] = useState("")
@@ -18,7 +19,13 @@ export default function NewCourseScreen({route, navigation}) {
 
   const [modalVisible, setModalVisible] = useState(false)
 
-  const randomColor = Math.floor(Math.random()*16777215).toString(16);
+  function generateLightColorHex() {
+    let color = "#";
+    for (let i = 0; i < 3; i++)
+      color += ("0" + Math.floor(((1 + Math.random()) * Math.pow(16, 2)) / 2).toString(16)).slice(-2);
+    return color;
+  }
+  //const randomColor = Math.floor(Math.random()*16777215).toString(16);
 
   //Example Data
   const [exerciseList, setExerciseList] = useState([
@@ -32,7 +39,6 @@ export default function NewCourseScreen({route, navigation}) {
 
     setTimeout(() => {
       setRefreshing(false)
-      console.log("eiei")
     }, 1000)
   }
 
@@ -88,36 +94,46 @@ export default function NewCourseScreen({route, navigation}) {
     else{
       addExList({name : data.name, sec : parseInt(data.sec), id : data.id })
       setPosture("")
-      setSec("")
       setPostureValidate(true)
     }
   }
   
   const CheckCourseNameValidate = () => {
     if(courseName == ""){
-      getID()
       setCourseNameValidate(false)
     }
     else{
-      getID()
       setCourseNameValidate(true)
       saveData() //ทำจริงค่อยแก้ตรงฟังก์ชันนี้
     }
   }
-  let idnum = 0
-  let id = ""
-  let courseTemp= ""
-  const getID = () =>{
-      idnum= data.length+1
-      id= "mc"+idnum
-  }
   const saveData = () => {
-    data.push(new MyCategory(id, courseName, "#"+randomColor))//หาสีมาใส่
-    for(let i =0; i < exerciseList.length;i++){
-      data1.push(new Execise(exerciseList[i].id,exerciseList[i].name,exerciseList[i].sec,id))
+    if(exerciseList.length == 0){
+      console.log("exList == 0")
+      Alert.alert(
+        "Alert",
+        "Posture can't be empty",
+        [
+          {
+            text : 'OK',
+            onPress : () => {console.log("Process has canceled.")},
+            style : "cancel"
+          },
+        ]
+      )
     }
-    navigation.navigate("My Course Tab")
-    console.log(randomColor)
+    else{
+      data.push(new MyCategory("mc"+id, courseName, generateLightColorHex()))
+      for(let i =0; i < exerciseList.length;i++){
+        data1.push(new Execise(exerciseList[i].id, exerciseList[i].name, exerciseList[i].sec, "mc"+id))
+      }
+      navigation.navigate("My Course Tab")
+      setExerciseList([])
+      setCourseName('')
+      setId(id+1)
+    }
+    console.log(data)
+    console.log(data1)
   }
   return (
     <View style={styles.container}>
@@ -202,9 +218,9 @@ export default function NewCourseScreen({route, navigation}) {
 
 
         {/* Edit Modal */}
-        <View style={styles.centeredView}>
+        <View style={[styles.centeredView]}>
           <Modal
-            animationType="fade"
+            animationType="slide"
             transparent={true}
             visible={modalVisible}
             onRequestClose={() => {
@@ -212,7 +228,7 @@ export default function NewCourseScreen({route, navigation}) {
               setModalVisible(!modalVisible);
             }}
           >
-            <View style={{width : '100%',  position : 'absolute' , top : 300}}>
+            <View style={{width : '100%', height: 600, marginTop : 'auto'}}>
               <View style={styles.modalView}>
                 <Text style={styles.modalText}>Edit Posture</Text>
 
@@ -232,17 +248,18 @@ export default function NewCourseScreen({route, navigation}) {
                     />
                     <Text style={{marginTop : 25}}>Sec</Text>
                   </View>
+
               </View>
 
                 <View style={{flexDirection : 'row'}}>
                   <Pressable
-                      style={[styles.button, styles.buttonClose, {marginRight : 15, backgroundColor : '#FF9595'}]}
+                      style={[styles.button, {marginRight : 15, backgroundColor : '#FF9595'}]}
                       onPress={() => setModalVisible(!modalVisible)}
                     >
                       <Text style={styles.textStyle}>Cancel</Text>
                     </Pressable>
                     <Pressable
-                      style={[styles.button, styles.buttonClose, {backgroundColor : 'lightblue'}]}
+                      style={[styles.button, {backgroundColor : 'lightblue'}]}
                       onPress={() => editExList({name : editPosture, sec : editSec == "" ? 30 : editSec}, false)}
                     >
                       <Text style={styles.textStyle}>Save</Text>
@@ -322,39 +339,34 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   }, 
-
-
   centeredView: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    width : '100%',
+    marginTop: 22
   },
   modalView: {
-    margin: 20,
     backgroundColor: "white",
     borderRadius: 5,
     padding: 35,
+    width : '100%',
+    height : 500,
     alignItems: "center",
+    position : 'absolute',
+    bottom : 0,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 2
     },
-    shadowOpacity: 0.25,
+    shadowOpacity: 0.5,
     shadowRadius: 4,
     elevation: 5
   },
   button: {
-    borderRadius: 20,
+    borderRadius: 5,
     padding: 10,
     elevation: 2
-  },
-  buttonOpen: {
-    backgroundColor: "#F194FF",
-  },
-  buttonClose: {
-    backgroundColor: "#2196F3",
   },
   textStyle: {
     color: "white",
