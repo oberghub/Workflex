@@ -19,21 +19,27 @@ export default function PlayACourse({ route, navigation }) {
     } else {
       setRun(true);
     }
+    console.log(postureData[count].sec);
   }
   const goNextPose = () => {
     if (count >= postureData.length-1) {
+      console.log(count);
       console.log("finish")
     } else {
       setCount(count + 1);
       console.log(count);
+      console.log(postureData[count].sec);
     }
+  }
+  const handleResetClick = () => {
+    
   }
 
   return (
     <View style={styles.container}>
       <Text style={{ fontSize: 40, fontWeight: '700' }}>{postureData[count].name}</Text>
       <CountDown
-        id={count.toString()}
+        id={(count).toString()}
         until={postureData[count].sec}
         size={50}
         onFinish={goNextPose}
@@ -58,6 +64,20 @@ export default function PlayACourse({ route, navigation }) {
           fontSize: 22,
           fontWeight: '500'
         }}>Stop</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={{
+        height: 50,
+        width: '70%',
+        backgroundColor: 'lightblue',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 5,
+        marginTop: 20,
+      }}>
+        <Text style={{
+          fontSize: 22,
+          fontWeight: '500'
+        }} onPress={handleResetClick}>Reset</Text>
       </TouchableOpacity>
     </View>
   );
