@@ -11,13 +11,13 @@ export const CATEGORIES = [
 ];
 export const MYCATEGORIES = [
   // new MyCategory("mc0", "My First Course", "#f5d142"),
-  // new MyCategory("mc2", "Good Morning!", "#FF4444")
+  new MyCategory("mc2", "Good Morning!", "#FF4444")
 ];
 export const EXECISES =[
-  // new Execise("0", "Jumping Jack", 30,"mc0"),
-  // new Execise("1", "Sit Up", 45,"mc2"),
-  // new Execise("0", "Doggy", 68, "mc2"),
-  // new Execise("1", "Woman on top", 125, "mc2")
+  new Execise("0", "Jumping Jack", 5,"mc2"),
+  new Execise("1", "Sit Up", 10,"mc2"),
+  new Execise("2", "Doggy", 15, "mc2"),
+  new Execise("3", "Woman on top", 20, "mc2")
 ]
 export const MEALS = [
   new Meal(
