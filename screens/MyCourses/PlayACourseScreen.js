@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { TouchableOpacity } from 'react-native';
 import { StyleSheet, Text, View } from 'react-native';
-import CountDown from 'react-native-countdown-component';
-import clock from "./countdown"
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { FlatList } from 'react-native-gesture-handler';
 
 export default function PlayACourse({ route, navigation }) {
   const { postureData } = route.params
@@ -17,7 +14,9 @@ export default function PlayACourse({ route, navigation }) {
   const [count, setCount] = useState(0);
   const [min, setMin] = useState(0);
   const [sec, setSec] = useState(postureData[count].sec);
-  const [show, setShow] = useState(false)
+  const [name, setName] = useState(postureData[count].name);
+  const [recov, setRecov] = useState(15);
+  const [recovState, setRecovState] = useState(true)
   const [isActive, setIsActive] = useState(true);
   const [status, setStatus] = useState("Stop");
 
@@ -40,7 +39,7 @@ export default function PlayACourse({ route, navigation }) {
           setActive(false)
           clearInterval(mySec)
         }
-      }, 1000)
+      }, 20)
     }
     else if (!isActive) {
       clearInterval(mySec)
@@ -69,18 +68,30 @@ export default function PlayACourse({ route, navigation }) {
     setIsActive("reset")
   }
   const nextPose = () => {
-    if (count < postureData.length-1) {
-      setCount(count + 1)
+    console.log(postureData[count].sec)
+    if (recovState) {
+      setRecovState(false)
+      if (count < postureData.length-1) {
+        setCount(count + 1)
+        setName("พัก")
+        setSec(recov)
+      }
+      else {
+        console.error("Back To Main Page")
+        navigation.navigate("New Course Tab")
+      }
+    }
+    else {
+      setRecovState(true)
+      setName(postureData[count].name)
       setSec(postureData[count].sec)
     }
-    else{
-      console.error("No more Exercise")
-    }
+
   }
 
   return (
     <View style={styles.container}>
-      <Text style={{ fontSize: 40, fontWeight: '700' }}>{postureData[count].name}</Text>
+      <Text style={{ fontSize: 40, fontWeight: '700' }}>{name}</Text>
       <Text style={{ fontSize: 80, fontWeight: '500' }}>{min < 10 ? '0' : ''}{sec > 59 ? setMin(min + 1) : min} : {sec < 10 ? '0' : ''}{sec > 59 ? setSec(0) : sec}</Text>
       {/* <Stack.Navigator initialRouteName="My Courses" screenOptions={{
         headerShown: false
