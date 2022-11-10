@@ -39,7 +39,7 @@ export default function PlayACourse({ route, navigation }) {
           setActive(false)
           clearInterval(mySec)
         }
-      }, 20)
+      }, 1000)
     }
     else if (!isActive) {
       clearInterval(mySec)
@@ -129,7 +129,7 @@ export default function PlayACourse({ route, navigation }) {
       <TouchableOpacity style={{
         height: 50,
         width: '70%',
-        backgroundColor: 'lightblue',
+        backgroundColor: 'orange',
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: 5,

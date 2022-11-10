@@ -10,6 +10,11 @@ import BasicCoursesScreen from "../screens/BasicCourses/BasicCoursesScreen";
 import CourseDetailScreen from "../screens/BasicCourses/CourseDetailScreen";
 import InnerCourseScreen from "../screens/BasicCourses/InnerCourseScreen";
 
+//Advance Course
+import AdvancedCoursesScreen from "../screens/AdvancedCourses/AdvancedCoursesScreen";
+import AdvCourseDetailScreen from "../screens/AdvancedCourses/AdvCourseDetailScreen";
+import AdvInnerCourseScreen from "../screens/AdvancedCourses/AdvInnerCourseScreen";
+
 //My Course
 import MyCoursesScreen from "../screens/MyCourses/MyCoursesScreen";
 import MyCourseDetail from "../screens/MyCourses/MyCourseDetailScreen";
@@ -66,7 +71,46 @@ const BasicCourses = () => {
                 fontWeight: 'bold',
               },
         })}/>
-            <Stack.Screen name="Inner Course" component={InnerCourseScreen} options={{
+            <Stack.Screen name="Inner Course" component={InnerCourseScreen} options={({route}) => ({
+            title: route.params.title.toString(),headerStyle: {
+              backgroundColor: '#FD841F',
+            },
+            headerStyle: {
+              backgroundColor: '#FD841F',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          })}/>
+        </Stack.Navigator>
+    )
+}
+const AdvancedCourses = () => {
+  return(
+      <Stack.Navigator initialRouteName="Advanced Course">
+          <Stack.Screen name="Advanced Course" component={AdvancedCoursesScreen}   options={{
+        headerStyle: {
+          backgroundColor: '#FD841F',
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+      }}/>
+          <Stack.Screen name="Adv Course Detail" component={AdvCourseDetailScreen}  options={({ route }) => ({
+          title: route.params.categoryTitle.toString(),headerStyle: {
+              backgroundColor: '#FD841F',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+      })}/>
+          <Stack.Screen name="Adv Inner Course" component={AdvInnerCourseScreen} options={({route}) => ({
+          title: route.params.title.toString(),headerStyle: {
+            backgroundColor: '#FD841F',
+          },
           headerStyle: {
             backgroundColor: '#FD841F',
           },
@@ -74,9 +118,9 @@ const BasicCourses = () => {
           headerTitleStyle: {
             fontWeight: 'bold',
           },
-        }}/>
-        </Stack.Navigator>
-    )
+        })}/>
+      </Stack.Navigator>
+  )
 }
 const MyCourses = () => {
     return(
@@ -157,11 +201,19 @@ const MainCoursesTab = () => {
                     },
                     headerShown : false
                 }}/>
-            <Tab.Screen name="Calculator Tab" component={HealthCalculatorScreen}
+            {/* <Tab.Screen name="Calculator Tab" component={HealthCalculatorScreen}
                 options={{
                     title : "Calculator",
                     tabBarIcon : ({color, size}) => {
                         return <Ionicons name="ios-calculator-outline" size={size} color={color} />
+                    }
+                }}/> */}
+            <Tab.Screen name="Advanced Course Tab" component={AdvancedCourses}
+                options={{
+                    title : "Hard Course",
+                    headerShown : false,
+                    tabBarIcon : ({color, size}) => {
+                        return <Ionicons name="ios-body-outline" size={size} color={color} />
                     }
                 }}/>
             <Tab.Screen name="Community Tab" component={Community}

@@ -1,13 +1,74 @@
-import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image } from 'react-native';
-import { CATEGORIES as data } from "../../data/dummy-data";
+import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, Dimensions } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 const BasicCoursesScreen = ({navigation})  => {
+  const courseData = [
+    {
+      id : 'c1',
+      title : "พื้นฐานวัยเด็ก เสริมสร้างภูมิคุ้มกัน",
+      image : "https://www.prachachat.net/wp-content/uploads/2019/07/dlf06110762p1-728x515.jpg",
+      postureData : [
+        {id : 'p1', pTitle : 'หมุนเอว', timeDuration : 30},
+        {id : 'p2', pTitle : 'แทงปลาไหล', timeDuration : 30},
+        {id : 'p3', pTitle : 'ก้มแตะสลับ', timeDuration : 30},
+        {id : 'p4', pTitle : 'กระโดดตบ', timeDuration : 30},
+        {id : 'p5', pTitle : 'สก็อตจัมพ์', timeDuration : 30},
+      ]
+    },
+    {
+      id : 'c2',
+      title : "วัยรุ่นวัยทีน หุ่นลีนง่ายๆ",
+      image : "https://yourteenmag.com/wp-content/uploads/2018/09/teenagers-hanging-with-friends-1135x540.jpg",
+      postureData : [
+        {id : 'p1', pTitle : 'Jumping Jack', timeDuration : 30},
+        {id : 'p2', pTitle : 'frozen V-sit', timeDuration : 20},
+        {id : 'p3', pTitle : 'Incline Push-up', timeDuration : 20},
+        {id : 'p4', pTitle : 'Plank', timeDuration : 20},
+        {id : 'p5', pTitle : 'Step Up With Knee Raise', timeDuration : 25},
+        {id : 'p6', pTitle : 'cobra stretch', timeDuration : 20},
+        {id : 'p7', pTitle : 'spine lumbar twist stretch left', timeDuration : 30},
+        {id : 'p8', pTitle : 'spine lumbar twist stretch right', timeDuration : 30},
+      ]
+    },
+    {
+      id : 'c3',
+      title : "อย่าลืมรักษาสุขภาพก่อนแก่นะ",
+      image : "https://www.theorthodontists.com.au/theme/theorthodontistscomau/assets/public/Image/header-images/adults.png",
+      postureData : [
+        {id : 'p1', pTitle : 'Jumping Jack', timeDuration : 30},
+        {id : 'p2', pTitle : 'Plank', timeDuration : 20},
+        {id : 'p3', pTitle : 'Shoulder Taps', timeDuration : 20},
+        {id : 'p4', pTitle : 'Superman', timeDuration : 20},
+        {id : 'p5', pTitle : 'ปั่นจักรยานอากาศ', timeDuration : 25},
+        {id : 'p6', pTitle : 'Sit Up', timeDuration : 20},
+        {id : 'p7', pTitle : 'Mountain Climber', timeDuration : 30},
+        {id : 'p8', pTitle : 'Squat', timeDuration : 30},
+        {id : 'p9', pTitle : 'วิ่งอยู่กับที่ ขาแตะก้น', timeDuration : 30},
+        {id : 'p10', pTitle : 'cobra stretch', timeDuration : 30},
+        {id : 'p11', pTitle : 'spine lumbar twist stretch left', timeDuration : 30},
+        {id : 'p12', pTitle : 'spine lumbar twist stretch right', timeDuration : 30},
+      ]
+    },
+    {
+      id : 'c4',
+      title : "ออกกำลังกายเบาๆกับสังคมวัยสูงอายุ",
+      image : "https://samitivej-prod-new-website.s3.ap-southeast-1.amazonaws.com/public/uploads/descriptions/13431a01e8289a6b89ce828e28dfad00.jpg",
+      postureData : [
+        {id : 'p1', pTitle : 'ย่ำเท้าอยู่กับที่', timeDuration : 60},
+        {id : 'p2', pTitle : 'กระโดดตบเบาๆ', timeDuration : 30},
+        {id : 'p3', pTitle : 'โบกมือเหนือหัว', timeDuration : 15},
+        {id : 'p4', pTitle : 'กางศอก หุบศอก', timeDuration : 15},
+        {id : 'p5', pTitle : 'ท้าวเอว หมุนไหล่', timeDuration : 20},
+        {id : 'p6', pTitle : 'บิดเอวซ้าย ขวา', timeDuration : 40},
+        {id : 'p7', pTitle : 'แกว่งแขน', timeDuration : 60},
+      ]
+    }
+  ]
   return (
     <View style={styles.container}>
 
       <View style={[styles.shadowbox, {width : "100%", padding : 10}]}>
 
-        <FlatList data={data} renderItem={({item, index}) => 
+        <FlatList data={courseData} renderItem={({item, index}) => 
             <View style={{height : 320, 
                           width : '100%',
                           borderWidth : 1, 
@@ -15,8 +76,8 @@ const BasicCoursesScreen = ({navigation})  => {
                           borderRadius : 5,
                           marginBottom : 15,
                           backgroundColor : '#F2F2F2'}}>      
-              <View style={styles.gridItem}>
-                <Image source={{ uri: item.image }} style={styles.bgImage}/>
+              <View style={[styles.gridItem]}>
+                <Image source={{ uri: item.image }} style={[styles.bgImage]}/>
                 {/* <Text style={styles.txtImg}>{item.title}</Text> */}
               </View>
 
@@ -40,7 +101,7 @@ const BasicCoursesScreen = ({navigation})  => {
                                         justifyContent : 'center',
                                         borderRadius : 5}}
                 onPress={() => {
-                  navigation.navigate("Course Detail", {categoryTitle : item.title})
+                  navigation.navigate("Course Detail", {categoryTitle : item.title, postureData : item.postureData})
                 }}>
                   <Ionicons name='ios-exit-outline' size={20} color={'black'}/>
               </TouchableOpacity>
@@ -67,19 +128,19 @@ const styles = StyleSheet.create({
     height: 170,
   },
   txtImg:{
-        flex: 1,
-        //fontFamily: 'Kanit_400Regular', //เอาไว้ค่อย import มาใหม่
-        left : 20,
-        top : 10,
-        justifyContent: "center",
-        alignSelf: "center",
-        fontSize:32,
-        fontWeight : '700',
-        color:"#000",
-        position : 'absolute',
-        // textShadowColor:'#585858',
-        // textShadowOffset:{width: 5, height: 5},
-        // textShadowRadius:10,
+    flex: 1,
+    //fontFamily: 'Kanit_400Regular', //เอาไว้ค่อย import มาใหม่
+    left : 20,
+    top : 10,
+    justifyContent: "center",
+    alignSelf: "center",
+    fontSize:32,
+    fontWeight : '700',
+    color:"#000",
+    position : 'absolute',
+    // textShadowColor:'#585858',
+    // textShadowOffset:{width: 5, height: 5},
+    // textShadowRadius:10,
     },
   shadowbox: {
     flex: 1,

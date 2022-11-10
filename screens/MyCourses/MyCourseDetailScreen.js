@@ -31,8 +31,6 @@ export default function PlayACourseScreen({route, navigation}) {
                     </View>
                   </View>)}
       </ScrollView>
-      {/* <Text>Play a Course</Text> */}
-      <StatusBar style="auto" />
     </View>
   );
 }
