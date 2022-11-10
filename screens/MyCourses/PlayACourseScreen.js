@@ -39,7 +39,7 @@ export default function PlayACourse({ route, navigation }) {
           setActive(false)
           clearInterval(mySec)
         }
-      }, 20)
+      }, 1000)
     }
     else if (!isActive) {
       clearInterval(mySec)
@@ -69,6 +69,8 @@ export default function PlayACourse({ route, navigation }) {
   }
   const nextPose = () => {
     console.log(postureData[count].sec)
+    setIsActive(false)
+    setStatus("Resume")
     if (recovState) {
       setRecovState(false)
       if (count < postureData.length-1) {
