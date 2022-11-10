@@ -19,6 +19,7 @@ export default function PlayACourse({ route, navigation }) {
   const [recovState, setRecovState] = useState(true)
   const [isActive, setIsActive] = useState(true);
   const [status, setStatus] = useState("Stop");
+  const [shouldShow, setShouldShow] = useState(true);
 
   useEffect(() => {
     let mySec = null
@@ -37,6 +38,7 @@ export default function PlayACourse({ route, navigation }) {
         }
         else if (sec <= 2) {
           setActive(false)
+          setShouldShow(false)
           clearInterval(mySec)
         }
       }, 1000)
@@ -66,12 +68,16 @@ export default function PlayACourse({ route, navigation }) {
   }
   const toReset = () => {
     setIsActive("reset")
+    setShouldShow(true)
   }
   const nextPose = () => {
     console.log(postureData[count].sec)
+    setIsActive(false)
+    setStatus("Resume")
+    setShouldShow(true)
     if (recovState) {
       setRecovState(false)
-      if (count < postureData.length-1) {
+      if (count < postureData.length - 1) {
         setCount(count + 1)
         setName("พัก")
         setSec(recov)
@@ -98,20 +104,24 @@ export default function PlayACourse({ route, navigation }) {
       }}>
         <Stack.Screen name="My Courses" component={clock} />
       </Stack.Navigator> */}
-      <TouchableOpacity style={{
-        height: 50,
-        width: '70%',
-        backgroundColor: 'lightblue',
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderRadius: 5,
-        marginTop: 20,
-      }} onPress={setActive}>
-        <Text style={{
-          fontSize: 22,
-          fontWeight: '500'
-        }}>{status}</Text>
-      </TouchableOpacity>
+      {shouldShow ?
+        (
+          <TouchableOpacity style={{
+            height: 50,
+            width: '70%',
+            backgroundColor: 'lightblue',
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderRadius: 5,
+            marginTop: 20,
+          }} onPress={setActive}>
+            <Text style={{
+              fontSize: 22,
+              fontWeight: '500'
+            }}>{status}</Text>
+          </TouchableOpacity>
+        ) : null}
+
       <TouchableOpacity style={{
         height: 50,
         width: '70%',
