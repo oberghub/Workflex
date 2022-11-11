@@ -29,7 +29,7 @@ const BasicCoursesScreen = ({navigation})  => {
         {id : 'p7', pTitle : 'spine lumbar twist stretch left', timeDuration : 30},
         {id : 'p8', pTitle : 'spine lumbar twist stretch right', timeDuration : 30},
       ],
-      desc:"คอร์สออกกำลังกายแบบชิลๆ เน้นสร้างกล้ามเนื้อ ช่วยให้ร่างกายแข็งแรง หุ่นดี ไม่อ้วน สำหรับวัยรุ่น"
+      desc:"คอร์สออกกำลังกายแบบชิลๆ เน้นสร้างกล้ามเนื้อ ช่วยให้ร่างกายแข็งแรง หุ่นดี ไม่อ้วน สำหรับวัยรุ่น ออกหลังเลิกเรียนแล้วผักผ่อนเยอะๆ"
     },
     {
       id : 'c3',
@@ -64,16 +64,19 @@ const BasicCoursesScreen = ({navigation})  => {
         {id : 'p6', pTitle : 'บิดเอวซ้าย ขวา', timeDuration : 40},
         {id : 'p7', pTitle : 'แกว่งแขน', timeDuration : 60},
       ],
-      desc:"คอร์สออกกำลังกายเพื่อสุขภาพ เน้นขยับร่างกายช้าๆเบาๆ ใช้พลังงานน้อย เหมาะกับผู้สูงอายุ"
+      desc:"คอร์สออกกำลังกายเพื่อสุขภาพ เน้นขยับร่างกายช้าๆเบาๆ ใช้พลังงานน้อย เหมาะกับผู้สูงอายุ ออกตอนเช้าก็ได้ ออกตอนเย็นก็ดี"
     }
   ]
+  const formatTime = (time) => {
+    return Math.floor(time/60) + " Min " + time%60 +  " Sec"
+  }
   return (
     <View style={styles.container}>
 
       <View style={[styles.shadowbox, {width : "100%", padding : 10}]}>
 
         <FlatList data={courseData} renderItem={({item, index}) => 
-            <View style={{height : 320, 
+            <View style={{height : 370, 
                           width : '100%',
                           borderWidth : 1, 
                           borderColor : 'lightgray', 
@@ -93,6 +96,13 @@ const BasicCoursesScreen = ({navigation})  => {
 
                 <Text style={{marginLeft : 10, marginTop : 10}}>
                   <Text style={{fontWeight : '700'}}>Detail</Text> : {item.desc}
+                </Text>
+
+                <Text style={{marginLeft : 10, marginTop : 10}}>
+                  <Text style={{fontWeight : '700'}}>Posture</Text> : {item.postureData.length}
+                </Text>
+                <Text style={{marginLeft : 10, marginTop : 10}}>
+                  <Text style={{fontWeight : '700'}}>Time Duration</Text> : {formatTime(item.postureData.map(data => data.timeDuration).reduce((prev, curr) => prev + curr))}
                 </Text>
 
               </View>

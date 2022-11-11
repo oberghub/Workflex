@@ -4,6 +4,9 @@ import { TouchableOpacity } from 'react-native';
 import { StyleSheet, Text, View, ScrollView} from 'react-native';
 export default function InnerCourseScreen({route, navigation}) {
   const { title, postureData } = route.params;
+  const formatTitle = (text) => {
+    return text.slice(0, 1).toUpperCase() + text.toLowerCase().slice(1)
+  }
   return (
     <View style={styles.container}>
       <TouchableOpacity style={{
@@ -21,7 +24,7 @@ export default function InnerCourseScreen({route, navigation}) {
        <ScrollView style={{width : '100%', padding : 10}}>
         {postureData.map((item, index) => <View key={index} style={styles.render}>
                     <View style={{width : '70%', marginLeft : 15}}>
-                      <Text style={{fontSize : 22, fontWeight : '700'}}>{item.pTitle}</Text>
+                      <Text style={{fontSize : 22, fontWeight : '700'}}>{formatTitle(item.pTitle)}</Text>
                       <Text style={{fontSize : 16, fontWeight : '500'}}>{item.timeDuration < 60 ? item.timeDuration + " Sec" : parseInt(item.timeDuration/60) + " Min " + item.timeDuration%60 + " Sec"}</Text>
                     </View>
                   </View>)}

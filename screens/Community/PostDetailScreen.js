@@ -55,13 +55,13 @@ export default function PostDeatilScreen({route, navigation}) {
       }}>
         <View
           style={{width : '100%',
-          height : 120}}>
+          height : 'auto'}}>
           <View style={{flexDirection : 'row', width : '100%'}}>
             <View style={{width : '50%'}}>
               <Text style={{fontWeight : '600'}}>{postData.userName}</Text>
             </View>
             <View style={{position : 'absolute', right : 0}}>
-              <Text>{postData.timeStamp.split(',')[1]} น.</Text>
+              <Text>{postData.timeStamp.split(',')[1]} น.</Text> 
             </View>
           </View>
 
@@ -91,7 +91,7 @@ export default function PostDeatilScreen({route, navigation}) {
                             borderRadius : 5,
                             width : '75%',
                             height : 40,
-                            marginTop : -10,
+                            marginTop : 20,
                             paddingLeft : 10}}
                       placeholder="Write a comment"
                       onChangeText={setNewComment}
@@ -104,7 +104,7 @@ export default function PostDeatilScreen({route, navigation}) {
                                     width : '20%',
                                     position : 'absolute',
                                     right : 0,
-                                    marginTop : -10}}
+                                    marginTop : 20}}
                                     onPress={() => {sendAComment()}}>
             <Text style={{color : 'white', fontWeight : '600', fontSize : 16}}>Send</Text>
           </TouchableOpacity>

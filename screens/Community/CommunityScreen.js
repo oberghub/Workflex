@@ -1,11 +1,12 @@
 import { Ionicons } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, TextInput } from 'react-native';
 import { FlatList } from 'react-native';
 import { StyleSheet, Text, View, Button } from 'react-native';
 
 export default function CommunityScreen({route, navigation}) {
+  const [newPost, setNewPost] = useState("")
   const [feedData, setFeedData] = useState([
     {postId : "post1",
      userName : "U0012835",
@@ -60,6 +61,28 @@ export default function CommunityScreen({route, navigation}) {
       liked : true
     }
   ])
+  const sendAPost = () => {
+    let getDate = new Date()+""
+    let date = getDate.substring(8, 10) + " " + getDate.substring(4, 7) + " " + getDate.substring(11, 15)
+    let time = getDate.substring(16, 21)
+
+    if(newPost == ""){
+      console.log("")
+    }
+    else{
+      let lst = [...feedData]
+      let idcount = lst.length+1
+      lst.push({
+        postId : "post"+idcount,
+        userName : "แกะนิรนาม",
+        postTitle : newPost,
+        timeStamp : date + " , " + time,
+        likeCount : 0
+      })
+      setFeedData(lst)
+      setNewPost("")
+    }
+  }
   return (
     <View style={styles.container}>
       <View style={{flexDirection : 'row',
@@ -72,11 +95,33 @@ export default function CommunityScreen({route, navigation}) {
         </View>
       </View>
 
+      <View style={{flexDirection : 'row', width : '100%', padding : 20}}>
+          <TextInput style={{borderWidth : 1,
+                            borderColor : 'lightgray',
+                            borderRadius : 5,
+                            width : '75%',
+                            height : 40,
+                            marginTop : -10,
+                            paddingLeft : 10}}
+                      placeholder="Write your post"
+                      onChangeText={setNewPost}
+                      value={newPost} />
+          <TouchableOpacity style={{height : 40, 
+                                    borderRadius : 5,
+                                    backgroundColor : 'lightblue', 
+                                    alignItems : 'center', 
+                                    justifyContent : 'center',
+                                    width : '20%', marginTop : -10, marginLeft : 14}}
+                                    onPress={() => {sendAPost()}}>
+            <Text style={{color : 'white', fontWeight : '600', fontSize : 16}}>Post</Text>
+          </TouchableOpacity>
+      </View>
+
       <FlatList style={{width : '100%', paddingLeft : 20, paddingRight : 20}}
         data={feedData} renderItem={({item, index}) => {
           return <View
                   style={{width : '100%',
-                  height : 120,
+                  height : 'auto',
                   borderWidth : 1,
                   borderColor : 'lightgray',
                   borderRadius : 5,

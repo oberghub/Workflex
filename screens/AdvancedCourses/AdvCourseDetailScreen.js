@@ -42,7 +42,7 @@ export default function AdvCourseDetailScreen({route, navigation}) {
       }} onPress={() => {console.log(postureData), navigation.navigate("Adv Inner Course", {title : categoryTitle, postureData : postureData})}}>
         <Text style={{fontSize : 18, fontWeight : '600'}}>Start a course</Text>
       </TouchableOpacity>
-
+{/* 
       <TouchableOpacity style={{
         width : '95%',
         height : 40,
@@ -53,7 +53,7 @@ export default function AdvCourseDetailScreen({route, navigation}) {
         marginTop : 15
       }} onPress={() => {console.log(widthDim + " x " + heightDim )}}>
         <Text style={{fontSize : 18, fontWeight : '600'}}>Check Dimensions</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
 
       <View style={{width : '100%', marginTop : 20}}>
         <FlatList data={vidId}
