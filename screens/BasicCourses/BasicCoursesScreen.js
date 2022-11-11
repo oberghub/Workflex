@@ -12,7 +12,8 @@ const BasicCoursesScreen = ({navigation})  => {
         {id : 'p3', pTitle : 'ก้มแตะสลับ', timeDuration : 30},
         {id : 'p4', pTitle : 'กระโดดตบ', timeDuration : 30},
         {id : 'p5', pTitle : 'สก็อตจัมพ์', timeDuration : 30},
-      ]
+      ],
+      desc:"คอร์สออกกำลังกายแบบเบาๆ ง่ายๆ และเน้นความสนุกสนานไปด้วยจะทำให้การออกกำลังกายมีประสิทธิภาพที่ดีขึ้น สำหรับเด็ก"
     },
     {
       id : 'c2',
@@ -27,7 +28,8 @@ const BasicCoursesScreen = ({navigation})  => {
         {id : 'p6', pTitle : 'cobra stretch', timeDuration : 20},
         {id : 'p7', pTitle : 'spine lumbar twist stretch left', timeDuration : 30},
         {id : 'p8', pTitle : 'spine lumbar twist stretch right', timeDuration : 30},
-      ]
+      ],
+      desc:"คอร์สออกกำลังกายแบบชิลๆ เน้นสร้างกล้ามเนื้อ ช่วยให้ร่างกายแข็งแรง หุ่นดี ไม่อ้วน สำหรับวัยรุ่น"
     },
     {
       id : 'c3',
@@ -46,7 +48,8 @@ const BasicCoursesScreen = ({navigation})  => {
         {id : 'p10', pTitle : 'cobra stretch', timeDuration : 30},
         {id : 'p11', pTitle : 'spine lumbar twist stretch left', timeDuration : 30},
         {id : 'p12', pTitle : 'spine lumbar twist stretch right', timeDuration : 30},
-      ]
+      ],
+      desc:"คอร์สออกกำลังกายที่เน้นไปที่ความต่อเนื่อง ใช้พลังงานมาก เพื่อสร้างความแข็งแรงและความอดทน สำหรับวัยทำงาน"
     },
     {
       id : 'c4',
@@ -60,7 +63,8 @@ const BasicCoursesScreen = ({navigation})  => {
         {id : 'p5', pTitle : 'ท้าวเอว หมุนไหล่', timeDuration : 20},
         {id : 'p6', pTitle : 'บิดเอวซ้าย ขวา', timeDuration : 40},
         {id : 'p7', pTitle : 'แกว่งแขน', timeDuration : 60},
-      ]
+      ],
+      desc:"คอร์สออกกำลังกายเพื่อสุขภาพ เน้นขยับร่างกายช้าๆเบาๆ ใช้พลังงานน้อย เหมาะกับผู้สูงอายุ"
     }
   ]
   return (
@@ -88,8 +92,7 @@ const BasicCoursesScreen = ({navigation})  => {
                 </Text>
 
                 <Text style={{marginLeft : 10, marginTop : 10}}>
-                  <Text style={{fontWeight : '700'}}>Detail</Text> : Lorem ipsum dolor sit amet, putent quaestio quaerendum ea mei. Nulla legimus nonumes ei pro, 
-                  et stet falli tacimates eos, eu usu omnis mundi prodesset.
+                  <Text style={{fontWeight : '700'}}>Detail</Text> : {item.desc}
                 </Text>
 
               </View>

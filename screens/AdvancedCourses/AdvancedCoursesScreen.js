@@ -20,7 +20,8 @@ const AdvancedCoursesScreen = ({navigation})  => {
         {id : 'p11', pTitle : 'Cobra Stretch', timeDuration : 30},
         {id : 'p12', pTitle : 'spine lumbar twist stretch left', timeDuration : 30},
         {id : 'p13', pTitle : 'spine lumbar twist stretch right', timeDuration : 30},
-      ]
+      ],
+      desc:"คอร์สออกกำลังกายสำหรับการสร้างกล้ามเนื้อหน้าท้อง เพื่อเสริมสร้างความแข็งแรงของกล้ามเนื้อหน้าท้อง"
     },
     {
       id : 'c2',
@@ -38,7 +39,8 @@ const AdvancedCoursesScreen = ({navigation})  => {
         {id : 'p9', pTitle : 'Knee Push-up', timeDuration : 20},
         {id : 'p10', pTitle : 'Cobra Strech', timeDuration : 30},
         {id : 'p11', pTitle : 'Chest Strech', timeDuration : 30},
-      ]
+      ],
+      desc:"คอร์สออกกำลังกายสำหรับการสร้างกล้ามอกและกล้ามเนื้อหลังแขน เพื่อเสริมสร้างความแข็งแรงของกล้ามเนื้ออก และทำให้หน้าอกดูแน่นและชัดขึ้น"
     },
 
     //c3-c6 ยังไม่ได้ใส่ท่าออกกำลังกาย
@@ -59,7 +61,8 @@ const AdvancedCoursesScreen = ({navigation})  => {
         {id : 'p10', pTitle : 'cobra stretch', timeDuration : 30},
         {id : 'p11', pTitle : 'spine lumbar twist stretch left', timeDuration : 30},
         {id : 'p12', pTitle : 'spine lumbar twist stretch right', timeDuration : 30},
-      ]
+      ],
+      desc:"คอร์สออกกำลังกายสำหรับการสร้างกล้ามแขน เพื่อเสริมสร้างความแข็งแรงของทั้งแขน และช่วยเพิ่มกำลังและขนาดของแขนให้มากขึ้น"
     },
     {
       id : 'c4',
@@ -73,7 +76,8 @@ const AdvancedCoursesScreen = ({navigation})  => {
         {id : 'p5', pTitle : 'ท้าวเอว หมุนไหล่', timeDuration : 20},
         {id : 'p6', pTitle : 'บิดเอวซ้าย ขวา', timeDuration : 40},
         {id : 'p7', pTitle : 'แกว่งแขน', timeDuration : 60},
-      ]
+      ],
+      desc:"คอร์สออกกำลังกายสำหรับการสร้างกล้ามเนื้อขา เพื่อเสริมสร้างความแข็งแรงของกล้ามเนื้อขา และเพิ่มประสิทธิภาพของกล้ามเนื้อขา"
     },
     {
       id : 'c5',
@@ -87,7 +91,8 @@ const AdvancedCoursesScreen = ({navigation})  => {
         {id : 'p5', pTitle : 'ท้าวเอว หมุนไหล่', timeDuration : 20},
         {id : 'p6', pTitle : 'บิดเอวซ้าย ขวา', timeDuration : 40},
         {id : 'p7', pTitle : 'แกว่งแขน', timeDuration : 60},
-      ]
+      ],
+      desc:"คอร์สออกกำลังกายสำหรับการสร้างกล้ามหลังและไหล่ เพื่อเพิ่มความยืดหยุ่น ลดอาการบาดเจ็บ และแก้ไขบุคลิกภาพของไหล่และหลัง"
     },
     {
       id : 'c6',
@@ -101,7 +106,8 @@ const AdvancedCoursesScreen = ({navigation})  => {
         {id : 'p5', pTitle : 'ท้าวเอว หมุนไหล่', timeDuration : 20},
         {id : 'p6', pTitle : 'บิดเอวซ้าย ขวา', timeDuration : 40},
         {id : 'p7', pTitle : 'แกว่งแขน', timeDuration : 60},
-      ]
+      ],
+      desc:"คอร์สออกกำลังกายแบบ HIIT ช่วยลดไขมันทั้งตัว เผาผลาญแคลอรี่ สร้างกล้ามเนื้อทั้งตัว กระตุ้นการใช้ออกซิเจน ลดอัตราการเต้นของหัวใจ และทำให้สุขภาพดี"
     }
   ]
   return (
@@ -129,8 +135,7 @@ const AdvancedCoursesScreen = ({navigation})  => {
                 </Text>
 
                 <Text style={{marginLeft : 10, marginTop : 10}}>
-                  <Text style={{fontWeight : '700'}}>Detail</Text> : Lorem ipsum dolor sit amet, putent quaestio quaerendum ea mei. Nulla legimus nonumes ei pro, 
-                  et stet falli tacimates eos, eu usu omnis mundi prodesset.
+                  <Text style={{fontWeight : '700'}}>Detail</Text> : {item.desc}
                 </Text>
 
               </View>
