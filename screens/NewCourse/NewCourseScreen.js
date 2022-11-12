@@ -187,12 +187,12 @@ export default function NewCourseScreen({route, navigation}) {
       {/* Show a posture */}
       {exerciseList.length == 0 ? <Text style={{textAlign : 'center', fontSize : 32, fontWeight : '700', color : 'lightgray'}}>No posture yet.</Text> : 
       <ScrollView style={{width : '100%', padding : 10}}>
-      {exerciseList.map((item, index) => <View key={index} style={styles.render}>
+      {exerciseList.map((item, index) => <View key={index} style={[styles.render, {height : 'auto'}]}>
                   <View style={{width : '70%', marginLeft : 15}}>
                     <Text style={{fontSize : 22, fontWeight : '700'}}>{item.name}</Text>
                     <Text style={{fontSize : 16, fontWeight : '500'}}>{item.sec < 60 ? item.sec + " Sec" : parseInt(item.sec/60) + " Min " + item.sec%60 + " Sec"}</Text>
                   </View>
-                  <View style={{width : "30%", flexDirection : 'row', position : 'absolute', right : 0, backgroundColor : 'blue'}}>
+                  <View style={{width : "30%", flexDirection : 'row', backgroundColor : 'blue'}}>
                     <Ionicons style={{position : 'absolute', right : 40}} name="ios-create-outline" size={20} color={"black"}
                     onPress={() => {editExList(item, true)
                                     setCurrentIndex(index)}} /> 

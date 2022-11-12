@@ -24,7 +24,7 @@ export default function PlayACourseScreen({route, navigation}) {
         {/* <Text style={{fontSize : 18, fontWeight : '600'}}>Tap to play</Text> */}
       </TouchableOpacity>
        <ScrollView style={{width : '100%', padding : 10}}>
-        {displayedData.map((item, index) => <View key={index} style={styles.render}>
+        {displayedData.map((item, index) => <View key={index} style={[styles.render]}>
                     <View style={{width : '70%', marginLeft : 15}}>
                       <Text style={{fontSize : 22, fontWeight : '700'}}>{item.name}</Text>
                       <Text style={{fontSize : 16, fontWeight : '500'}}>{item.sec < 60 ? item.sec + " Sec" : parseInt(item.sec/60) + " Min " + item.sec%60 + " Sec"}</Text>
