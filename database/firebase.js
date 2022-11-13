@@ -1,9 +1,13 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, getDocs } from 'firebase/firestore';
-import {getAuth} from 'firebase/auth';
+import {getAuth, onAuthStateChanged} from 'firebase/auth';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
+
+
+//Redux
+// import { useDispatch } from 'react-redux';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -20,3 +24,14 @@ const app = initializeApp(firebaseConfig);
 
 export const auth = getAuth(app)
 export const db = getFirestore(app);
+
+// const dispatch = useDispatch
+// onAuthStateChanged(auth, (user) => {
+//   if(user){
+//       console.log(user)
+//       // dispatch(userData(user))
+//   }
+//   else{
+//       console.log("when logout user value = " +user)
+//   }
+// })

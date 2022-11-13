@@ -22,7 +22,6 @@ import PlayACourseScreen from "../screens/MyCourses/PlayACourseScreen";
 
 //New Course
 import NewCourseScreen from "../screens/NewCourse/NewCourseScreen";
-import SetDetailExerciseScreen from "../screens/NewCourse/SetDetailExerciseScreen";
 
 //Community
 import CommunityScreen from "../screens/Community/CommunityScreen";
@@ -52,7 +51,6 @@ const NewCourse = ({navigation}) => {
               return <Ionicons name="md-reorder-three-outline" size={30} color={'white'} onPress={() => {navigation.openDrawer()}} />
             }),
         }}/>
-            <Stack.Screen name="Set Exercise Detail" component={SetDetailExerciseScreen}/>
         </Stack.Navigator>
     )
 }
