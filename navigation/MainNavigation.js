@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -20,8 +20,6 @@ import MyCoursesScreen from "../screens/MyCourses/MyCoursesScreen";
 import MyCourseDetail from "../screens/MyCourses/MyCourseDetailScreen";
 import PlayACourseScreen from "../screens/MyCourses/PlayACourseScreen";
 
-import HealthCalculatorScreen from "../screens/Calculate/HealthCalcutarorScreen";
-
 //New Course
 import NewCourseScreen from "../screens/NewCourse/NewCourseScreen";
 import SetDetailExerciseScreen from "../screens/NewCourse/SetDetailExerciseScreen";
@@ -33,6 +31,8 @@ import PostDeatilScreen from "../screens/Community/PostDetailScreen";
 //Auth
 import {LoginScreen} from "../screens/AuthScreen/LoginScreen";
 import {SignUpScreen} from "../screens/AuthScreen/SignUpScreen";
+
+import { DrawerContent } from "../screens/DrawerContent";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -206,7 +206,7 @@ const Community = ({navigation}) => {
             <Stack.Screen name="Post Detail" component={PostDeatilScreen} options={{
               headerStyle: {
                 backgroundColor: '#FD841F',
-            },
+              },
             headerRight : ((props) => {
               return <Ionicons name="md-reorder-three-outline" size={30} color={'white'} onPress={() => {navigation.openDrawer()}} />
             }),
@@ -241,13 +241,6 @@ const MainCoursesTab = () => {
                     },
                     headerShown : false
                 }}/>
-            {/* <Tab.Screen name="Calculator Tab" component={HealthCalculatorScreen}
-                options={{
-                    title : "Calculator",
-                    tabBarIcon : ({color, size}) => {
-                        return <Ionicons name="ios-calculator-outline" size={size} color={color} />
-                    }
-                }}/> */}
             <Tab.Screen name="Advanced Course Tab" component={AdvancedCourses}
                 options={{
                     title : "Hard Course",
@@ -268,11 +261,33 @@ const MainCoursesTab = () => {
     )
 }
 const MainNavigation = () => {
+    const [asd, dasda] = useState(
+      // {name : 'asd'}
+    )
+    const routeName = !asd ? "Login" : "Home"
     return(
         <NavigationContainer>
-            <Drawer.Navigator screenOptions={{headerShown : false}}>
-                <Drawer.Screen name="Home" component={MainCoursesTab}/>
-                <Drawer.Screen name="Login" component={LoginScreen} />
+            <Drawer.Navigator drawerContent={props => <DrawerContent {...props}/>}
+              initialRouteName={routeName}>
+                <Drawer.Screen name="Home" component={MainCoursesTab} options={{
+                  headerShown : false,
+                }}/>
+                <Drawer.Screen name="Login" component={LoginScreen} 
+                options={{
+                  headerStyle: {
+                    backgroundColor: '#FD841F',
+                  },
+                  headerTintColor : 'white',
+                  title : ""
+                }}/>
+                <Drawer.Screen name="SignUp" component={SignUpScreen} 
+                options={{
+                  headerStyle: {
+                    backgroundColor: '#FD841F',
+                  },
+                  headerTintColor : 'white',
+                  title : ""
+                }}/>
             </Drawer.Navigator>
         </NavigationContainer>
     )

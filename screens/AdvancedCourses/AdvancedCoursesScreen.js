@@ -200,7 +200,7 @@ const AdvancedCoursesScreen = ({navigation})  => {
                 onPress={() => {
                   navigation.navigate("Adv Course Detail", {categoryTitle : item.title, postureData : item.postureData})
                 }}>
-                  <Ionicons name='ios-exit-outline' size={20} color={'black'}/>
+                  <Ionicons name='ios-enter-outline' size={20} color={'black'}/>
               </TouchableOpacity>
           </View>
         } />

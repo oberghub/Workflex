@@ -5,6 +5,11 @@ import { MYCATEGORIES as data } from "../../data/dummy-data";
 import { EXECISES as data1 } from "../../data/dummy-data";
 import MyCategory from '../../models/myCategory';
 import Execise from '../../models/execise';
+
+//Store data to firebase
+import { db } from '../../database/firebase';
+import { doc, setDoc, collection, addDoc } from 'firebase/firestore';
+
 export default function NewCourseScreen({route, navigation}) {
   const [courseName, setCourseName] = useState("")
   const [posture, setPosture] = useState("")
@@ -107,6 +112,7 @@ export default function NewCourseScreen({route, navigation}) {
       saveData() //ทำจริงค่อยแก้ตรงฟังก์ชันนี้
     }
   }
+
   const saveData = () => {
     if(exerciseList.length == 0){
       console.log("exList == 0")
@@ -123,6 +129,25 @@ export default function NewCourseScreen({route, navigation}) {
       )
     }
     else{
+      try{
+        addDoc(collection(db, "mycourse"), {
+          addByUID : "fkdorlsdiitn",
+          backgroundColor : generateLightColorHex(),
+          courseName : courseName
+        })
+      }
+      catch(e){
+        console.log(e)
+      }
+      // setDoc(doc (db, "mycourse", "i1cwvvQvjDaKw2lM6DZP"), {
+      //   addByUID : "fkdorlsdiitn",
+      //   backgroundColor : generateLightColorHex(),
+      //   courseName : courseName
+      // }).then((res) => {
+      //   console.log(res)
+      // }).catch((err) => {console.log(err)})
+
+
       data.push(new MyCategory("mc"+id, courseName, generateLightColorHex()))
       for(let i =0; i < exerciseList.length;i++){
         data1.push(new Execise(exerciseList[i].id, exerciseList[i].name, exerciseList[i].sec, "mc"+id))
@@ -132,8 +157,6 @@ export default function NewCourseScreen({route, navigation}) {
       setCourseName('')
       setId(id+1)
     }
-    console.log(data)
-    console.log(data1)
   }
   return (
     <View style={styles.container}>

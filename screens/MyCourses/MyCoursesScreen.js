@@ -104,7 +104,7 @@ const MyCoursesScreen = ({ navigation }) => {
                 borderRadius: 10,
                 marginBottom: 15,
                 backgroundColor: item.color
-              }}>
+              }} key={index}>
                 <View style={[styles.gridItem, { padding: 10, paddingTop: 15 }]}>
                   <View style={{ flexDirection: 'row', }}>
                     <Text style={[styles.txtImg, { marginBottom: 15 }]}>{item.title}</Text>
@@ -144,7 +144,7 @@ const MyCoursesScreen = ({ navigation }) => {
                     options={({ route }) => ({
                       title: route.params.title.toString(),
                     })}>
-                    <Ionicons name='ios-exit-outline' size={20} color={'black'} />
+                    <Ionicons name='ios-enter-outline' size={20} color={'black'} />
 
                   </Pressable>
                 </View>

@@ -98,7 +98,7 @@ export default function PlayACourse({ route, navigation }) {
   return (
     <View style={styles.container}>
       <Text style={{ fontSize: 40, fontWeight: '700' }}>{name}</Text>
-      <Text style={{ fontSize: 80, fontWeight: '500' }}>{min < 10 ? '0' : ''}{sec > 59 ? setMin(min + 1) : min} : {sec < 10 ? '0' : ''}{sec > 59 ? setSec(0) : sec}</Text>
+      <Text style={{ fontSize: 80, fontWeight: '500' }}>{Math.floor(sec/60) < 10 ? '0'+Math.floor(sec/60) : Math.floor(sec/60)} : {sec%60 < 10 ? '0'+sec%60 : sec%60}</Text>
       {/* <Stack.Navigator initialRouteName="My Courses" screenOptions={{
         headerShown: false
       }}>
