@@ -1,8 +1,10 @@
 import { Ionicons } from "@expo/vector-icons"
 import React, { useState } from "react"
 import { View, Text, TextInput, TouchableOpacity } from "react-native"
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 import { auth } from "../../database/firebase";
+import { useDispatch } from "react-redux";
+import { userdata } from "../../userSlice";
 export const LoginScreen = ({navigation}) => {
     const [incorrect, setIncorrect] = useState(false)
 
@@ -25,6 +27,21 @@ export const LoginScreen = ({navigation}) => {
           setIncorrect(true)
         });
     }
+        const dispatch = useDispatch()
+        onAuthStateChanged(auth, (user) => {
+        if(user){
+            // console.log(!user ? "Login" : "Home")
+            dispatch(userdata({
+                uid : user.uid,
+                email : user.email,
+                displayName : user.displayName
+            }))
+        }
+        else{
+            // console.log("when logout user value = " +user)
+            dispatch(userdata(null))
+        }
+        })
     return (
         <View style={{
             flex : 1,

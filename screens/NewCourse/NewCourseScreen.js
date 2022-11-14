@@ -8,7 +8,9 @@ import Execise from '../../models/execise';
 
 //Store data to firebase
 import { db } from '../../database/firebase';
-import { doc, setDoc, collection, addDoc } from 'firebase/firestore';
+import { collection, addDoc } from 'firebase/firestore';
+
+import { useSelector } from 'react-redux';
 
 export default function NewCourseScreen({route, navigation}) {
   const [courseName, setCourseName] = useState("")
@@ -24,11 +26,16 @@ export default function NewCourseScreen({route, navigation}) {
 
   const [modalVisible, setModalVisible] = useState(false)
 
+  const user = useSelector((state) => state.user_data.user)
+
   function generateLightColorHex() {
     let color = "#";
     for (let i = 0; i < 3; i++)
       color += ("0" + Math.floor(((1 + Math.random()) * Math.pow(16, 2)) / 2).toString(16)).slice(-2);
     return color;
+  }
+  const courseIdGenerate = () => {
+    return Date.now().toString(36) + Math.random().toString(36).substring(2);
   }
   //const randomColor = Math.floor(Math.random()*16777215).toString(16);
 
@@ -129,28 +136,34 @@ export default function NewCourseScreen({route, navigation}) {
       )
     }
     else{
+      const courseId = courseIdGenerate()
       try{
         addDoc(collection(db, "mycourse"), {
-          addByUID : "fkdorlsdiitn",
+          uid : user.uid,
           backgroundColor : generateLightColorHex(),
-          courseName : courseName
+          courseName : courseName,
+          courseId : courseId
         })
       }
       catch(e){
         console.log(e)
       }
-      // setDoc(doc (db, "mycourse", "i1cwvvQvjDaKw2lM6DZP"), {
-      //   addByUID : "fkdorlsdiitn",
-      //   backgroundColor : generateLightColorHex(),
-      //   courseName : courseName
-      // }).then((res) => {
-      //   console.log(res)
-      // }).catch((err) => {console.log(err)})
-
 
       data.push(new MyCategory("mc"+id, courseName, generateLightColorHex()))
       for(let i =0; i < exerciseList.length;i++){
+        console.log(courseId)
         data1.push(new Execise(exerciseList[i].id, exerciseList[i].name, exerciseList[i].sec, "mc"+id))
+        try{
+          addDoc(collection(db, "posture"), {
+            uid : user.uid,
+            timeDuration : exerciseList[i].sec,
+            postureName : exerciseList[i].name,
+            byCourseId : courseId
+          })
+        }
+        catch(e){
+          console.log(e)
+        }
       }
       navigation.navigate("My Course Tab")
       setExerciseList([])

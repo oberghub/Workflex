@@ -14,10 +14,6 @@ const MyCoursesScreen = ({ navigation }) => {
     const sec = time.map(time => time.sec+15).reduce((prev, curr) => prev + curr) % 60
     return min == 0 ? " : " + sec + " sec" : " : " + min + " min " + sec + " sec"
   }
-  // const [data, setMyCourse] = useState([
-  //   // {name : "Jumping Jack", sec : 20, id : 1},
-  //   // {name : "Sit Up", sec : 25, id : 2}
-  // ])
   const deleteMyCourse = (index, id) => {
     Alert.alert(
       "Remove",

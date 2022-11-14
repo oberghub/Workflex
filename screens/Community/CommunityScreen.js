@@ -1,75 +1,69 @@
 import { Ionicons } from '@expo/vector-icons';
-import { StatusBar } from 'expo-status-bar';
-import { useState } from 'react';
-import { TouchableOpacity, TextInput } from 'react-native';
+import { useState, useEffect } from 'react';
+import { TouchableOpacity, TextInput, RefreshControl } from 'react-native';
 import { FlatList } from 'react-native';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
+//Store and Get data to firebase
+import { db } from '../../database/firebase';
+import { collection, addDoc, getDocs, onSnapshot} from 'firebase/firestore';
+import { useSelector } from 'react-redux';
 
 export default function CommunityScreen({route, navigation}) {
   const [newPost, setNewPost] = useState("")
-  const [feedData, setFeedData] = useState([
-    {postId : "post1",
-     userName : "U0012835",
-     postTitle : "วันเสาร์-อาทิตย์ ผมกินพิซซ่าได้ไหมครับพรี่", 
-     timeStamp : "14 Oct 2022 , 21:05",
-     likeCount : 102,
-    },
-    {postId : "post2",
-     userName : "U0086477",
-     postTitle : "ออกกำลังกายเวลาไหนดีคะทุกคนน", 
-     timeStamp : "14 Oct 2022 , 23:10",
-     likeCount : 73,
-    },
-    {postId : "post3",
-     userName : "U0086221",
-     postTitle : "เหงาๆ อยากโดนเหลากระบาล", 
-     timeStamp : "7 Nov 2022 , 17:03",
-     likeCount : 3,
+  const [refreshing, setRefreshing] = useState(false);
+
+  const postIdGenerate = () => {
+    return Date.now().toString(36) + Math.random().toString(36).substring(2);
+  }
+
+  //Fetch Data
+  useEffect(() => {
+    const getPost = async () => {
+      const postData = await getDocs(collection(db, 'post'))
+      setFeedData(postData.docs.map(doc => doc.data()).sort((a, b) => {
+        if (a.timeStamp < b.timeStamp) {
+          return -1;
+        }
+        if (a.timeStamp > b.timeStamp) {
+          return 1;
+        }
+        // names must be equal
+        return 0;
+      }))
     }
-  ])
-  const [commentData, setCommentData] = useState([
-    {commentId : "comment1",
-     comment : "ได้ครับ แต่อย่าเยอะนะ ^^", 
-     timeStamp : "14 Oct 2022 , 22:11",
-     byUserName : "T090041",
-     postId : "post1"
-    },
-    {commentId : "comment2",
-     comment : "กินด้วยจิ ^^",
-     timeStamp : "14 Oct 2022 , 22:28",
-     byUserName : "T090663",
-     postId : "post1"
-    },
-    {commentId : "comment3",
-     comment : "Cheat Day ก็ดีนะ 5555",
-     timeStamp : "14 Oct 2022 , 22:53",
-     byUserName : "T090722",
-     postId : "post1"
-    },
-    {commentId : "comment4",
-     comment : "ออกตอนไหนก็ได้ครับ ขอไม่ขี้เกียจก็พอ อิอิ",
-     timeStamp : "14 Oct 2022 , 23:15",
-     byUserName : "T090854",
-     postId : "post2"
+    const getComment = async () => {
+      const commentData = await getDocs(collection(db, 'comment'))
+      setCommentData(commentData.docs.map(doc => doc.data()))
     }
-  ])
-  const [likedData, setLikedData] = useState([
-    {
-      likedId : "like01",
-      postId : "post02",
-      byUserName : "T090854",
-      liked : true
-    }
-  ])
+    getPost()
+    getComment()
+  }, [])
+  const pullMe = () => {
+    setRefreshing(true)
+
+    setTimeout(() => {
+      setRefreshing(false)
+      console.log("Refresh...")
+    }, 1000)
+  }
+
+
+  const [feedData, setFeedData] = useState([])
+  const [commentData, setCommentData] = useState([])
+  const [likedData, setLikedData] = useState([])
+  const user = useSelector((state) => state.user_data.user)
+
   const sendAPost = () => {
     let getDate = new Date()+""
     let date = getDate.substring(8, 10) + " " + getDate.substring(4, 7) + " " + getDate.substring(11, 15)
     let time = getDate.substring(16, 21)
 
+
     if(newPost == ""){
       console.log("")
     }
     else{
+      const postId = postIdGenerate()
       let lst = [...feedData]
       let idcount = lst.length+1
       lst.push({
@@ -79,6 +73,19 @@ export default function CommunityScreen({route, navigation}) {
         timeStamp : date + " , " + time,
         likeCount : 0
       })
+      try{
+        addDoc(collection(db, "post"), {
+          postId : postId,
+          userName : user.displayName,
+          postTitle : newPost,
+          timeStamp : date + " , " + time,
+          likeCount : 0,
+          uid : user.uid
+        })
+      }
+      catch(e){
+        console.log(e)
+      }
       setFeedData(lst)
       setNewPost("")
     }
@@ -95,15 +102,18 @@ export default function CommunityScreen({route, navigation}) {
         </View>
       </View>
 
-      <View style={{flexDirection : 'row', width : '100%', padding : 20}}>
+      <View style={{flexDirection : 'row', width : '95%', padding : 20}}>
           <TextInput style={{borderWidth : 1,
                             borderColor : 'lightgray',
                             borderRadius : 5,
                             width : '75%',
-                            height : 40,
+                            height : 'auto',
                             marginTop : -10,
-                            paddingLeft : 10}}
+                            paddingLeft : 10,
+                            paddingTop : 10}}
                       placeholder="Write your post"
+                      multiline={true}
+                      numberOfLines={4}
                       onChangeText={setNewPost}
                       value={newPost} />
           <TouchableOpacity style={{height : 40, 
@@ -117,8 +127,15 @@ export default function CommunityScreen({route, navigation}) {
           </TouchableOpacity>
       </View>
 
-      <FlatList style={{width : '100%', paddingLeft : 20, paddingRight : 20}}
-        data={feedData} renderItem={({item, index}) => {
+      {feedData.length == 0 ? null : 
+        <FlatList style={{width : '100%', paddingLeft : 20, paddingRight : 20}}
+        data={feedData} 
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={() => { pullMe() }} />
+        }
+        renderItem={({item, index}) => {
           return <View
                   style={{width : '100%',
                   height : 'auto',
@@ -158,6 +175,7 @@ export default function CommunityScreen({route, navigation}) {
                   </View>
           </View>
         }}/>
+      }
 
       {/* <Text>Community</Text>
       <Button title='Post Detail' onPress={() => {navigation.navigate('Post Detail')}} /> */}

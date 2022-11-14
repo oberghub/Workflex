@@ -31,7 +31,11 @@ import PostDeatilScreen from "../screens/Community/PostDetailScreen";
 import {LoginScreen} from "../screens/AuthScreen/LoginScreen";
 import {SignUpScreen} from "../screens/AuthScreen/SignUpScreen";
 
+//Custom Drawer
 import { DrawerContent } from "../screens/DrawerContent";
+
+//Redux
+import { useSelector } from "react-redux";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -214,7 +218,7 @@ const Community = ({navigation}) => {
 }
 const MainCoursesTab = () => {
     return(
-        <Tab.Navigator initialRouteName="My Course">
+        <Tab.Navigator initialRouteName="My Course Tab">
             <Tab.Screen name="New Course Tab" component={NewCourse}
                 options={{
                     title : "New Course",
@@ -259,14 +263,11 @@ const MainCoursesTab = () => {
     )
 }
 const MainNavigation = () => {
-    const [asd, dasda] = useState(
-      // {name : 'asd'}
-    )
-    const routeName = !asd ? "Login" : "Home"
+    const user = useSelector(state => state.user_data.user)
     return(
         <NavigationContainer>
             <Drawer.Navigator drawerContent={props => <DrawerContent {...props}/>}
-              initialRouteName={routeName}>
+              initialRouteName={!user ? "Login" : "Home"}>
                 <Drawer.Screen name="Home" component={MainCoursesTab} options={{
                   headerShown : false,
                 }}/>

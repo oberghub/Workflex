@@ -5,12 +5,20 @@ import { StyleSheet, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { TextInput } from 'react-native';
 import { FlatList } from 'react-native';
+//Store data to firebase
+import { db } from '../../database/firebase';
+import { collection, addDoc } from 'firebase/firestore';
+
+import { useSelector } from 'react-redux';
 
 export default function PostDeatilScreen({route, navigation}) {
   const [postData, setPostData] = useState(route.params.postData)
   const [commentData, setCommentData] = useState([...route.params.commentData])
-
+  const user = useSelector((state) => state.user_data.user)
   const [newComment, setNewComment] = useState("")
+  const commentIdGenerate = () => {
+    return Date.now().toString(36) + Math.random().toString(36).substring(2);
+  }
   const loopData = () => {
     console.log(postData)
     for(let i=0; i<commentData.length;i++){
@@ -27,15 +35,30 @@ export default function PostDeatilScreen({route, navigation}) {
       console.log("")
     }
     else{
+      const commentId = commentIdGenerate()
       let lst = [...commentData]
       let idcount = lst.length+1
       lst.push({
-        commentId : "comment"+idcount,
+        postId : postData.postId,
+        byUserName : user.displayName,
         comment : newComment,
         timeStamp : date + " , " + time,
-        byUserName : "แกะนิรนาม",
-        postId : postData.postId
+        commentId : commentId,
+        uid : user.uid
       })
+        try{
+          addDoc(collection(db, "comment"), {
+            postId : postData.postId,
+            byUserName : user.displayName,
+            comment : newComment,
+            timeStamp : date + " , " + time,
+            commentId : commentId,
+            uid : user.uid
+          })
+        }
+        catch(e){
+          console.log(e)
+        }
       setCommentData(lst)
       setNewComment("")
     }
