@@ -1,11 +1,11 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useState, useEffect } from 'react';
-import { TouchableOpacity, TextInput, RefreshControl } from 'react-native';
+import { TouchableOpacity, TextInput, RefreshControl, Alert } from 'react-native';
 import { FlatList } from 'react-native';
 import { StyleSheet, Text, View } from 'react-native';
 //Store and Get data to firebase
 import { db } from '../../database/firebase';
-import { collection, addDoc, getDocs, onSnapshot} from 'firebase/firestore';
+import { collection, addDoc, onSnapshot, deleteDoc, query, orderBy, doc, where, updateDoc} from 'firebase/firestore';
 import { useSelector } from 'react-redux';
 
 export default function CommunityScreen({route, navigation}) {
@@ -18,26 +18,29 @@ export default function CommunityScreen({route, navigation}) {
 
   //Fetch Data
   useEffect(() => {
-    const getPost = async () => {
-      const postData = await getDocs(collection(db, 'post'))
-      setFeedData(postData.docs.map(doc => doc.data()).sort((a, b) => {
-        if (a.timeStamp < b.timeStamp) {
-          return -1;
-        }
-        if (a.timeStamp > b.timeStamp) {
-          return 1;
-        }
-        // names must be equal
-        return 0;
-      }))
-    }
-    const getComment = async () => {
-      const commentData = await getDocs(collection(db, 'comment'))
-      setCommentData(commentData.docs.map(doc => doc.data()))
-    }
-    getPost()
-    getComment()
+
+    //Subscribe Firebase event 
+    const postQuery = query(collection(db, "post"), orderBy("timeStamp"))
+    onSnapshot(postQuery, (snapshot) => {
+      setFeedData(snapshot.docs.map(doc => doc.data()))
+      setDocId(snapshot.docs.map(doc => doc.id))
+    })
+
+    //Get comment for count a comment
+    onSnapshot(collection(db, 'comment'), (snapshot) => {
+      setCommentData(snapshot.docs.map(doc => doc.data()))
+      setCommentDocId(snapshot.docs.map(doc => doc.id))
+    })
+
+    //Query account liked post
+    const likedQuery = query(collection(db, 'likedPost'), where("uid", "==", user.uid))
+    onSnapshot(likedQuery, (snapshot) => {
+      setLikedData(snapshot.docs.map(doc => doc.data()))
+      setLikedDocId(snapshot.docs.map(doc => doc.id))
+    })
+
   }, [])
+
   const pullMe = () => {
     setRefreshing(true)
 
@@ -47,32 +50,29 @@ export default function CommunityScreen({route, navigation}) {
     }, 1000)
   }
 
+  //** docId ใน firebase ไว้ใช้เข้าถึงข้อมูลแถวนั้นๆ **/
 
   const [feedData, setFeedData] = useState([])
+  const [docId, setDocId] = useState([]) //docId from Firebase *ใช้ลบข้อมูล เอา id นี้ไปใส่
+
   const [commentData, setCommentData] = useState([])
+  const [commentDocId, setCommentDocId] = useState([])
+
   const [likedData, setLikedData] = useState([])
+  const [likedDocId, setLikedDocId] = useState([])
+
+
   const user = useSelector((state) => state.user_data.user)
 
   const sendAPost = () => {
     let getDate = new Date()+""
     let date = getDate.substring(8, 10) + " " + getDate.substring(4, 7) + " " + getDate.substring(11, 15)
     let time = getDate.substring(16, 21)
-
-
-    if(newPost == ""){
+    if(newPost === ""){
       console.log("")
     }
     else{
       const postId = postIdGenerate()
-      let lst = [...feedData]
-      let idcount = lst.length+1
-      lst.push({
-        postId : "post"+idcount,
-        userName : "แกะนิรนาม",
-        postTitle : newPost,
-        timeStamp : date + " , " + time,
-        likeCount : 0
-      })
       try{
         addDoc(collection(db, "post"), {
           postId : postId,
@@ -86,10 +86,69 @@ export default function CommunityScreen({route, navigation}) {
       catch(e){
         console.log(e)
       }
-      setFeedData(lst)
       setNewPost("")
     }
   }
+
+  const deleteAPost = (docId, commentDocIndex) => {
+    Alert.alert(
+      "Remove",
+      "Do you want to remove a Post?",
+      [
+        {
+          text : 'Cancel',
+          onPress : () => {console.log("ม่ายได้ลบ งือ")},
+          style : "cancel"
+        },
+        {
+          text : "Confirm",
+          onPress : () => {
+            try{
+              deleteDoc(doc(db, 'post', docId))
+
+              //Delete multiple record
+              for(let i=0;i<commentDocIndex.length;i++){
+                deleteDoc(doc(db, 'comment', commentDocId[commentDocIndex[i]]))
+              }
+            }
+            catch(e){
+              console.log(e)
+            }
+          }
+        }
+      ]
+    )
+  }
+
+  const addLiked = (userId, postId, docId, likeUpdate) => {
+    try{
+      addDoc(collection(db, "likedPost"), {
+        postId : postId,
+        userName : user.displayName,
+        uid : userId
+      })
+
+      updateDoc(doc(db, "post", docId), {
+        likeCount : likeUpdate
+      })
+    }
+    catch(e){
+      console.log(e)
+    }
+  }
+
+  const unLiked = (likeDocIndex, docId, likeUpdate) => {
+    try{
+      deleteDoc(doc(db, 'likedPost', likedDocId[likeDocIndex[0]]))
+      updateDoc(doc(db, "post", docId), {
+        likeCount : likeUpdate
+      })
+    }
+    catch(e){
+      console.log(e)
+    }
+  }
+  
   return (
     <View style={styles.container}>
       <View style={{flexDirection : 'row',
@@ -139,46 +198,65 @@ export default function CommunityScreen({route, navigation}) {
           return <View
                   style={{width : '100%',
                   height : 'auto',
-                  borderWidth : 1,
-                  borderColor : 'lightgray',
                   borderRadius : 5,
-                  padding : 15, marginBottom : 10}}>
+                  padding : 15, marginBottom : 10,
+                  shadowColor: '#171717',
+                  shadowOffset: {width: -2, height: 4},
+                  shadowOpacity: 0.2,
+                  shadowRadius: 3,
+                  backgroundColor : '#fff'
+                  }}>
                   <View style={{flexDirection : 'row', width : '100%'}}>
-                    <View style={{width : '50%'}}>
+                    <View style={{width : '50%', flexDirection : 'row'}}>
                       <Text style={{fontWeight : '600'}}>{item.userName}</Text>
+                      {item.uid == user.uid ? 
+                      <View style={{marginLeft : 10}}>
+                        <TouchableOpacity onPress={() => {deleteAPost(docId[index], 
+                                                          //Map เอา Index ที่จะไปเอาข้อมูลใน commentDocId เพื่อเอามาลบ comment ของ post ออกไป
+                                                          commentData.map((data, index) => data.postId == item.postId ? index : null).filter(data => data != null))}}>
+                          <Ionicons name='ios-trash-outline' size={17} color={'lightgray'} />
+                        </TouchableOpacity>
+                      </View>
+                      :
+                      null
+                      }
                     </View>
                     <View style={{position : 'absolute', right : 0}}>
-                      <Text>{item.timeStamp.split(',')[1]} น.</Text>
+                      <Text style={{position : 'absolute', right : 0}}>{item.timeStamp.split(',')[0]}</Text>
                     </View>
                   </View>
 
-                  <View style={{marginTop : 17, marginBottom : 17}}>
+                  <View style={{marginTop : 17, marginBottom : 17, flexDirection : 'row', width : '100%'}}>
                     <Text>{item.postTitle}</Text>
                   </View>
 
                   <View style={{flexDirection : 'row',}}>
-                      <TouchableOpacity>
-                        <Ionicons name='ios-heart-outline' size={22} color={'black'}/>
-                      </TouchableOpacity>
+                      {likedData.filter(data => data.postId == item.postId).length != 0 ? 
+                        <TouchableOpacity onPress={() => {unLiked(likedData.map((data, index) => data.postId == item.postId ? index : null).filter(data => data != null),
+                                                                  docId[index], item.likeCount-1)}}>
+                          <Ionicons name='ios-heart' size={22} color={'red'}/>
+                        </TouchableOpacity>
+                        :
+                        <TouchableOpacity onPress={() => {addLiked(user.uid, item.postId, docId[index], item.likeCount+1)}}>
+                          <Ionicons name='ios-heart-outline' size={22} color={'black'}/>
+                        </TouchableOpacity>
+                      }
 
                       <Text style={{marginLeft : 5, marginTop : 4, marginRight : 10}}>{item.likeCount}</Text>
 
                       <TouchableOpacity onPress={() => {
-                        navigation.navigate('Post Detail', { postData : item, commentData : commentData.filter(data => data.postId == item.postId) })
+                        navigation.navigate('Post Detail', { postData : item, docId : docId[index] })
                       }}>
                         <Ionicons name='ios-chatbubble-outline' size={22} color={'black'}/>
                       </TouchableOpacity>
 
                       <Text style={{marginLeft : 5, marginTop : 4}}>{commentData.filter(data => data.postId == item.postId).length}</Text>
 
-                      <Text style={{position : 'absolute', right : 0}}>{item.timeStamp.split(',')[0]}</Text>
+                      <Text style={{position : 'absolute', right : 0}}>{item.timeStamp.split(',')[1]} น.</Text>
                   </View>
           </View>
         }}/>
       }
-
-      {/* <Text>Community</Text>
-      <Button title='Post Detail' onPress={() => {navigation.navigate('Post Detail')}} /> */}
     </View>
   );
 }
