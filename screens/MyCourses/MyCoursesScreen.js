@@ -1,20 +1,51 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, FlatList, TouchableOpacity, RefreshControl, TextInput, Modal, Alert } from 'react-native';
-import { MYCATEGORIES as data } from "../../data/dummy-data";
-import { EXECISES as posture } from "../../data/dummy-data";
+// import { MYCATEGORIES as data } from "../../data/dummy-data";
+// import { EXECISES as posture } from "../../data/dummy-data";
+import { db } from '../../database/firebase';
+import { collection, addDoc, onSnapshot, query, where, deleteDoc, doc, updateDoc } from 'firebase/firestore';
+import { useSelector } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
 import { Pressable } from 'react-native';
-const MyCoursesScreen = ({ navigation }) => {
-  const [courseList, setCourseList] = useState(data)
+const MyCoursesScreen = ({ route, navigation }) => {
+  // const [courseList, setCourseList] = useState(data)
   const [refreshing, setRefreshing] = useState(false);
-  const [exerciseList, setExerciseList] = useState(posture);
+  // const [docId, setDocId] = useState(route.params.docId)
+  // const [exerciseList, setExerciseList] = useState(posture);
+    const user = useSelector((state) => state.user_data.user)
+  
+  const [courseData, setCourseData] = useState([])
+  const [courseDocId, setCourseDocId] = useState([])
+  const [postureData, setPostureData] = useState([])
+  const [postureDocId, setPostureDocId] = useState([])
+  useEffect(() => {
+
+    //Query comment from postId
+    const mycourse = query(collection(db, 'mycourse'), where("uid", "==", user.uid))
+    // console.log(mycourse)
+    onSnapshot(mycourse, (snapshot) => {
+      setCourseData(snapshot.docs.map(doc => doc.data()))
+      setCourseDocId(snapshot.docs.map(doc => doc.id))
+      // console.log("kut"+courseData)
+    })
+        //Query comment from postId
+        const posture = query(collection(db, 'posture'),where("uid","==",user.uid))
+        // console.log(posture)
+        onSnapshot(posture, (snapshot) => {
+          setPostureData(snapshot.docs.map(doc => doc.data()))
+          setPostureDocId(snapshot.docs.map(doc => doc.id))
+          // console.log(postureData)
+        })
+
+  },[])
   // const [postureLen, setPostureLen] = useState(posture.length)
   const sumOfSec = (time) => {
-    const min = parseInt(time.map(time => time.sec+15).reduce((prev, curr) => prev + curr) / 60)
-    const sec = time.map(time => time.sec+15).reduce((prev, curr) => prev + curr) % 60
-    return min == 0 ? " : " + sec + " sec" : " : " + min + " min " + sec + " sec"
+    // console.log(time)
+    // const min = parseInt(time.map(time => time.timeDuration+15).reduce((prev, curr) => prev + curr, 0) / 60)
+    // const sec = time.map(time => time.timeDuration+15).reduce((prev, curr) => prev + curr) % 60
+    // return min == 0 ? " : " + sec + " sec" : " : " + min + " min " + sec + " sec"
   }
-  const deleteMyCourse = (index, id) => {
+  const deleteMyCourse = (docId, id) => {
     Alert.alert(
       "Remove",
       "Do you want to remove a course?",
@@ -26,23 +57,37 @@ const MyCoursesScreen = ({ navigation }) => {
         },
         {
           text: "OK",
-          onPress: () => {
-            let lst = [...data]
-            lst.splice(index, 1)
-            setCourseList(lst)
-            data.splice(index, 1)
+          // onPress: () => {
+          //   let lst = [...courseData]
+          //   lst.splice(index, 1)
+          //   setCourseData(lst)
+          //   courseData.splice(index, 1)
 
-            //เดี๋ยวค่อยกลับมาแก้
-            // for (let i = 0; i < 5; i++) {
-            //   //console.log(posture[i].courseId)
-            //   if (posture[i].courseId == id) {
-            //     posture.splice(i, 1)
-            //   }
-            //   // console.log(posture[i])
-            // }
-            // console.log("Data " + data.length)
-            // console.log("Posture " + posture)
-            // // console.log("Exercise " + posture)
+          //   //เดี๋ยวค่อยกลับมาแก้
+          //   // for (let i = 0; i < 5; i++) {
+          //   //   //console.log(posture[i].courseId)
+          //   //   if (posture[i].courseId == id) {
+          //   //     posture.splice(i, 1)
+          //   //   }
+          //   //   // console.log(posture[i])
+          //   // }
+          //   // console.log("Data " + data.length)
+          //   // console.log("Posture " + posture)
+          //   // // console.log("Exercise " + posture)
+          // }
+          onPress : () => {
+            try{
+              deleteDoc(doc(db, 'mycourse', docId))
+
+              //Delete multiple record
+              for(let i=0;i<id.length;i++){
+                deleteDoc(doc(db, 'posture', postureDocId[id[i]]))
+              }
+              console.log("delete sucess")
+            }
+            catch(e){
+              console.log(e)
+            }
           }
         }
       ]
@@ -56,7 +101,7 @@ const MyCoursesScreen = ({ navigation }) => {
       console.log("Refresh...")
     }, 1000)
   }
-  if (data.length == 0) {
+  if (courseData.length == 0) {
     return (
       <View style={styles.container}>
         <Text style={{ fontSize: 18, fontWeight: '500', color: 'lightgray' }}>OOPS! Not found a course</Text>
@@ -85,7 +130,7 @@ const MyCoursesScreen = ({ navigation }) => {
 
         <View style={[styles.shadowbox, { width: "100%", padding: 10 }]}>
 
-          <FlatList data={data}
+          <FlatList data={courseData}
           refreshControl={
             <RefreshControl
               refreshing={refreshing}
@@ -99,11 +144,11 @@ const MyCoursesScreen = ({ navigation }) => {
                 borderColor: 'lightgray',
                 borderRadius: 10,
                 marginBottom: 15,
-                backgroundColor: item.color
+                backgroundColor: item.backgroundColor
               }} key={index}>
                 <View style={[styles.gridItem, { padding: 10, paddingTop: 15 }]}>
                   <View style={{ flexDirection: 'row', }}>
-                    <Text style={[styles.txtImg, { marginBottom: 15 }]}>{item.title}</Text>
+                    <Text style={[styles.txtImg, { marginBottom: 15 }]}>{item.courseName}</Text>
                       <TouchableOpacity style={{
                       position : 'absolute',
                       right : 0,
@@ -111,7 +156,7 @@ const MyCoursesScreen = ({ navigation }) => {
                     }}
                       onPress={() => {
 
-                        deleteMyCourse(index, item.id)
+                        deleteMyCourse(courseDocId[index], postureData.map((data, index) => data.byCourseId == item.courseId ? index : null).filter(data => data != null))
                       }}
                       options={({ route }) => ({
                         title: route.params.title.toString(),
@@ -120,8 +165,8 @@ const MyCoursesScreen = ({ navigation }) => {
 
                     </TouchableOpacity>
                   </View>
-                  <Text style={{ fontSize: 18, fontWeight: '500' }}>{exerciseList.filter(posture => posture.courseId == item.id).length} Posture
-                    {sumOfSec(exerciseList.filter(data => data.courseId == item.id))}
+                  <Text style={{ fontSize: 18, fontWeight: '500' }}>{postureData.filter(posture => posture.byCourseId == item.courseId).length} Posture
+                    {sumOfSec(postureData.filter(data => data.byCourseId == item.courseId))}
                   </Text>
                 </View>
 
@@ -135,7 +180,7 @@ const MyCoursesScreen = ({ navigation }) => {
                     borderRadius: 5
                   }}
                     onPress={() => {
-                      navigation.navigate("My Course Detail", { exerciseList: exerciseList, courseId: item.id, title: item.title })
+                      navigation.navigate("My Course Detail", { exerciseList: postureData, courseId: item.courseId, title: item.name })
                     }}
                     options={({ route }) => ({
                       title: route.params.title.toString(),
