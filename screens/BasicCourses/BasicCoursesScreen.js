@@ -210,7 +210,6 @@ const BasicCoursesScreen = ({navigation})  => {
         {id : 'p15', postureName : 'right quad stretch with wall', timeDuration : 60},
         {id : 'p16', postureName : 'left quad stretch with wall', timeDuration : 30},
         {id : 'p17', postureName : 'cobra stretch', timeDuration : 15},
-        {id : 'p18', postureName : 'สวัสดีครับ', timeDuration : 15},
       ]
     }
   ]
@@ -249,7 +248,7 @@ const BasicCoursesScreen = ({navigation})  => {
                   <Text style={{fontWeight : '700'}}>Posture</Text> : {item.postureData.length}
                 </Text>
                 <Text style={{marginLeft : 10, marginTop : 10}}>
-                  <Text style={{fontWeight : '700'}}>Time Duration</Text> : {formatTime(item.postureData.map(data => data.timeDuration).reduce((prev, curr) => prev + curr))}
+                  <Text style={{fontWeight : '700'}}>Time Duration</Text> : {formatTime(item.postureData.map(data => data.timeDuration).reduce((prev, curr) => (prev+15) + curr))}
                 </Text>
 
               </View>

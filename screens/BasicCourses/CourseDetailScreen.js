@@ -16,9 +16,6 @@ export default function CourseDetailScreen({route, navigation}) {
       }} onPress={() => {console.log(postureData), navigation.navigate("Inner Course", {title : categoryTitle, postureData : postureData})}}>
         <Text style={{fontSize : 18, fontWeight : '600'}}>Start a course</Text>
       </TouchableOpacity>
-      <View style={{width : '100%', marginTop : 20}}>
-        <Text>hee</Text>
-      </View>
     </View>
   );
 }

@@ -7,8 +7,8 @@ import { Ionicons } from '@expo/vector-icons';
 import { Pressable } from 'react-native';
 const MyCoursesScreen = ({ route, navigation }) => {
   const [refreshing, setRefreshing] = useState(false);
-    const user = useSelector((state) => state.user_data.user)
-  
+  const user = useSelector((state) => state.user_data.user)
+
   const [courseData, setCourseData] = useState([])
   const [courseDocId, setCourseDocId] = useState([])
   const [postureData, setPostureData] = useState([])
@@ -22,18 +22,18 @@ const MyCoursesScreen = ({ route, navigation }) => {
       setCourseDocId(snapshot.docs.map(doc => doc.id))
     })
     //Query comment from postId
-    const posture = query(collection(db, 'posture'), where("uid","==",user.uid))
+    const posture = query(collection(db, 'posture'), where("uid", "==", user.uid))
     onSnapshot(posture, (snapshot) => {
       setPostureData(snapshot.docs.map(doc => doc.data()))
       setPostureDocId(snapshot.docs.map(doc => doc.id))
     })
 
-  },[])
+  }, [])
 
   const sumOfSec = (time) => {
-    if(time.length != 0){
-      const min = parseInt(time.reduce((prev, curr) => prev + curr, 0) / 60)
-      const sec = time.reduce((prev, curr) => prev + curr) % 60
+    if (time.length != 0) {
+      const min = parseInt(time.reduce((prev, curr) => (prev+15) + curr, 0) / 60)
+      const sec = time.reduce((prev, curr) => (prev+15) + curr) % 60
       return min == 0 ? " : " + sec + " sec" : " : " + min + " min " + sec + " sec"
     }
   }
@@ -49,17 +49,17 @@ const MyCoursesScreen = ({ route, navigation }) => {
         },
         {
           text: "OK",
-          onPress : () => {
-            try{
+          onPress: () => {
+            try {
               deleteDoc(doc(db, 'mycourse', docId))
 
               //Delete multiple record
-              for(let i=0;i<id.length;i++){
+              for (let i = 0; i < id.length; i++) {
                 deleteDoc(doc(db, 'posture', postureDocId[id[i]]))
               }
               console.log("delete sucess")
             }
-            catch(e){
+            catch (e) {
               console.log(e)
             }
           }
@@ -105,11 +105,11 @@ const MyCoursesScreen = ({ route, navigation }) => {
         <View style={[styles.shadowbox, { width: "100%", padding: 10 }]}>
 
           <FlatList data={courseData}
-          refreshControl={
-            <RefreshControl
-              refreshing={refreshing}
-              onRefresh={() => { pullMe() }} />
-              }
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={() => { pullMe() }} />
+            }
             renderItem={({ item, index }) =>
               <View style={{
                 height: 150,
@@ -123,18 +123,18 @@ const MyCoursesScreen = ({ route, navigation }) => {
                 <View style={[styles.gridItem, { padding: 10, paddingTop: 15 }]}>
                   <View style={{ flexDirection: 'row', }}>
                     <Text style={[styles.txtImg, { marginBottom: 15 }]}>{item.courseName}</Text>
-                      <TouchableOpacity style={{
-                      position : 'absolute',
-                      right : 0,
-                      top : 5
+                    <TouchableOpacity style={{
+                      position: 'absolute',
+                      right: 0,
+                      top: 5
                     }}
                       onPress={() => {
                         deleteMyCourse(courseDocId[index], postureData.map((data, index) => data.byCourseId == item.courseId ? index : null).filter(data => data != null))
                       }}
-                      // options={({ route }) => ({
-                      //   title: route.params.title,
-                      // })}
-                      >
+                    // options={({ route }) => ({
+                    //   title: route.params.title,
+                    // })}
+                    >
                       <Ionicons name='ios-trash-outline' size={20} color={'black'} />
 
                     </TouchableOpacity>
@@ -144,7 +144,7 @@ const MyCoursesScreen = ({ route, navigation }) => {
                   </Text>
                 </View>
 
-                <View style={{flexDirection : 'column'}}>
+                <View style={{ flexDirection: 'column' }}>
                   <Pressable style={{
                     width: '100%',
                     height: 40,
@@ -183,7 +183,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor : 'white'
+    backgroundColor: 'white'
   },
   gridItem: {
     flex: 1,

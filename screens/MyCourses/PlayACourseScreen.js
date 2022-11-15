@@ -29,7 +29,6 @@ export default function PlayACourse({ route, navigation }) {
     if (isActive) {
       mySec = setTimeout(() => {
         setSec((sec) => sec - 1)
-        console.log(count)
         if (count >= postureData.length - 1 && sec == 0) {
           setSec(0)
           setActive(false)
@@ -46,9 +45,16 @@ export default function PlayACourse({ route, navigation }) {
       clearInterval(mySec)
     }
     if (isActive == "reset") {
-      setMin(0)
-      setSec(postureData[count].timeDuration)
-      clearInterval(mySec)
+      if (!recovState) {
+        setMin(0)
+        setSec(15)
+        clearInterval(mySec)
+      }
+      else {
+        setMin(0)
+        setSec(postureData[count].timeDuration)
+        clearInterval(mySec)
+      }
     }
   })
   const setActive = () => {
@@ -70,7 +76,6 @@ export default function PlayACourse({ route, navigation }) {
     setShouldShow(true)
   }
   const nextPose = () => {
-    console.log(postureData[count].timeDuration)
     setIsActive(false)
     setStatus("Resume")
     setShouldShow(true)
@@ -82,8 +87,9 @@ export default function PlayACourse({ route, navigation }) {
         setSec(recov)
       }
       else {
+        setSec(0)
         console.error("Back To Main Page")
-        navigation.navigate("New Course Tab")
+        navigation.navigate("My Courses")
       }
     }
     else {
@@ -97,7 +103,7 @@ export default function PlayACourse({ route, navigation }) {
   return (
     <View style={styles.container}>
       <Text style={{ fontSize: 40, fontWeight: '700' }}>{name}</Text>
-      <Text style={{ fontSize: 80, fontWeight: '500' }}>{Math.floor(sec/60) < 10 ? '0'+Math.floor(sec/60) : Math.floor(sec/60)} : {sec%60 < 10 ? '0'+sec%60 : sec%60}</Text>
+      <Text style={{ fontSize: 80, fontWeight: '500' }}>{Math.floor(sec / 60) < 10 ? '0' + Math.floor(sec / 60) : Math.floor(sec / 60)} : {sec % 60 < 10 ? '0' + sec % 60 : sec % 60}</Text>
       {/* <Stack.Navigator initialRouteName="My Courses" screenOptions={{
         headerShown: false
       }}>
