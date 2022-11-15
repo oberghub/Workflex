@@ -1,10 +1,6 @@
 import { useState } from 'react';
 import { RefreshControl, StyleSheet, Modal, Pressable, Text, View, TouchableOpacity, TextInput, ScrollView, Alert } from 'react-native';
 import { Ionicons } from "@expo/vector-icons";
-import { MYCATEGORIES as data } from "../../data/dummy-data";
-import { EXECISES as data1 } from "../../data/dummy-data";
-import MyCategory from '../../models/myCategory';
-import Execise from '../../models/execise';
 
 //Store data to firebase
 import { db } from '../../database/firebase';
@@ -39,11 +35,7 @@ export default function NewCourseScreen({route, navigation}) {
   }
   //const randomColor = Math.floor(Math.random()*16777215).toString(16);
 
-  //Example Data
-  const [exerciseList, setExerciseList] = useState([
-    // {name : "Jumping Jack", sec : 20, id : 1},
-    // {name : "Sit Up", sec : 25, id : 2}
-  ])
+  const [exerciseList, setExerciseList] = useState([])
 
   const [refreshing, setRefreshing] = useState(false);
   const reloadComp = () => {
@@ -149,10 +141,7 @@ export default function NewCourseScreen({route, navigation}) {
         console.log(e)
       }
 
-      data.push(new MyCategory("mc"+id, courseName, generateLightColorHex()))
       for(let i =0; i < exerciseList.length;i++){
-        console.log(courseId)
-        data1.push(new Execise(exerciseList[i].id, exerciseList[i].name, exerciseList[i].sec, "mc"+id))
         try{
           addDoc(collection(db, "posture"), {
             uid : user.uid,

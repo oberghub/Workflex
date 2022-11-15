@@ -9,12 +9,11 @@ export default function PlayACourse({ route, navigation }) {
   //   const min = Math.floor(time / 60)
   //   const sec = time % 60
   // }
-  const Stack = createNativeStackNavigator();
 
   const [count, setCount] = useState(0);
   const [min, setMin] = useState(0);
-  const [sec, setSec] = useState(postureData[count].sec);
-  const [name, setName] = useState(postureData[count].name);
+  const [sec, setSec] = useState(postureData[count].timeDuration);
+  const [name, setName] = useState(postureData[count].postureName);
   const [recov, setRecov] = useState(15);
   const [recovState, setRecovState] = useState(true)
   const [isActive, setIsActive] = useState(true);
@@ -48,7 +47,7 @@ export default function PlayACourse({ route, navigation }) {
     }
     if (isActive == "reset") {
       setMin(0)
-      setSec(postureData[count].sec)
+      setSec(postureData[count].timeDuration)
       clearInterval(mySec)
     }
   })
@@ -71,7 +70,7 @@ export default function PlayACourse({ route, navigation }) {
     setShouldShow(true)
   }
   const nextPose = () => {
-    console.log(postureData[count].sec)
+    console.log(postureData[count].timeDuration)
     setIsActive(false)
     setStatus("Resume")
     setShouldShow(true)
@@ -89,8 +88,8 @@ export default function PlayACourse({ route, navigation }) {
     }
     else {
       setRecovState(true)
-      setName(postureData[count].name)
-      setSec(postureData[count].sec)
+      setName(postureData[count].postureName)
+      setSec(postureData[count].timeDuration)
     }
 
   }

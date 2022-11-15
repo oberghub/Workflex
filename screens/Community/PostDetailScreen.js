@@ -52,7 +52,13 @@ export default function PostDeatilScreen({route, navigation}) {
     onSnapshot(postq, (snapshot) => {
       let s = snapshot.docs.map(doc => doc.data())
       setPost(s)
-      setLikeC(s[0].likeCount)
+      try{
+        setLikeC(s[0].likeCount < 0 ? 0 : s[0].likeCount)
+      }
+      catch(e){
+        setLikeC(0) 
+        navigation.navigate("Community")
+      }
     })
 
   },[])
@@ -129,7 +135,7 @@ export default function PostDeatilScreen({route, navigation}) {
       updateDoc(doc(db, "post", docId), {
         likeCount : likeUpdate
       })
-      setLikeC(post[0].likeCount)
+      setLikeC(post[0].likeCount < 0 ? 0 : post[0].likeCount)
     }
     catch(e){
       console.log(e)
@@ -142,7 +148,7 @@ export default function PostDeatilScreen({route, navigation}) {
       updateDoc(doc(db, "post", docId), {
         likeCount : likeUpdate
       })
-      setLikeC(post[0].likeCount)
+      setLikeC(!post[0].likeCount < 0 ? 0 : post[0].likeCount)
     }
     catch(e){
       console.log(e)

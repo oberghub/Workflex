@@ -10,11 +10,6 @@ import BasicCoursesScreen from "../screens/BasicCourses/BasicCoursesScreen";
 import CourseDetailScreen from "../screens/BasicCourses/CourseDetailScreen";
 import InnerCourseScreen from "../screens/BasicCourses/InnerCourseScreen";
 
-//Advance Course
-import AdvancedCoursesScreen from "../screens/AdvancedCourses/AdvancedCoursesScreen";
-import AdvCourseDetailScreen from "../screens/AdvancedCourses/AdvCourseDetailScreen";
-import AdvInnerCourseScreen from "../screens/AdvancedCourses/AdvInnerCourseScreen";
-
 //My Course
 import MyCoursesScreen from "../screens/MyCourses/MyCoursesScreen";
 import MyCourseDetail from "../screens/MyCourses/MyCourseDetailScreen";
@@ -103,51 +98,6 @@ const BasicCourses = ({navigation}) => {
           })}/>
         </Stack.Navigator>
     )
-}
-const AdvancedCourses = ({navigation}) => {
-  return(
-      <Stack.Navigator initialRouteName="Advanced Course">
-          <Stack.Screen name="Advanced Course" component={AdvancedCoursesScreen}   options={{
-        headerStyle: {
-          backgroundColor: '#FD841F',
-        },
-        headerTintColor: '#fff',
-        headerTitleStyle: {
-          fontWeight: 'bold',
-        },
-        headerRight : ((props) => {
-          return <Ionicons name="md-reorder-three-outline" size={30} color={'white'} onPress={() => {navigation.openDrawer()}} />
-        }),
-      }}/>
-          <Stack.Screen name="Adv Course Detail" component={AdvCourseDetailScreen}  options={({ route }) => ({
-          title: route.params.categoryTitle.toString(),headerStyle: {
-              backgroundColor: '#FD841F',
-            },
-            headerTintColor: '#fff',
-            headerTitleStyle: {
-              fontWeight: 'bold',
-            },
-            headerRight : ((props) => {
-              return <Ionicons name="md-reorder-three-outline" size={30} color={'white'} onPress={() => {navigation.openDrawer()}} />
-            }),
-      })}/>
-          <Stack.Screen name="Adv Inner Course" component={AdvInnerCourseScreen} options={({route}) => ({
-          title: route.params.title.toString(),headerStyle: {
-            backgroundColor: '#FD841F',
-          },
-          headerStyle: {
-            backgroundColor: '#FD841F',
-          },
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            fontWeight: 'bold',
-          },
-          headerRight : ((props) => {
-            return <Ionicons name="md-reorder-three-outline" size={30} color={'white'} onPress={() => {navigation.openDrawer()}} />
-          }),
-        })}/>
-      </Stack.Navigator>
-  )
 }
 const MyCourses = ({navigation}) => {
     return(
@@ -243,14 +193,6 @@ const MainCoursesTab = () => {
                     },
                     headerShown : false
                 }}/>
-            <Tab.Screen name="Advanced Course Tab" component={AdvancedCourses}
-                options={{
-                    title : "Hard Course",
-                    headerShown : false,
-                    tabBarIcon : ({color, size}) => {
-                        return <Ionicons name="ios-body-outline" size={size} color={color} />
-                    }
-                }}/>
             <Tab.Screen name="Community Tab" component={Community}
                 options={{
                     title : "Community",
@@ -266,29 +208,33 @@ const MainNavigation = () => {
     const user = useSelector(state => state.user_data.user)
     return(
         <NavigationContainer>
-            <Drawer.Navigator drawerContent={props => <DrawerContent {...props}/>}
-              initialRouteName={!user ? "Login" : "Home"}>
+          {!user ? 
+            <Drawer.Navigator drawerContent={props => <DrawerContent {...props}/>}>
+              <Drawer.Screen name="Login" component={LoginScreen} 
+              options={{ 
+                headerStyle: {
+                  backgroundColor: '#FD841F',
+                },
+                headerTintColor : 'white',
+                title : ""
+              }}/>
+              <Drawer.Screen name="SignUp" component={SignUpScreen} 
+              options={{
+                headerStyle: {
+                  backgroundColor: '#FD841F',
+                },
+                headerTintColor : 'white',
+                title : ""
+              }}/>
+            </Drawer.Navigator>
+            :
+            <Drawer.Navigator drawerContent={props => <DrawerContent {...props}/>}>
                 <Drawer.Screen name="Home" component={MainCoursesTab} options={{
                   headerShown : false,
                 }}/>
-                <Drawer.Screen name="Login" component={LoginScreen} 
-                options={{
-                  headerStyle: {
-                    backgroundColor: '#FD841F',
-                  },
-                  headerTintColor : 'white',
-                  title : ""
-                }}/>
-                <Drawer.Screen name="SignUp" component={SignUpScreen} 
-                options={{
-                  headerStyle: {
-                    backgroundColor: '#FD841F',
-                  },
-                  headerTintColor : 'white',
-                  title : ""
-                }}/>
             </Drawer.Navigator>
-        </NavigationContainer>
+          }
+          </NavigationContainer>
     )
 }
 
