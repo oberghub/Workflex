@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, ScrollView, FlatList, RefreshControl, TouchableOpacity, Image } from 'react-native';
 import { db } from '../../database/firebase';
 import { useSelector } from 'react-redux';
-import { collection, addDoc, onSnapshot, query, where, deleteDoc, doc, updateDoc } from 'firebase/firestore';
+import { collection, onSnapshot} from 'firebase/firestore';
 
 export default function MealScreen({ route, navigation }) {
   const [refreshing, setRefreshing] = useState(false);
@@ -16,7 +16,7 @@ export default function MealScreen({ route, navigation }) {
       desc : 'หร่อยจัดหร่อยจัดหร่อยจัดหร่อยจัดหร่อยจัดหร่อยจัดหร่อยจัดหร่อยจัดหร่อยจัดหร่อยจัดหร่อยจัดหร่อยจัดหร่อยจัดหร่อยจัด',
       image : 'https://cdn.britannica.com/31/122031-050-F8FCA663/Hamburger-cheeseburger.jpg',
       ingradient : [
-        { ingradientName : "Ground Beef", weight : 100, calories : 250.5 }, //weight เป็นกรัม
+        { ingradientName : "Ground Beef", weight : 100, calories : 250.5 }, //weight เป็นกรัม //calories ต่อ 100 gram (ถ้าทำจริง)
         { ingradientName : "Bread", weight : 40, calories : 105.64 },
         { ingradientName : "Cheese", weight : 21, calories : 70 },
       ]
@@ -24,13 +24,19 @@ export default function MealScreen({ route, navigation }) {
   ])
 
   useEffect(() => {
-    // const mycourse = query(collection(db, 'mycourse'), where("uid", "==", user.uid))
-    // onSnapshot(mycourse, (snapshot) => {
-    //   setCourseData(snapshot.docs.map(doc => doc.data()))
-    //   setCourseDocId(snapshot.docs.map(doc => doc.id))
-    // })
+    onSnapshot(collection(db, 'foodData'), (snapshot) => {
+        setFoodData(snapshot.docs.map(doc => doc.data()))
+    })
   }, [])
 
+  const findCalories = (data) => {
+    if(!!data){
+      return data.map(data => data.calories * (data.weight/100)).reduce((a, b) => a+b).toFixed(2)
+    }
+    else{
+      return ""
+    }
+  }
   return (
     <View style={styles.container}>
       <View style={[styles.shadowbox, { width: "100%", padding: 10}]}>
@@ -44,25 +50,27 @@ export default function MealScreen({ route, navigation }) {
           renderItem={({ item, index }) =>
               <TouchableOpacity style={{
                 width : "100%",
-                height : 180,
-                backgroundColor : '#white',
+                height : 'auto',
+                backgroundColor : 'white',
                 shadowColor: '#171717',
                 shadowOffset: {width: -2, height: 4},
                 shadowOpacity: 0.2,
                 shadowRadius: 3,
                 marginTop : 15,
-                borderRadius : 10,
-              }} key={index}>
+                borderRadius : 10
+              }} key={index} onPress={() => {navigation.navigate("FoodDetail", {foodData : item, Kcal : findCalories(item.ingradient)})}}>
                 <View style={{flexDirection : 'row'}}>
-                  <View style={{width : '30%', height : 180}}>
+                  <View style={{width : '40%'}}>
                     <Image
-                      style={{width : '100%', height : 180, borderRadius : 10}}
+                      style={{width : '100%', height : 125,
+                      borderBottomLeftRadius : 10,
+                      borderTopLeftRadius : 10}}
                       source={{uri: item.image}}
                     />
                   </View>
-                  <View style={{width : '70%', height : 180, padding : 15}}>
-                      <Text style={{fontSize : 26, fontWeight : '700'}}>{item.foodTitle}</Text>
-                      <Text style={{fontSize : 16, fontWeight : '500', marginTop : 10}}>    {item.desc}</Text>
+                  <View style={{width : '60%', height : 'auto', padding : 15}}>
+                      <Text style={{fontSize : 16, fontWeight : '700'}}>{item.foodTitle} <Text style={{fontSize : 12, fontWeight : '300'}}>{findCalories(item.ingradient)} Kcal</Text></Text>
+                      <Text style={{fontSize : 12, fontWeight : '300', marginTop : 10}} numberOfLines={3}>    {item.desc}</Text>
                   </View>
                 </View>
               </TouchableOpacity>

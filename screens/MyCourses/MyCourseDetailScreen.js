@@ -23,7 +23,7 @@ export default function PlayACourseScreen({route, navigation}) {
         {filtExList.map((item, index) => <View key={index} style={[styles.render]}>
                     <View style={{width : '70%', marginLeft : 15}}>
                       <Text style={{fontSize : 22, fontWeight : '700'}}>{item.postureName}</Text>
-                      <Text style={{fontSize : 16, fontWeight : '500'}}>{item.timeDuration < 60 ? item.timeDuration + " Sec" : parseInt(item.timeDuration/60) + " Min " + item.timeDuration%60 + " Sec"}</Text>
+                      <Text style={{fontSize : 16, fontWeight : '500'}}>{item.timeDuration < 60 ? item.timeDuration + " วินาที" : parseInt(item.timeDuration/60) + " นาที " + item.timeDuration%60 + " วินาที"}</Text>
                     </View>
                   </View>)}
       </ScrollView>

@@ -34,6 +34,7 @@ import { DrawerContent } from "../screens/DrawerContent";
 
 //Redux
 import { useSelector } from "react-redux";
+import { FoodDetail } from "../screens/Food/FoodDetail";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -52,6 +53,7 @@ const NewCourse = ({ navigation }) => {
         headerRight: ((props) => {
           return <Ionicons name="md-reorder-three-outline" size={30} color={'white'} onPress={() => { navigation.openDrawer() }} />
         }),
+        title : "คอร์สใหม่"
       }} />
     </Stack.Navigator>
   )
@@ -71,9 +73,10 @@ const BasicCourses = ({ navigation }) => {
         headerRight: ((props) => {
           return <Ionicons name="md-reorder-three-outline" size={30} color={'white'} onPress={() => { navigation.openDrawer() }} />
         }),
+        title : "คอร์สพื้นฐาน"
       }} />
       <Stack.Screen name="Course Detail" component={CourseDetailScreen} options={({ route }) => ({
-        title: route.params.categoryTitle.toString(), headerStyle: {
+        title: route.params.courseTitle, headerStyle: {
           backgroundColor: '#FD841F',
         },
         headerTintColor: '#fff',
@@ -82,10 +85,10 @@ const BasicCourses = ({ navigation }) => {
         },
         headerRight: ((props) => {
           return <Ionicons name="md-reorder-three-outline" size={30} color={'white'} onPress={() => { navigation.openDrawer() }} />
-        }),
+        })
       })} />
       <Stack.Screen name="Inner Course" component={InnerCourseScreen} options={({ route }) => ({
-        title: route.params.title.toString(), headerStyle: {
+        title: route.params.title, headerStyle: {
           backgroundColor: '#FD841F',
         },
         headerStyle: {
@@ -117,9 +120,10 @@ const MyCourses = ({ navigation }) => {
         headerRight: ((props) => {
           return <Ionicons name="md-reorder-three-outline" size={30} color={'white'} onPress={() => { navigation.openDrawer() }} />
         }),
+        title : "คอร์สของฉัน"
       }} />
       <Stack.Screen name="My Course Detail" component={MyCourseDetail} options={({ route }) => ({
-        title: route.params.title.toString(),
+        title: route.params.title,
         headerStyle: {
           backgroundColor: '#FD841F',
         },
@@ -142,6 +146,7 @@ const MyCourses = ({ navigation }) => {
         headerRight: ((props) => {
           return <Ionicons name="md-reorder-three-outline" size={30} color={'white'} onPress={() => { navigation.openDrawer() }} />
         }),
+        title : "เล่นคอร์ส"
       }} />
     </Stack.Navigator>
   )
@@ -157,7 +162,8 @@ const Community = ({ navigation }) => {
         headerRight: ((props) => {
           return <Ionicons name="md-reorder-three-outline" size={30} color={'white'} onPress={() => { navigation.openDrawer() }} />
         }),
-        headerTintColor: "white"
+        headerTintColor: "white",
+        title : "สังคม"
       }} />
       <Stack.Screen name="Post Detail" component={PostDeatilScreen} options={{
         headerStyle: {
@@ -166,7 +172,8 @@ const Community = ({ navigation }) => {
         headerRight: ((props) => {
           return <Ionicons name="md-reorder-three-outline" size={30} color={'white'} onPress={() => { navigation.openDrawer() }} />
         }),
-        headerTintColor: "white"
+        headerTintColor: "white",
+        title : "รายละเอียดโพสต์"
       }} />
     </Stack.Navigator>
   )
@@ -182,8 +189,18 @@ const Food = ({ navigation }) => {
         headerRight: ((props) => {
           return <Ionicons name="md-reorder-three-outline" size={30} color={'white'} onPress={() => { navigation.openDrawer() }} />
         }),
-        headerTintColor: "white"
+        headerTintColor: "white",
+        title : "อาหารเพื่อสุขภาพ"
       }} />
+      <Stack.Screen name="FoodDetail" component={FoodDetail} options={({route}) => ({
+        headerStyle: {
+          backgroundColor: '#FD841F',
+        },
+        headerRight: ((props) => {
+          return <Ionicons name="md-reorder-three-outline" size={30} color={'white'} onPress={() => { navigation.openDrawer() }} />
+        }),
+        headerTintColor: "white", title : route.params.foodData.foodTitle
+      })} />
     </Stack.Navigator>
   )
 }
@@ -192,7 +209,7 @@ const MainCoursesTab = () => {
     <Tab.Navigator initialRouteName="My Course Tab">
       <Tab.Screen name="New Course Tab" component={NewCourse}
         options={{
-          title: "New Course",
+          title: "เพิ่มคอร์ส",
           tabBarIcon: ({ color, size }) => {
             return <Ionicons name="ios-add-outline" size={size} color={color} />
           },
@@ -200,7 +217,7 @@ const MainCoursesTab = () => {
         }} />
       <Tab.Screen name="Basic Course Tab" component={BasicCourses}
         options={{
-          title: "Basic Course",
+          title: "คอร์สพื้นฐาน",
           tabBarIcon: ({ color, size }) => {
             return <Ionicons name="ios-barbell-outline" size={size} color={color} />
           },
@@ -208,7 +225,7 @@ const MainCoursesTab = () => {
         }} />
       <Tab.Screen name="My Course Tab" component={MyCourses}
         options={{
-          title: "My Course",
+          title: "คอร์สของฉัน",
           tabBarIcon: ({ color, size }) => {
             return <Ionicons name="ios-home" size={size} color={color} />
           },
@@ -216,7 +233,7 @@ const MainCoursesTab = () => {
         }} />
       <Tab.Screen name="Food Tab" component={Food}
         options={{
-          title: "Healthy Food",
+          title: "อาหาร",
           tabBarIcon: ({ color, size }) => {
             return <MaterialCommunityIcons name="food-outline" size={size} color={color} />
           },
@@ -224,7 +241,7 @@ const MainCoursesTab = () => {
         }} />
       <Tab.Screen name="Community Tab" component={Community}
         options={{
-          title: "Community",
+          title: "สังคม",
           tabBarIcon: ({ color, size }) => {
             return <Ionicons name="ios-people-outline" size={size} color={color} />
           },

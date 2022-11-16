@@ -1,5 +1,4 @@
 import { Ionicons } from '@expo/vector-icons';
-import { StatusBar } from 'expo-status-bar';
 import { TouchableOpacity } from 'react-native';
 import { StyleSheet, Text, View, ScrollView} from 'react-native';
 export default function InnerCourseScreen({route, navigation}) {
@@ -25,7 +24,7 @@ export default function InnerCourseScreen({route, navigation}) {
         {postureData.map((item, index) => <View key={index} style={styles.render}>
                     <View style={{width : '70%', marginLeft : 15}}>
                       <Text style={{fontSize : 22, fontWeight : '700'}}>{formatTitle(item.postureName)}</Text>
-                      <Text style={{fontSize : 16, fontWeight : '500'}}>{item.timeDuration < 60 ? item.timeDuration + " Sec" : parseInt(item.timeDuration/60) + " Min " + item.timeDuration%60 + " Sec"}</Text>
+                      <Text style={{fontSize : 16, fontWeight : '500'}}>{item.timeDuration < 60 ? item.timeDuration + " วินาที" : parseInt(item.timeDuration/60) + " นาที " + item.timeDuration%60 + " วินาที"}</Text>
                     </View>
                   </View>)}
       </ScrollView>

@@ -1,14 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { TouchableOpacity } from 'react-native';
-import { StyleSheet, Text, View } from 'react-native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { StyleSheet, Text, View, Image } from 'react-native';
 
 export default function PlayACourse({ route, navigation }) {
   const { postureData } = route.params
-  // const timeConvert = (time) => {
-  //   const min = Math.floor(time / 60)
-  //   const sec = time % 60
-  // }
 
   const [count, setCount] = useState(0);
   const [min, setMin] = useState(0);
@@ -17,7 +12,7 @@ export default function PlayACourse({ route, navigation }) {
   const [recov, setRecov] = useState(15);
   const [recovState, setRecovState] = useState(true)
   const [isActive, setIsActive] = useState(true);
-  const [status, setStatus] = useState("Stop");
+  const [status, setStatus] = useState("หยุด");
   const [shouldShow, setShouldShow] = useState(true);
 
   useEffect(() => {
@@ -60,15 +55,15 @@ export default function PlayACourse({ route, navigation }) {
   const setActive = () => {
     if (isActive) {
       setIsActive(false)
-      setStatus("Resume")
+      setStatus("เล่นต่อ")
     }
     else if (!isActive) {
       setIsActive(true)
-      setStatus("Stop")
+      setStatus("หยุด")
     }
     else {
       setIsActive(true)
-      setStatus("Resume")
+      setStatus("เล่นต่อ")
     }
   }
   const toReset = () => {
@@ -77,7 +72,7 @@ export default function PlayACourse({ route, navigation }) {
   }
   const nextPose = () => {
     setIsActive(false)
-    setStatus("Resume")
+    setStatus("เล่นต่อ")
     setShouldShow(true)
     if (recovState) {
       setRecovState(false)
@@ -102,6 +97,15 @@ export default function PlayACourse({ route, navigation }) {
 
   return (
     <View style={styles.container}>
+      {/* รูปภาพ */}
+      {/* <View style={{
+          width : '100%'
+      }}>
+          <Image
+              style={{width : '100%', height : 200, borderRadius : 10}}
+              source={{uri: foodData.image}}
+          />
+      </View> */}
       <Text style={{ fontSize: 40, fontWeight: '700' }}>{name}</Text>
       <Text style={{ fontSize: 80, fontWeight: '500' }}>{Math.floor(sec / 60) < 10 ? '0' + Math.floor(sec / 60) : Math.floor(sec / 60)} : {sec % 60 < 10 ? '0' + sec % 60 : sec % 60}</Text>
       {/* <Stack.Navigator initialRouteName="My Courses" screenOptions={{
@@ -139,7 +143,7 @@ export default function PlayACourse({ route, navigation }) {
         <Text style={{
           fontSize: 22,
           fontWeight: '500'
-        }}>Reset</Text>
+        }}>รีเซ็ต</Text>
       </TouchableOpacity>
       <TouchableOpacity style={{
         height: 50,
@@ -153,7 +157,7 @@ export default function PlayACourse({ route, navigation }) {
         <Text style={{
           fontSize: 22,
           fontWeight: '500'
-        }}>Go Next</Text>
+        }}>ท่าต่อไป</Text>
       </TouchableOpacity>
     </View>
   );

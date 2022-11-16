@@ -92,16 +92,16 @@ export default function CommunityScreen({route, navigation}) {
 
   const deleteAPost = (docId, commentDocIndex) => {
     Alert.alert(
-      "Remove",
-      "Do you want to remove a Post?",
+      "ลบ",
+      "ต้องการลบโพสต์ของคุณหรือไม่",
       [
         {
-          text : 'Cancel',
+          text : 'ยกเลิก',
           onPress : () => {console.log("ม่ายได้ลบ งือ")},
           style : "cancel"
         },
         {
-          text : "Confirm",
+          text : "ตกลง",
           onPress : () => {
             try{
               deleteDoc(doc(db, 'post', docId))
@@ -157,7 +157,7 @@ export default function CommunityScreen({route, navigation}) {
                     paddingLeft : 20,
                     paddingTop : 10}}>
         <View style={{width : '50%'}}>
-            <Text style={{fontSize : 28, fontWeight : '700'}}>Feeds</Text>
+            <Text style={{fontSize : 28, fontWeight : '700'}}>ฟีด</Text>
         </View>
       </View>
 
@@ -170,7 +170,7 @@ export default function CommunityScreen({route, navigation}) {
                             marginTop : -10,
                             paddingLeft : 10,
                             paddingTop : 10}}
-                      placeholder="Write your post"
+                      placeholder="เขียนโพสต์ที่นี่!"
                       multiline={true}
                       numberOfLines={4}
                       onChangeText={setNewPost}
@@ -182,7 +182,7 @@ export default function CommunityScreen({route, navigation}) {
                                     justifyContent : 'center',
                                     width : '20%', marginTop : -10, marginLeft : 14}}
                                     onPress={() => {sendAPost()}}>
-            <Text style={{color : 'white', fontWeight : '600', fontSize : 16}}>Post</Text>
+            <Text style={{color : 'white', fontWeight : '600', fontSize : 16}}>โพสต์</Text>
           </TouchableOpacity>
       </View>
 

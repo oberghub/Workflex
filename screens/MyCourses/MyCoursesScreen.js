@@ -34,21 +34,21 @@ const MyCoursesScreen = ({ route, navigation }) => {
     if (time.length != 0) {
       const min = parseInt(time.reduce((prev, curr) => (prev+15) + curr, 0) / 60)
       const sec = time.reduce((prev, curr) => (prev+15) + curr) % 60
-      return min == 0 ? " : " + sec + " sec" : " : " + min + " min " + sec + " sec"
+      return min == 0 ? " : " + sec + " วินาที" : " : " + min + " นาที " + sec + " วินาที"
     }
   }
   const deleteMyCourse = (docId, id) => {
     Alert.alert(
-      "Remove",
-      "Do you want to remove a course?",
+      "ลบ",
+      "ต้องการลบคอร์สของคุณหรือไม่",
       [
         {
-          text: 'Cancel',
+          text: 'ยกเลิก',
           onPress: () => { console.log("Process has canceled.") },
           style: "cancel"
         },
         {
-          text: "OK",
+          text: "ตกลง",
           onPress: () => {
             try {
               deleteDoc(doc(db, 'mycourse', docId))
@@ -78,7 +78,7 @@ const MyCoursesScreen = ({ route, navigation }) => {
   if (courseData.length == 0) {
     return (
       <View style={styles.container}>
-        <Text style={{ fontSize: 18, fontWeight: '500', color: 'lightgray' }}>OOPS! Not found a course</Text>
+        <Text style={{ fontSize: 18, fontWeight: '500', color: 'lightgray' }}>โอ้! ไม่พบคอร์สของคุณ กดที่ + เพื่อเพิ่ม</Text>
         <TouchableOpacity onPress={() => {
           navigation.navigate("New Course")
         }}>
@@ -112,7 +112,7 @@ const MyCoursesScreen = ({ route, navigation }) => {
             }
             renderItem={({ item, index }) =>
               <View style={{
-                height: 150,
+                height: 'auto',
                 width: '100%',
                 borderWidth: 1,
                 borderColor: 'lightgray',
@@ -120,9 +120,11 @@ const MyCoursesScreen = ({ route, navigation }) => {
                 marginBottom: 15,
                 backgroundColor: item.backgroundColor
               }} key={index}>
-                <View style={[styles.gridItem, { padding: 10, paddingTop: 15 }]}>
+                <View style={[{ padding: 10, paddingTop: 15 }]}>
                   <View style={{ flexDirection: 'row', }}>
-                    <Text style={[styles.txtImg, { marginBottom: 15 }]}>{item.courseName}</Text>
+                    <View style={{width : '80%', height : 'auto'}}>
+                      <Text style={[styles.txtImg, { marginBottom: 15 }]}>{item.courseName}</Text>
+                    </View>
                     <TouchableOpacity style={{
                       position: 'absolute',
                       right: 0,
@@ -131,15 +133,12 @@ const MyCoursesScreen = ({ route, navigation }) => {
                       onPress={() => {
                         deleteMyCourse(courseDocId[index], postureData.map((data, index) => data.byCourseId == item.courseId ? index : null).filter(data => data != null))
                       }}
-                    // options={({ route }) => ({
-                    //   title: route.params.title,
-                    // })}
                     >
                       <Ionicons name='ios-trash-outline' size={20} color={'black'} />
 
                     </TouchableOpacity>
                   </View>
-                  <Text style={{ fontSize: 18, fontWeight: '500' }}>{postureData.filter(posture => posture.byCourseId == item.courseId).length} Posture
+                  <Text style={{ fontSize: 18, fontWeight: '500' }}>{postureData.filter(posture => posture.byCourseId == item.courseId).length} ท่า
                     {sumOfSec(postureData.filter(data => data.byCourseId == item.courseId).map(data => data.timeDuration))}
                   </Text>
                 </View>
@@ -184,12 +183,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: 'white'
-  },
-  gridItem: {
-    flex: 1,
-    marginBottom: 10,
-    paddingTop: 5,
-    height: 170,
   },
   txtImg: {
     //fontFamily: 'Kanit_400Regular', //เอาไว้ค่อย import มาใหม่

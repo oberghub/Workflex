@@ -166,7 +166,7 @@ export default function NewCourseScreen({route, navigation}) {
       <View style={{width : '100%', 
                     padding : 10, 
                     }}>
-        <Text>Course Name {!courseNameValidate ? <Text style={{color:'red'}}>*required</Text> : ""}</Text>
+        <Text>ชื่อคอร์ส {!courseNameValidate ? <Text style={{color:'red'}}>*ต้องการ</Text> : ""}</Text>
         {/* Course name input */}
         <TextInput
           style={styles.coursenameinput}
@@ -180,7 +180,7 @@ export default function NewCourseScreen({route, navigation}) {
                     padding : 10, 
                     marginBottom : 10, 
                     }}>
-       <Text>Posture {postureValidate ? "" : <Text style={{color:'red'}}>*required</Text>}</Text>  
+       <Text>ท่าออกกำลังกาย {postureValidate ? "" : <Text style={{color:'red'}}>*ต้องการ</Text>}</Text>  
 
        <View style={{flexDirection : 'row'}}>
         {/* Posture Input */}
@@ -189,7 +189,7 @@ export default function NewCourseScreen({route, navigation}) {
             onChangeText={setPosture}
             value={posture}
           />
-          <View style={[styles.timecon, {justifyContent : 'flex-end'}]}>
+          <View style={[styles.timecon, {}]}>
             <TextInput
               style={styles.secinput}
               width="60%"
@@ -197,7 +197,7 @@ export default function NewCourseScreen({route, navigation}) {
               value={sec}
               keyboardType='numeric'
             />
-            <Text style={{marginTop : 25}}>Sec</Text>
+            <Text style={{marginTop : 25}}>วิ</Text>
           </View>
        </View>
        {/* Save posture */}
@@ -210,7 +210,7 @@ export default function NewCourseScreen({route, navigation}) {
       </View>
 
       {/* Show a posture */}
-      {exerciseList.length == 0 ? <Text style={{textAlign : 'center', fontSize : 32, fontWeight : '700', color : 'lightgray'}}>No posture yet.</Text> : 
+      {exerciseList.length == 0 ? <Text style={{textAlign : 'center', fontSize : 32, fontWeight : '700', color : 'lightgray'}}>ยังไม่ได้เพิ่มท่าออกกำลังกาย</Text> : 
       <ScrollView style={{width : '100%', padding : 10}}>
       {exerciseList.map((item, index) => <View key={index} style={[styles.render, {height : 'auto'}]}>
                   <View style={{width : '70%', marginLeft : 15}}>

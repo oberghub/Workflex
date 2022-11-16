@@ -6,7 +6,7 @@ import { TextInput } from 'react-native';
 import { FlatList } from 'react-native';
 //Store data to firebase
 import { db } from '../../database/firebase';
-import { collection, addDoc, onSnapshot, query, where, deleteDoc, doc, updateDoc } from 'firebase/firestore';
+import { collection, addDoc, onSnapshot, query, where, deleteDoc, doc, updateDoc, orderBy } from 'firebase/firestore';
 
 import { useSelector } from 'react-redux';
 
@@ -36,18 +36,9 @@ export default function PostDeatilScreen({ route, navigation }) {
   useEffect(() => {
 
     //Query comment from postId
-    const q = query(collection(db, 'comment'), where("postId", "==", postData.postId))
+    const q = query(collection(db, 'comment') , where("postId", "==", postData.postId))
     onSnapshot(q, (snapshot) => {
-      setCommentData(snapshot.docs.map(doc => doc.data()).sort((a, b) => {
-        if (a.timeStamp < b.timeStamp) {
-          return -1;
-        }
-        if (a.timeStamp > b.timeStamp) {
-          return 1;
-        }
-        // names must be equal
-        return 0;
-      }))
+      setCommentData(snapshot.docs.map(doc => doc.data()))
       setCommentDocId(snapshot.docs.map(doc => doc.id))
     })
 
@@ -74,16 +65,16 @@ export default function PostDeatilScreen({ route, navigation }) {
 
   const deleteAPost = () => {
     Alert.alert(
-      "Remove",
-      "Do you want to remove a Post?",
+      "ลบ",
+      "ต้องการลบโพสต์ของคุณหรือไม่",
       [
         {
-          text: 'Cancel',
+          text: 'ยกเลิก',
           onPress: () => { console.log("ม่ายได้ลบ งือ") },
           style: "cancel"
         },
         {
-          text: "Confirm",
+          text: "ตกลง",
           onPress: () => {
             try {
               deleteDoc(doc(db, 'post', docId))
@@ -163,6 +154,31 @@ export default function PostDeatilScreen({ route, navigation }) {
       console.log(e)
     }
   }
+
+  const deleteComment = (commentD) => {
+    Alert.alert(
+      "ลบ",
+      "ต้องการลบความเห็นของคุณหรือไม่",
+      [
+        {
+          text: 'ยกเลิก',
+          onPress: () => { console.log("ม่ายได้ลบ งือ") },
+          style: "cancel"
+        },
+        {
+          text: "ตกลง",
+          onPress: () => {
+            try{
+              deleteDoc(doc(db, 'comment', commentD))
+            }
+            catch(e){
+              console.log(e)
+            }
+          }
+        }
+      ]
+    )
+  }
   return (
     <View style={styles.container}>
 
@@ -235,7 +251,7 @@ export default function PostDeatilScreen({ route, navigation }) {
             marginTop: 20,
             paddingLeft: 10
           }}
-            placeholder="Write a comment"
+            placeholder="เขียนความเห็นที่นี่"
             onChangeText={setNewComment}
             value={newComment} />
           <TouchableOpacity style={{
@@ -250,7 +266,7 @@ export default function PostDeatilScreen({ route, navigation }) {
             marginTop: 20
           }}
             onPress={() => { sendAComment() }}>
-            <Text style={{ color: 'white', fontWeight: '600', fontSize: 16 }}>Send</Text>
+            <Text style={{ color: 'white', fontWeight: '600', fontSize: 16 }}>ส่ง</Text>
           </TouchableOpacity>
         </View>
 
@@ -265,6 +281,15 @@ export default function PostDeatilScreen({ route, navigation }) {
           }}>
             <View style={{ flexDirection: 'row' }}>
               <Text style={{ fontWeight: '700' }}>{item.byUserName}</Text>
+              {item.uid == user.uid ?
+                <View style={{ marginLeft: 10 }}>
+                  <TouchableOpacity onPress={() => { deleteComment(commentDocId[index]) }}>
+                    <Ionicons name='ios-trash-outline' size={17} color={'lightgray'} />
+                  </TouchableOpacity>
+                </View>
+                :
+                null
+              }
               <Text style={{ position: 'absolute', right: 0, fontWeight: '500' }}>{item.timeStamp}</Text>
             </View>
             <View style={{ flexDirection: 'row', marginTop: 10 }}>
