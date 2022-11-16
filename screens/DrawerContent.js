@@ -1,15 +1,18 @@
-import { Ionicons } from "@expo/vector-icons"
-import React, { useState } from "react"
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons"
+import React, { useState, useEffect } from "react"
 import { Text, TouchableOpacity, View } from "react-native"
-import { signOut, onAuthStateChanged } from "firebase/auth";
+import { signOut, onAuthStateChanged, updateProfile } from "firebase/auth";
 import { auth } from "../database/firebase";
+import { TextInput } from "react-native-gesture-handler";
+//Store data to firebase
 export const DrawerContent = (props) => {
     const [account, setAccount] = useState(false)
     const [userData, setUserData] = useState("")
+
+
     const signOutAcc = () => {
         signOut(auth)
         .then(() => {
-            // console.log("sign out")
             setAccount(true)
             props.navigation.navigate("Login")
         })
@@ -55,7 +58,10 @@ export const DrawerContent = (props) => {
             <View>
                 <View style={{width : "100%", paddingLeft : 30, paddingTop : 20, marginBottom : 20}}>
                     <Text style={{fontSize : 40, fontWeight : '600'}}>Profile</Text>
-                    <Text style={{fontSize : 18, fontWeight : '700', color : '#464646', marginTop :10}}>@{userData.displayName}</Text>
+
+                    <View style={{flexDirection : "row"}}>
+                        <Text style={{fontSize : 18, fontWeight : '700', color : '#464646', marginTop :10}}>@{userData.displayName}</Text>
+                    </View>
                     {/* <View style={{flexDirection : 'row'}}>
                         <Text style={{fontSize : 16, fontWeight : '500', color : '#717171', marginTop :15}}>H : {account.height} cm</Text>
                         <Text style={{fontSize : 16, fontWeight : '500', color : '#717171', marginTop :15, marginLeft : 15}}>W : {account.weight} kg</Text>

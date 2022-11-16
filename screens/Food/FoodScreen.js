@@ -14,11 +14,14 @@ export default function MealScreen({ route, navigation }) {
   const [postureData, setPostureData] = useState([])
   const [postureDocId, setPostureDocId] = useState([])
 
-  const mycourse = query(collection(db, 'mycourse'), where("uid", "==", user.uid))
-  onSnapshot(mycourse, (snapshot) => {
-    setCourseData(snapshot.docs.map(doc => doc.data()))
-    setCourseDocId(snapshot.docs.map(doc => doc.id))
+  useEffect(() => {
+    // const mycourse = query(collection(db, 'mycourse'), where("uid", "==", user.uid))
+    // onSnapshot(mycourse, (snapshot) => {
+    //   setCourseData(snapshot.docs.map(doc => doc.data()))
+    //   setCourseDocId(snapshot.docs.map(doc => doc.id))
+    // })
   })
+
   return (
     <View style={styles.container}>
       <View style={[styles.shadowbox, { width: "100%", padding: 10 }]}>

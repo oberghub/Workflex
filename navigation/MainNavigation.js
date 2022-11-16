@@ -173,9 +173,9 @@ const Community = ({ navigation }) => {
 }
 const Food = ({ navigation }) => {
   return (
-    <Stack.Navigator initialRouteName="Healthy Food">
+    <Stack.Navigator initialRouteName="HealthyFood">
       {/* เดะมาเปลี่ยนชื่อ detail กับ inner */}
-      <Stack.Screen name="Food" component={FoodScreen} options={{
+      <Stack.Screen name="HealtyFood" component={FoodScreen} options={{
         headerStyle: {
           backgroundColor: '#FD841F',
         },
@@ -214,11 +214,11 @@ const MainCoursesTab = () => {
           },
           headerShown: false
         }} />
-      <Tab.Screen name="Healthy Food" component={Food}
+      <Tab.Screen name="Food Tab" component={Food}
         options={{
           title: "Healthy Food",
           tabBarIcon: ({ color, size }) => {
-            return <MaterialCommunityIcons name="food-variant" size={size} color={color} />
+            return <MaterialCommunityIcons name="food-outline" size={size} color={color} />
           },
           headerShown: false
         }} />

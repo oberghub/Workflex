@@ -135,11 +135,11 @@ export default function PlayACourse({ route, navigation }) {
         justifyContent: 'center',
         borderRadius: 5,
         marginTop: 20,
-      }}>
+      }}  onPress={() => {toReset()}}>
         <Text style={{
           fontSize: 22,
           fontWeight: '500'
-        }} onPress={toReset}>Reset</Text>
+        }}>Reset</Text>
       </TouchableOpacity>
       <TouchableOpacity style={{
         height: 50,
@@ -149,11 +149,11 @@ export default function PlayACourse({ route, navigation }) {
         justifyContent: 'center',
         borderRadius: 5,
         marginTop: 20,
-      }}>
+      }} onPress={() => {nextPose()}}>
         <Text style={{
           fontSize: 22,
           fontWeight: '500'
-        }} onPress={nextPose}>Go Next</Text>
+        }}>Go Next</Text>
       </TouchableOpacity>
     </View>
   );
