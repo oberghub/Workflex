@@ -1,6 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, ScrollView, FlatList, RefreshControl, TouchableOpacity, Pressable } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, FlatList, RefreshControl, TouchableOpacity, Pressable, Image } from 'react-native';
 import { db } from '../../database/firebase';
 import { useSelector } from 'react-redux';
 import { collection, addDoc, onSnapshot, query, where, deleteDoc, doc, updateDoc } from 'firebase/firestore';
@@ -14,6 +14,20 @@ export default function MealScreen({ route, navigation }) {
   const [postureData, setPostureData] = useState([])
   const [postureDocId, setPostureDocId] = useState([])
 
+  //ข้อมูลตัวอย่าง
+  const [foodData, setFoodData] = useState([
+    { //ย้ำ ข้อมูลตัวอย่าง
+      foodTitle : 'Beef Burger',
+      desc : 'หร่อยจัดหร่อยจัดหร่อยจัดหร่อยจัดหร่อยจัดหร่อยจัดหร่อยจัดหร่อยจัดหร่อยจัดหร่อยจัดหร่อยจัดหร่อยจัดหร่อยจัดหร่อยจัด',
+      image : 'https://cdn.britannica.com/31/122031-050-F8FCA663/Hamburger-cheeseburger.jpg',
+      ingradient : [
+        { ingradientName : "Ground Beef", weight : 100, calories : 250.5 }, //weight เป็นกรัม
+        { ingradientName : "Bread", weight : 40, calories : 105.64 },
+        { ingradientName : "Cheese", weight : 21, calories : 70 },
+      ]
+    }
+  ])
+
   useEffect(() => {
     // const mycourse = query(collection(db, 'mycourse'), where("uid", "==", user.uid))
     // onSnapshot(mycourse, (snapshot) => {
@@ -24,57 +38,39 @@ export default function MealScreen({ route, navigation }) {
 
   return (
     <View style={styles.container}>
-      <View style={[styles.shadowbox, { width: "100%", padding: 10 }]}>
+      <View style={[styles.shadowbox, { width: "100%", padding: 10}]}>
 
-        <FlatList data={courseData}
+        <FlatList data={foodData}
           refreshControl={
             <RefreshControl
               refreshing={refreshing}
               onRefresh={() => { pullMe() }} />
           }
           renderItem={({ item, index }) =>
-            <View style={{
-              height: 150,
-              width: '100%',
-              borderWidth: 1,
-              borderColor: 'lightgray',
-              borderRadius: 10,
-              marginBottom: 15,
-              backgroundColor: item.backgroundColor
-            }} key={index}>
-              <View style={[styles.gridItem, { padding: 10, paddingTop: 15 }]}>
-                <View style={{ flexDirection: 'row', }}>
-                  <Text style={[styles.txtImg, { marginBottom: 15 }]}>{item.courseName}</Text>
-                  <TouchableOpacity style={{
-                    position: 'absolute',
-                    right: 0,
-                    top: 5
-                  }}>
-                    <Ionicons name='ios-trash-outline' size={20} color={'black'} />
-
-                  </TouchableOpacity>
+              <TouchableOpacity style={{
+                width : "100%",
+                height : 180,
+                backgroundColor : '#white',
+                shadowColor: '#171717',
+                shadowOffset: {width: -2, height: 4},
+                shadowOpacity: 0.2,
+                shadowRadius: 3,
+                marginTop : 15,
+                borderRadius : 10,
+              }} key={index}>
+                <View style={{flexDirection : 'row'}}>
+                  <View style={{width : '30%', height : 180}}>
+                    <Image
+                      style={{width : '100%', height : 180, borderRadius : 10}}
+                      source={{uri: item.image}}
+                    />
+                  </View>
+                  <View style={{width : '70%', height : 180, padding : 15}}>
+                      <Text style={{fontSize : 26, fontWeight : '700'}}>{item.foodTitle}</Text>
+                      <Text style={{fontSize : 16, fontWeight : '500', marginTop : 10}}>    {item.desc}</Text>
+                  </View>
                 </View>
-                <Text style={{ fontSize: 18, fontWeight: '500' }}>{postureData.filter(posture => posture.byCourseId == item.courseId).length}
-                </Text>
-              </View>
-
-              <View style={{ flexDirection: 'column' }}>
-                <Pressable style={{
-                  width: '100%',
-                  height: 40,
-                  backgroundColor: 'lightblue',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  borderRadius: 5
-                }}
-                  options={({ route }) => ({
-                    title: route.params.title,
-                  })}>
-                  <Ionicons name='ios-enter-outline' size={20} color={'black'} />
-                </Pressable>
-              </View>
-            </View>
-
+              </TouchableOpacity>
           } />
       </View>
     </View>
