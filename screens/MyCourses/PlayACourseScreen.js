@@ -9,6 +9,7 @@ export default function PlayACourse({ route, navigation }) {
   const [min, setMin] = useState(0);
   const [sec, setSec] = useState(postureData[count].timeDuration);
   const [name, setName] = useState(postureData[count].postureName);
+  const [img, setImg] = useState(postureData[count].imgEx)
   const [recov, setRecov] = useState(15);
   const [recovState, setRecovState] = useState(true)
   const [isActive, setIsActive] = useState(true);
@@ -79,6 +80,7 @@ export default function PlayACourse({ route, navigation }) {
       if (count < postureData.length - 1) {
         setCount(count + 1)
         setName("พัก")
+        setImg("")
         setSec(recov)
       }
       else {
@@ -90,6 +92,7 @@ export default function PlayACourse({ route, navigation }) {
     else {
       setRecovState(true)
       setName(postureData[count].postureName)
+      setImg(postureData[count].imgEx)
       setSec(postureData[count].timeDuration)
     }
 
@@ -106,8 +109,10 @@ export default function PlayACourse({ route, navigation }) {
               source={{uri: foodData.image}}
           />
       </View> */}
-      <Text style={{ fontSize: 40, fontWeight: '700' }}>{name}</Text>
-      <Text style={{ fontSize: 80, fontWeight: '500' }}>{Math.floor(sec / 60) < 10 ? '0' + Math.floor(sec / 60) : Math.floor(sec / 60)} : {sec % 60 < 10 ? '0' + sec % 60 : sec % 60}</Text>
+      <Text style={{ fontSize: 25, fontWeight: '500' }}>{name}</Text>
+      <Image source={{ uri: img }} style={styles.img}/>
+
+      <Text style={{ fontSize: 50, fontWeight: '500' }}>{Math.floor(sec / 60) < 10 ? '0' + Math.floor(sec / 60) : Math.floor(sec / 60)} : {sec % 60 < 10 ? '0' + sec % 60 : sec % 60}</Text>
       {/* <Stack.Navigator initialRouteName="My Courses" screenOptions={{
         headerShown: false
       }}>
@@ -169,5 +174,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  img: {
+    width: 250,
+    height: 180,
+    borderRadius : 3,
   },
 });
