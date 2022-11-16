@@ -1,6 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, ScrollView, FlatList, RefreshControl, TouchableOpacity, Pressable, Image } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, FlatList, RefreshControl, TouchableOpacity, Image } from 'react-native';
 import { db } from '../../database/firebase';
 import { useSelector } from 'react-redux';
 import { collection, addDoc, onSnapshot, query, where, deleteDoc, doc, updateDoc } from 'firebase/firestore';
@@ -8,11 +8,6 @@ import { collection, addDoc, onSnapshot, query, where, deleteDoc, doc, updateDoc
 export default function MealScreen({ route, navigation }) {
   const [refreshing, setRefreshing] = useState(false);
   const user = useSelector((state) => state.user_data.user)
-
-  const [courseData, setCourseData] = useState([])
-  const [courseDocId, setCourseDocId] = useState([])
-  const [postureData, setPostureData] = useState([])
-  const [postureDocId, setPostureDocId] = useState([])
 
   //ข้อมูลตัวอย่าง
   const [foodData, setFoodData] = useState([
@@ -34,7 +29,7 @@ export default function MealScreen({ route, navigation }) {
     //   setCourseData(snapshot.docs.map(doc => doc.data()))
     //   setCourseDocId(snapshot.docs.map(doc => doc.id))
     // })
-  })
+  }, [])
 
   return (
     <View style={styles.container}>
