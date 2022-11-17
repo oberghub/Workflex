@@ -4,6 +4,10 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+// import LinearGradient from 'react-native-linear-gradient';
+import { StyleSheet } from "react-native"
+import { LinearGradient } from "expo-linear-gradient";
+
 
 //Basic Course
 import BasicCoursesScreen from "../screens/BasicCourses/BasicCoursesScreen";
@@ -43,9 +47,11 @@ const NewCourse = ({ navigation }) => {
   return (
     <Stack.Navigator>
       <Stack.Screen name="New Course" component={NewCourseScreen} options={{
-        headerStyle: {
-          backgroundColor: '#FD841F',
-        },
+        headerBackground: () => 
+          <LinearGradient
+          colors={['#FF512F','#DD2476']}
+          style={{height: '100%'}}
+        />,
         headerTintColor: '#fff',
         headerTitleStyle: {
           fontWeight: 'bold',
@@ -53,8 +59,13 @@ const NewCourse = ({ navigation }) => {
         headerRight: ((props) => {
           return <Ionicons name="md-reorder-three-outline" size={30} color={'white'} onPress={() => { navigation.openDrawer() }} />
         }),
-        title : "คอร์สใหม่"
+        title: "คอร์สใหม่"
       }} />
+      {/* <GradientHeader
+   title="Title"
+   subtitle="Have a nice day Kuray"
+   gradientColors={["#00416A", "#E4E5E6"]}
+ />; */}
     </Stack.Navigator>
   )
 }
@@ -63,9 +74,11 @@ const BasicCourses = ({ navigation }) => {
     <Stack.Navigator initialRouteName="Basic Course">
       {/* เดะมาเปลี่ยนชื่อ detail กับ inner */}
       <Stack.Screen name="Basic Course" component={BasicCoursesScreen} options={{
-        headerStyle: {
-          backgroundColor: '#FD841F',
-        },
+        headerBackground: () => 
+        <LinearGradient
+        colors={['#FF512F','#DD2476']}
+        style={{height: '100%'}}
+      />,
         headerTintColor: '#fff',
         headerTitleStyle: {
           fontWeight: 'bold',
@@ -73,12 +86,15 @@ const BasicCourses = ({ navigation }) => {
         headerRight: ((props) => {
           return <Ionicons name="md-reorder-three-outline" size={30} color={'white'} onPress={() => { navigation.openDrawer() }} />
         }),
-        title : "คอร์สพื้นฐาน"
+        title: "คอร์สพื้นฐาน"
       }} />
       <Stack.Screen name="Course Detail" component={CourseDetailScreen} options={({ route }) => ({
-        title: route.params.courseTitle, headerStyle: {
-          backgroundColor: '#FD841F',
-        },
+        title: route.params.courseTitle, 
+        headerBackground: () => 
+        <LinearGradient
+        colors={['#FF512F','#DD2476']}
+        style={{height: '100%'}}
+      />,
         headerTintColor: '#fff',
         headerTitleStyle: {
           fontWeight: 'bold',
@@ -91,9 +107,11 @@ const BasicCourses = ({ navigation }) => {
         title: route.params.title, headerStyle: {
           backgroundColor: '#FD841F',
         },
-        headerStyle: {
-          backgroundColor: '#FD841F',
-        },
+        headerBackground: () => 
+        <LinearGradient
+        colors={['#FF512F','#DD2476']}
+        style={{height: '100%'}}
+      />,
         headerTintColor: '#fff',
         headerTitleStyle: {
           fontWeight: 'bold',
@@ -110,9 +128,11 @@ const MyCourses = ({ navigation }) => {
     <Stack.Navigator initialRouteName="My Courses">
       {/* เดะมาเปลี่ยนชื่อ detail กับ inner */}
       <Stack.Screen name="My Courses" component={MyCoursesScreen} options={{
-        headerStyle: {
-          backgroundColor: '#FD841F',
-        },
+        headerBackground: () => 
+        <LinearGradient
+        colors={['#FF512F','#DD2476']}
+        style={{height: '100%'}}
+      />,
         headerTintColor: '#fff',
         headerTitleStyle: {
           fontWeight: 'bold',
@@ -120,13 +140,15 @@ const MyCourses = ({ navigation }) => {
         headerRight: ((props) => {
           return <Ionicons name="md-reorder-three-outline" size={30} color={'white'} onPress={() => { navigation.openDrawer() }} />
         }),
-        title : "คอร์สของฉัน"
+        title: "คอร์สของฉัน"
       }} />
       <Stack.Screen name="My Course Detail" component={MyCourseDetail} options={({ route }) => ({
         title: route.params.title,
-        headerStyle: {
-          backgroundColor: '#FD841F',
-        },
+        headerBackground: () => 
+        <LinearGradient
+        colors={['#FF512F','#DD2476']}
+        style={{height: '100%'}}
+      />,
         headerTintColor: '#fff',
         headerTitleStyle: {
           fontWeight: 'bold',
@@ -136,9 +158,11 @@ const MyCourses = ({ navigation }) => {
         }),
       })} />
       <Stack.Screen name="Play a Course" component={PlayACourseScreen} options={{
-        headerStyle: {
-          backgroundColor: '#FD841F',
-        },
+        headerBackground: () => 
+        <LinearGradient
+        colors={['#FF512F','#DD2476']}
+        style={{height: '100%'}}
+      />,
         headerTintColor: '#fff',
         headerTitleStyle: {
           fontWeight: 'bold',
@@ -146,7 +170,7 @@ const MyCourses = ({ navigation }) => {
         headerRight: ((props) => {
           return <Ionicons name="md-reorder-three-outline" size={30} color={'white'} onPress={() => { navigation.openDrawer() }} />
         }),
-        title : "เล่นคอร์ส"
+        title: "เล่นคอร์ส"
       }} />
     </Stack.Navigator>
   )
@@ -156,24 +180,28 @@ const Community = ({ navigation }) => {
     <Stack.Navigator initialRouteName="Community">
       {/* เดะมาเปลี่ยนชื่อ detail กับ inner */}
       <Stack.Screen name="Community" component={CommunityScreen} options={{
-        headerStyle: {
-          backgroundColor: '#FD841F',
-        },
+        headerBackground: () => 
+        <LinearGradient
+        colors={['#FF512F','#DD2476']}
+        style={{height: '100%'}}
+      />,
         headerRight: ((props) => {
           return <Ionicons name="md-reorder-three-outline" size={30} color={'white'} onPress={() => { navigation.openDrawer() }} />
         }),
         headerTintColor: "white",
-        title : "สังคม"
+        title: "สังคม"
       }} />
       <Stack.Screen name="Post Detail" component={PostDeatilScreen} options={{
-        headerStyle: {
-          backgroundColor: '#FD841F',
-        },
+        headerBackground: () => 
+        <LinearGradient
+        colors={['#FF512F','#DD2476']}
+        style={{height: '100%'}}
+      />,
         headerRight: ((props) => {
           return <Ionicons name="md-reorder-three-outline" size={30} color={'white'} onPress={() => { navigation.openDrawer() }} />
         }),
         headerTintColor: "white",
-        title : "รายละเอียดโพสต์"
+        title: "รายละเอียดโพสต์"
       }} />
     </Stack.Navigator>
   )
@@ -183,23 +211,27 @@ const Food = ({ navigation }) => {
     <Stack.Navigator initialRouteName="HealthyFood">
       {/* เดะมาเปลี่ยนชื่อ detail กับ inner */}
       <Stack.Screen name="HealtyFood" component={FoodScreen} options={{
-        headerStyle: {
-          backgroundColor: '#FD841F',
-        },
+        headerBackground: () => 
+        <LinearGradient
+        colors={['#FF512F','#DD2476']}
+        style={{height: '100%'}}
+      />,
         headerRight: ((props) => {
           return <Ionicons name="md-reorder-three-outline" size={30} color={'white'} onPress={() => { navigation.openDrawer() }} />
         }),
         headerTintColor: "white",
-        title : "อาหารเพื่อสุขภาพ"
+        title: "อาหารเพื่อสุขภาพ"
       }} />
-      <Stack.Screen name="FoodDetail" component={FoodDetail} options={({route}) => ({
-        headerStyle: {
-          backgroundColor: '#FD841F',
-        },
+      <Stack.Screen name="FoodDetail" component={FoodDetail} options={({ route }) => ({
+        headerBackground: () => 
+        <LinearGradient
+        colors={['#FF512F','#DD2476']}
+        style={{height: '100%'}}
+      />,
         headerRight: ((props) => {
           return <Ionicons name="md-reorder-three-outline" size={30} color={'white'} onPress={() => { navigation.openDrawer() }} />
         }),
-        headerTintColor: "white", title : route.params.foodData.foodTitle
+        headerTintColor: "white", title: route.params.foodData.foodTitle
       })} />
     </Stack.Navigator>
   )
@@ -258,17 +290,21 @@ const MainNavigation = () => {
         <Drawer.Navigator drawerContent={props => <DrawerContent {...props} />}>
           <Drawer.Screen name="Login" component={LoginScreen}
             options={{
-              headerStyle: {
-                backgroundColor: '#FD841F',
-              },
+              headerBackground: () => 
+              <LinearGradient
+              colors={['#FF512F','#DD2476']}
+              style={{height: '100%'}}
+            />,
               headerTintColor: 'white',
               title: ""
             }} />
           <Drawer.Screen name="SignUp" component={SignUpScreen}
             options={{
-              headerStyle: {
-                backgroundColor: '#FD841F',
-              },
+              headerBackground: () => 
+              <LinearGradient
+              colors={['#FF512F','#DD2476']}
+              style={{height: '100%'}}
+            />,
               headerTintColor: 'white',
               title: ""
             }} />
@@ -283,5 +319,5 @@ const MainNavigation = () => {
     </NavigationContainer>
   )
 }
-
+const styles = StyleSheet.create({})
 export default MainNavigation;
