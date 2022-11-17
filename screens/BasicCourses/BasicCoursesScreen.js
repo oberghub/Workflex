@@ -1,9 +1,8 @@
-import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, TextInput, Alert } from 'react-native';
+import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, TextInput } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { db } from '../../database/firebase';
 import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
 import React, { useState, useEffect } from 'react';
-import { inline } from 'react-native-web/dist/cjs/exports/StyleSheet/compiler';
 const BasicCoursesScreen = ({ navigation }) => {
   const [courseData, setCourseData] = useState([])
   const [filterCourse, setFilterCourse] = useState([])
