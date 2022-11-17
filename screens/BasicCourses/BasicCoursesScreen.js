@@ -7,6 +7,7 @@ const BasicCoursesScreen = ({ navigation }) => {
   const [courseData, setCourseData] = useState([])
   const [filterCourse, setFilterCourse] = useState([])
   const [hasfilter, setFilter] = useState(false)
+  const [checkfilter, setCheckFilter] = useState(false)
   const [age, setAge] = useState('')
   useEffect(() => {
     const q = query(collection(db, 'defaultCourse'), orderBy("courseId", 'asc'))
@@ -18,24 +19,29 @@ const BasicCoursesScreen = ({ navigation }) => {
     return Math.floor(time / 60) + " นาที " + time % 60 + " วินาที"
   }
   const filterData = () => {
-    setFilter(true)
-    setFilterCourse(courseData);
     if (age > 0 && age <= 13) {
       setFilterCourse(courseData.filter(ages => ages.minAge >= 0 && ages.maxAge <= 13))
+      setFilter(false)
+      setCheckFilter(true)
     }
     else if (age >= 14 && age <= 25) {
       setFilterCourse(courseData.filter(ages => ages.minAge >= 14 && ages.maxAge <= 25))
+      setFilter(false)
+      setCheckFilter(true)
     }
     else if (age >= 26 && age <= 59) {
       setFilterCourse(courseData.filter(ages => ages.minAge >= 26 && ages.maxAge <= 59))
+      setFilter(false)
+      setCheckFilter(true)
     }
     else if (age >= 60 && age <= 120) {
       setFilterCourse(courseData.filter(ages => ages.minAge >= 60 && ages.maxAge <= 120))
+      setFilter(false)
+      setCheckFilter(true)
     }
     else{
       setFilterCourse(courseData);
     }
-
 
   }
   const renderItem = ({ item, index }) => {
@@ -141,12 +147,18 @@ const BasicCoursesScreen = ({ navigation }) => {
           }} onPress={() => { filterData() }}>
             <Text style={{ color: 'white' }}>กรอง</Text>
           </TouchableOpacity>
+          <TouchableOpacity style={{
+            width: '20%', height: 40, backgroundColor: 'green',
+            borderRadius: 5, alignItems: 'center', justifyContent: 'center', marginTop: 10
+          }} onPress={() => { setCheckFilter(false) }}>
+            <Text style={{ color: 'white' }}>คืนค่า</Text>
+          </TouchableOpacity>
         </View>
         :
         null
       }
       <View style={[styles.shadowbox, { width: "100%", padding: 10 }]}>
-        <FlatList data={hasfilter === true ? filterCourse:courseData} renderItem={renderItem} />
+        <FlatList data={checkfilter === true ? filterCourse:courseData} renderItem={renderItem} />
       </View>
 
     </View>
