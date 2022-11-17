@@ -42,14 +42,14 @@ export const DrawerContent = (props) => {
                 <View> 
                     <TouchableOpacity onPress={() => {props.navigation.navigate("Login")}} style={{flexDirection : 'row', marginBottom :20}}>
                         <Ionicons name="ios-log-in-outline" size={25} color={'#444444'} style={{marginTop : -2, marginRight : 10, marginLeft : -5}}/>
-                        <Text style={{fontWeight : '600'}}>Sign In</Text>
+                        <Text style={{fontWeight : '600'}}>เข้าสู่ระบบ</Text>
                     </TouchableOpacity>
                 </View>
 
                 <View>
                     <TouchableOpacity onPress={() => {props.navigation.navigate("SignUp")}} style={{flexDirection : 'row'}}>
                         <Ionicons name="ios-person-add-outline" size={20} color={'#444444'} style={{marginTop : -2, marginRight : 10, marginLeft : -1}}/>
-                        <Text style={{fontWeight : '600'}}>Sign Up</Text>
+                        <Text style={{fontWeight : '600'}}>ลงทะเบียน</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -57,7 +57,7 @@ export const DrawerContent = (props) => {
             //if had a account
             <View>
                 <View style={{width : "100%", paddingLeft : 30, paddingTop : 20, marginBottom : 20}}>
-                    <Text style={{fontSize : 40, fontWeight : '600'}}>Profile</Text>
+                    <Text style={{fontSize : 40, fontWeight : '600'}}>โปรไฟล์</Text>
 
                     <View style={{flexDirection : "row"}}>
                         <Text style={{fontSize : 18, fontWeight : '700', color : '#464646', marginTop :10}}>@{userData.displayName}</Text>
@@ -78,7 +78,7 @@ export const DrawerContent = (props) => {
                         <TouchableOpacity onPress={() => {props.navigation.navigate("Home")}} 
                             style={{marginBottom : 20, flexDirection : 'row'}}>
                             <Ionicons name="ios-home-outline" size={20} color={'#444444'} style={{marginTop : -2, marginRight : 10}}/>
-                            <Text style={{fontWeight : '600'}}>Home</Text>
+                            <Text style={{fontWeight : '600'}}>หน้าหลัก</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -91,7 +91,7 @@ export const DrawerContent = (props) => {
                 <View style={{width : '100%', paddingLeft : 30, paddingTop : 20}}>
                     <TouchableOpacity onPress={() => {signOutAcc()}} style={{flexDirection : 'row'}}>
                         <Ionicons name="ios-exit-outline" size={23} color={'#444444'} style={{marginTop : -2, marginRight : 10}}/>
-                        <Text style={{fontWeight : '600'}}>Sign Out</Text>
+                        <Text style={{fontWeight : '600'}}>ออกจากระบบ</Text>
                     </TouchableOpacity>
                 </View>
 

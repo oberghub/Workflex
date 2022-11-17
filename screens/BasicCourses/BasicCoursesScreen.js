@@ -1,10 +1,15 @@
-import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, TextInput } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { db } from '../../database/firebase';
 import { collection, onSnapshot, orderBy, query} from 'firebase/firestore';
 import React, {useState, useEffect} from 'react';
 const BasicCoursesScreen = ({navigation})  => {
   const [courseData, setCourseData] = useState([])
+
+  const [hasfilter, setFilter] = useState(false)
+  const [age, setAge] = useState('')
+  const [height, setHeight] = useState('')
+  const [weight, setWeight] = useState('')
   useEffect(() => {
     const q = query(collection(db, 'defaultCourse'), orderBy("courseId", 'asc'))
     onSnapshot(q, (snapshot) => {
@@ -13,6 +18,10 @@ const BasicCoursesScreen = ({navigation})  => {
   }, [])
   const formatTime = (time) => {
     return Math.floor(time/60) + " นาที " + time%60 +  " วินาที"
+  }
+  const filterData = () => {
+    setFilter(false)
+
   }
   const renderItem = ({item, index}) => {
     return(
@@ -63,7 +72,92 @@ const BasicCoursesScreen = ({navigation})  => {
   }
   return (
     <View style={styles.container}>
-
+        {
+          !hasfilter ?
+          <TouchableOpacity style={{
+            width : '95%', height : 40, backgroundColor : '#ff872b',
+            borderRadius : 5, alignItems : 'center', justifyContent : 'center', marginTop : 10
+          }} onPress={() => {setFilter(!hasfilter)}}>
+            <Text style={{color : 'white', fontWeight : '600', fontSize : 18}}>กรองคอร์ส</Text>
+         </TouchableOpacity>
+         :
+         null
+        }
+      {hasfilter ? 
+        <View style={{
+          width : '95%',
+          height : 'auto',
+          backgroundColor : 'white',
+          shadowColor: '#171717',
+          shadowOffset: {width: -2, height: 4},
+          shadowOpacity: 0.2,
+          shadowRadius: 3,
+          borderRadius : 10,
+          marginTop : 10, padding : 10
+        }}>
+          <View style={{width : '100%'}}>
+            <Text style={{marginBottom : 15, fontSize : 24, fontWeight  : '700'}}>แทบกรอง</Text>
+            <TouchableOpacity onPress={() => {setFilter(false)}} style={{position : 'absolute', right : 0}}>
+              <Ionicons name='ios-close-outline' size={25} color={'black'} />
+            </TouchableOpacity>
+          </View>
+          <View style={{flexDirection : 'column'}}>
+            <Text style={{marginBottom : 5}}>อายุ</Text>
+            <TextInput style={{
+              width : '40%',
+              height : 40,
+              borderWidth : 1,
+              borderColor : 'lightgray',
+              borderRadius : 5, padding : 5
+            }}
+            placeholder="ใส่อายุของคุณ"
+            keyboardType='numeric'
+            onChangeText={setAge}
+            value={age}
+            />
+          </View>
+          <View style={{flexDirection : 'row', marginTop : 10}}>
+            <View style={{width : '40%', marginRight : 10}}>
+              <Text style={{marginBottom : 5}}>ส่วนสูง</Text>
+              <TextInput style={{
+                width : '100%',
+                height : 40,
+                borderWidth : 1,
+                borderColor : 'lightgray',
+                borderRadius : 5, padding : 5
+              }}
+              placeholder="ส่วนสูง"
+              keyboardType='numeric'
+              onChangeText={setHeight}
+              value={height}
+              />
+            </View>
+            <View style={{width : '40%'}}>
+              <Text style={{marginBottom : 5}}>น้ำหนัก</Text>
+              <TextInput style={{
+                width : '100%',
+                height : 40,
+                borderWidth : 1,
+                borderColor : 'lightgray',
+                borderRadius : 5, padding : 5
+              }}
+              placeholder="น้ำหนัก"
+              keyboardType='numeric'
+              onChangeText={setWeight}
+              value={weight}
+              />
+            </View>
+          </View>
+          <TouchableOpacity style={{
+              width : '20%', height : 40, backgroundColor : 'lightblue',
+              borderRadius : 5, alignItems : 'center', justifyContent : 'center', marginTop : 10
+            }} onPress={() => {filterData()}}>
+              <Text style={{color : 'white'}}>กรอง</Text>
+          </TouchableOpacity>
+        </View>
+        :
+        null
+        }
       <View style={[styles.shadowbox, {width : "100%", padding : 10}]}>
         <FlatList data={courseData} renderItem={renderItem} />
       </View>

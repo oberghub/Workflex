@@ -33,7 +33,7 @@ export default function CourseDetailScreen({route, navigation}) {
                     source={{uri: courseData.image}}
                 />
       </View>
-      <ScrollView>
+      <ScrollView style={{width : '100%'}}>
             <View style={{
                 width : '100%',
                 height : 'auto',

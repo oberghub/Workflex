@@ -85,7 +85,7 @@ export default function PlayACourse({ route, navigation }) {
       }
       else {
         setSec(0)
-        console.error("Back To Main Page")
+        console.log("Back To Main Page")
         navigation.navigate("My Courses")
       }
     }
@@ -101,16 +101,20 @@ export default function PlayACourse({ route, navigation }) {
   return (
     <View style={styles.container}>
       {/* รูปภาพ */}
-      {/* <View style={{
-          width : '100%'
-      }}>
-          <Image
-              style={{width : '100%', height : 200, borderRadius : 10}}
-              source={{uri: foodData.image}}
-          />
-      </View> */}
+      {!!img ? 
+        <View style={{
+        width : '100%',
+        alignItems : 'center'
+        }}>
+        <Image
+            style={{width : '80%', height : 250, borderRadius : 10}}
+            source={{uri: img}}
+        />
+        </View>
+        :
+        null
+      }
       <Text style={{ fontSize: 25, fontWeight: '500' }}>{name}</Text>
-      <Image source={{ uri: img }} style={styles.img}/>
 
       <Text style={{ fontSize: 50, fontWeight: '500' }}>{Math.floor(sec / 60) < 10 ? '0' + Math.floor(sec / 60) : Math.floor(sec / 60)} : {sec % 60 < 10 ? '0' + sec % 60 : sec % 60}</Text>
       {/* <Stack.Navigator initialRouteName="My Courses" screenOptions={{
@@ -174,10 +178,5 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  img: {
-    width: 250,
-    height: 180,
-    borderRadius : 3,
   },
 });
