@@ -122,13 +122,12 @@ const BasicCoursesScreen = ({ navigation }) => {
           marginTop: 10, padding: 10
         }}>
           <View style={{ width: '100%' }}>
-            <Text style={{ marginBottom: 15, fontSize: 24, fontWeight: '700' }}>แทบกรอง</Text>
+            <Text style={{ marginBottom: 15, fontSize: 24, fontWeight: '700' }}>กรองจากอายุ</Text>
             <TouchableOpacity onPress={() => { setFilter(false) }} style={{ position: 'absolute', right: 0 }}>
               <Ionicons name='ios-close-outline' size={25} color={'black'} />
             </TouchableOpacity>
           </View>
           <View style={{ flexDirection: 'column' }}>
-            <Text style={{ marginBottom: 5 }}>อายุ</Text>
             <TextInput style={{
               width: '40%',
               height: 40,
@@ -150,7 +149,7 @@ const BasicCoursesScreen = ({ navigation }) => {
             <Text style={{ color: 'white' }}>กรอง</Text>
           </TouchableOpacity>
           <TouchableOpacity style={{
-            width: '20%', height: 40, backgroundColor: 'green', marginLeft:10,
+            width: '20%', height: 40, backgroundColor: 'pink', marginLeft:10,
             borderRadius: 5, alignItems: 'center', justifyContent: 'center', marginTop: 10
           }} onPress={() => { setCheckFilter(false), setFilter(false) }}>
             <Text style={{ color: 'white' }}>คืนค่า</Text>
@@ -161,7 +160,7 @@ const BasicCoursesScreen = ({ navigation }) => {
         null
       }
       <View style={[styles.shadowbox, { width: "100%", padding: 10 }]}>
-        <FlatList data={checkfilter === true ? filterCourse:courseData} renderItem={renderItem} />
+        <FlatList data={checkfilter === true ? filterCourse : courseData} renderItem={renderItem} />
       </View>
 
     </View>

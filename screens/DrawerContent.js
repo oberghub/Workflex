@@ -10,8 +10,7 @@ export const DrawerContent = (props) => {
     const [userData, setUserData] = useState("")
     const [height, setHeight] = useState('')
     const [weight, setWeight] = useState('')
-    const [bmi, setBmi] = useState()
-    const [txtResult, setTxtResult] = useState("")
+    const [bmi, setBmi] = useState(null)
 
     const signOutAcc = () => {
         signOut(auth)
@@ -38,20 +37,7 @@ export const DrawerContent = (props) => {
     const bmiCal = () => {
         // setFilter(false)
         setBmi(parseFloat(weight / (height / 100) ** 2).toFixed(2));
-        let result = parseFloat(weight / (height / 100) ** 2).toFixed(2);
-        if (result < 18.5) {
-            setTxtResult("Underweight");
-        } else if (result >= 18.5 && result < 25) {
-            setTxtResult("Normal weight");
-        } else if (result >= 25 && result < 30) {
-            setTxtResult("Over weight");
-        } else if (result >= 30) {
-            setTxtResult("Obese");
-        } else {
-            alert("ใส่ค่าไม่ถูกต้อง!");
-            setTxtResult("กรุณาใส่ค่าใหม่");
-        }
-
+        //let result = parseFloat(weight / (height / 100) ** 2).toFixed(2);
     }
     return (
         <View style={{
@@ -163,10 +149,15 @@ export const DrawerContent = (props) => {
                         }} onPress={() => { bmiCal() }}>
                             <Text style={{ color: 'white' }}>คํานวณ</Text>
                         </TouchableOpacity>
-                    <View style={{alignItems:"center"}}>
-                        <Text style={{fontSize:50}}>{bmi}</Text>
-                        <Text style={{fontSize:30}}>{txtResult}</Text>
-                    </View>
+                    {!bmi ?
+                        null
+                     :
+                        <View style={{alignItems:"center", justifyContent : 'center',
+                        width : '75%', height : 40, borderRadius : 5,
+                                    borderWidth : 1, borderColor : 'lightgray', marginTop : 10}}>
+                        <Text style={{fontSize:16}}>ค่า BMI ของคุณคือ {bmi}</Text>
+                        </View>     
+                    }
                     </View>
                 </View>
             }
