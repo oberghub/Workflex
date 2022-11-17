@@ -3,6 +3,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { db } from '../../database/firebase';
 import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
 import React, { useState, useEffect } from 'react';
+import { inline } from 'react-native-web/dist/cjs/exports/StyleSheet/compiler';
 const BasicCoursesScreen = ({ navigation }) => {
   const [courseData, setCourseData] = useState([])
   const [filterCourse, setFilterCourse] = useState([])
@@ -141,6 +142,7 @@ const BasicCoursesScreen = ({ navigation }) => {
               value={age}
             />
           </View>
+          <View style={{flexDirection: 'row'}}>
           <TouchableOpacity style={{
             width: '20%', height: 40, backgroundColor: 'lightblue',
             borderRadius: 5, alignItems: 'center', justifyContent: 'center', marginTop: 10
@@ -148,11 +150,12 @@ const BasicCoursesScreen = ({ navigation }) => {
             <Text style={{ color: 'white' }}>กรอง</Text>
           </TouchableOpacity>
           <TouchableOpacity style={{
-            width: '20%', height: 40, backgroundColor: 'green',
+            width: '20%', height: 40, backgroundColor: 'green', marginLeft:10,
             borderRadius: 5, alignItems: 'center', justifyContent: 'center', marginTop: 10
           }} onPress={() => { setCheckFilter(false) }}>
             <Text style={{ color: 'white' }}>คืนค่า</Text>
           </TouchableOpacity>
+          </View>
         </View>
         :
         null
