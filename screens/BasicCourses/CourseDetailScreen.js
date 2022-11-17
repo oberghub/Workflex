@@ -51,7 +51,7 @@ export default function CourseDetailScreen({route, navigation}) {
                 <Text style={{fontSize : 16, fontWeight : '400', marginTop : 10}}>ท่าออกกำลังกาย</Text>
                 {courseData.postureData.map((item, index) => {
                 return( 
-                    <Text key={index} style={{fontSize : 14, fontWeight : '300'}}>- {formatTitle(item.postureName)} {item.timeDuration} วิ</Text>
+                    <Text key={index} style={{fontSize : 14, fontWeight : '300'}}>- {formatTitle(item.postureName)} {item.timeDuration} วินาที</Text>
                 )
                 })}
                 {/* <Text style={{fontSize : 16, fontWeight : '400', marginTop : 10}}>วิธีทำ</Text>
