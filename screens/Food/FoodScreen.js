@@ -1,6 +1,5 @@
-import { Ionicons } from '@expo/vector-icons';
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, ScrollView, FlatList, RefreshControl, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, Text, View, FlatList, RefreshControl, TouchableOpacity, Image } from 'react-native';
 import { db } from '../../database/firebase';
 import { useSelector } from 'react-redux';
 import { collection, onSnapshot} from 'firebase/firestore';

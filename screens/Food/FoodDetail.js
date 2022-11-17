@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { Text, View, Image, FlatList, ScrollView } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { Text, View, Image, ScrollView } from "react-native";
 export const FoodDetail = ({route, navigation}) => {
     const {foodData, Kcal} = route.params
     const [ingradient, setIngradient] = useState(foodData.ingradient)

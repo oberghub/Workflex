@@ -1,9 +1,6 @@
 import { useEffect, useState } from 'react';
-import { TouchableOpacity } from 'react-native';
-import { StyleSheet, Text, View, Alert } from 'react-native';
+import { StyleSheet, Text, View, Alert, TextInput, FlatList, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { TextInput } from 'react-native';
-import { FlatList } from 'react-native';
 //Store data to firebase
 import { db } from '../../database/firebase';
 import { collection, addDoc, onSnapshot, query, where, deleteDoc, doc, updateDoc, orderBy } from 'firebase/firestore';
