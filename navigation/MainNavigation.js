@@ -4,8 +4,6 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
-// import LinearGradient from 'react-native-linear-gradient';
-import { StyleSheet } from "react-native"
 import { LinearGradient } from "expo-linear-gradient";
 
 
@@ -61,11 +59,6 @@ const NewCourse = ({ navigation }) => {
         }),
         title: "คอร์สใหม่"
       }} />
-      {/* <GradientHeader
-   title="Title"
-   subtitle="Have a nice day Kuray"
-   gradientColors={["#00416A", "#E4E5E6"]}
- />; */}
     </Stack.Navigator>
   )
 }
@@ -319,5 +312,4 @@ const MainNavigation = () => {
     </NavigationContainer>
   )
 }
-const styles = StyleSheet.create({})
 export default MainNavigation;
