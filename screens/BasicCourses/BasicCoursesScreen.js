@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, TextInput } from 'react-native';
+import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, TextInput, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { db } from '../../database/firebase';
 import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
@@ -41,6 +41,7 @@ const BasicCoursesScreen = ({ navigation }) => {
       setCheckFilter(true)
     }
     else{
+      alert("กรุณากรอกใหม่อายุไม่ถูกต้อง")
       setFilterCourse(courseData);
     }
 
@@ -152,7 +153,7 @@ const BasicCoursesScreen = ({ navigation }) => {
           <TouchableOpacity style={{
             width: '20%', height: 40, backgroundColor: 'green', marginLeft:10,
             borderRadius: 5, alignItems: 'center', justifyContent: 'center', marginTop: 10
-          }} onPress={() => { setCheckFilter(false) }}>
+          }} onPress={() => { setCheckFilter(false), setFilter(false) }}>
             <Text style={{ color: 'white' }}>คืนค่า</Text>
           </TouchableOpacity>
           </View>
