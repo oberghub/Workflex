@@ -97,9 +97,7 @@ const BasicCourses = ({ navigation }) => {
         })
       })} />
       <Stack.Screen name="Inner Course" component={InnerCourseScreen} options={({ route }) => ({
-        title: route.params.title, headerStyle: {
-          backgroundColor: '#FD841F',
-        },
+        title: route.params.title, 
         headerBackground: () => 
         <LinearGradient
         colors={['#FF512F','#DD2476']}
