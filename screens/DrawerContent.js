@@ -4,6 +4,8 @@ import { Text, TouchableOpacity, View } from "react-native"
 import { signOut, onAuthStateChanged, updateProfile } from "firebase/auth";
 import { auth } from "../database/firebase";
 import { TextInput } from "react-native-gesture-handler";
+import { SelectList } from 'react-native-dropdown-select-list'
+import { RadioButton } from 'react-native-paper';
 //Store data to firebase
 export const DrawerContent = (props) => {
     const [account, setAccount] = useState(false)
@@ -12,8 +14,18 @@ export const DrawerContent = (props) => {
     const [weight, setWeight] = useState('')
     const [bmi, setBmi] = useState(null)
     const [bmr, setbmr] = useState(0)
+    const [TDEE, setTDEE] = useState(0)
     const [age, setAge] = useState("")
-    const [gender, setGender] = useState("")
+    const [gender, setGender] = useState("ชาย")
+    const [selected, setSelected] = useState("")
+
+    const data = [
+        { key: '1', value: 'ไม่ได้ออกกำลังกายเลย' },
+        { key: '2', value: '1-3 วันต่อสัปดาห์' },
+        { key: '3', value: '3-5 วันต่อสัปดาห์' },
+        { key: '4', value: '6-7 วันต่อสัปดาห์' },
+        { key: '5', value: 'เป็นประจำ เพื่อแข่งขัน' },
+    ]
 
     const signOutAcc = () => {
         signOut(auth)
@@ -37,15 +49,35 @@ export const DrawerContent = (props) => {
             setAccount(false)
         }
     })
+
+    const calTDEE = (bmr) => {
+        if (selected == 'ไม่ได้ออกกำลังกายเลย') {
+            setTDEE((parseFloat(bmr * 1.2)).toFixed(2));
+        }
+        else if (selected == '1-3 วันต่อสัปดาห์') {
+            setTDEE((parseFloat(bmr * 1.375)).toFixed(2));
+        }
+        else if (selected == '3-5 วันต่อสัปดาห์') {
+            setTDEE((parseFloat(bmr * 1.55)).toFixed(2));
+        }
+        else if (selected == '6-7 วันต่อสัปดาห์') {
+            setTDEE((parseFloat(bmr * 1.7)).toFixed(2));
+        }
+        else if (selected == 'เป็นประจำ เพื่อแข่งขัน') {
+            setTDEE((parseFloat(bmr * 1.9)).toFixed(2));
+        }
+    }
     const bmiCal = () => {
         // setFilter(false)
         setBmi(parseFloat(weight / (height / 100) ** 2).toFixed(2));
-        setbmr(parseFloat(66 + (13.7 * weight) + (5 * height) - (6.8 * age)).toFixed(2));
-        //let result = parseFloat(weight / (height / 100) ** 2).toFixed(2);
-    }
-    const bmrCal = () => {
-        // setFilter(false)
-        setbmr(parseFloat(66 + (13.7 * weight) + (5 * height) - (6.8 * age)).toFixed(2));
+        if (gender == "ชาย") {
+            setbmr(parseFloat(66 + (13.7 * weight) + (5 * height) - (6.8 * age)).toFixed(2));
+            calTDEE(parseFloat(66 + (13.7 * weight) + (5 * height) - (6.8 * age)).toFixed(2));
+        }
+        else if(gender == "หญิง"){
+            setbmr(parseFloat(665 + (9.6 * weight) + (1.8 * height) - (4.7 * age)).toFixed(2));
+            calTDEE(parseFloat(665 + (9.6 * weight) + (1.8 * height) - (4.7 * age)).toFixed(2));
+        }
         //let result = parseFloat(weight / (height / 100) ** 2).toFixed(2);
     }
     return (
@@ -119,6 +151,35 @@ export const DrawerContent = (props) => {
                         width: '100%', borderBottomWidth: 1,
                         borderBottomColor: 'lightgray', marginTop: 20
                     }} />
+
+                    <View style={{ flexDirection: 'row', marginTop: 10, paddingLeft: 20 }}>
+                        <RadioButton
+                            value="ชาย"
+                            status={gender === 'ชาย' ? 'checked' : 'unchecked'}
+                            onPress={() => {
+                                setGender('ชาย')
+                            }}
+                        /><Text style={{fontSize: 22}}>เพศชาย</Text>
+                        <RadioButton
+                            value="หญิง"
+                            status={gender === 'หญิง' ? 'checked' : 'unchecked'}
+                            onPress={() => {
+                                setGender('หญิง')
+                            }}
+                        /><Text style={{fontSize: 22}}>เพศหญิง</Text>
+                    </View>
+
+                    <View style={{ flexDirection: 'row', marginTop: 10, paddingLeft: 20 }}>
+                        <SelectList
+                            setSelected={(val) => {
+                                setSelected(val)
+                            }}
+                            data={data}
+                            save="value"
+                            placeholder="ออกกำลังกายบ่อยแค่ไหน"
+                        />
+                    </View>
+
                     <View style={{ width: '40%', marginRight: 10, marginTop: 10, paddingLeft: 30 }}>
                         <Text style={{ marginBottom: 5 }}>อายุ</Text>
                         <TextInput style={{
@@ -183,7 +244,7 @@ export const DrawerContent = (props) => {
                             }}>
                                 <Text style={{ fontSize: 16 }}>ค่า BMI ของคุณคือ {bmi}</Text>
                                 <Text style={{ fontSize: 16 }}>BMR ของคุณคือ {bmr} kcal</Text>
-                                <Text style={{ fontSize: 16 }}>พลังงานที่ต้องใช้ {bmr*1.2} kcal</Text>
+                                <Text style={{ fontSize: 16 }}>พลังงานที่ต้องใช้ {TDEE} kcal</Text>
                             </View>
                         }
                     </View>

@@ -106,7 +106,7 @@ export default function PlayACourse({ route, navigation }) {
         alignItems : 'center'
         }}>
         <Image
-            style={{width : '80%', height : 250, borderRadius : 10}}
+            style={{width : '80%', height : 400, borderRadius : 10}}
             source={{uri: img}}
         />
         </View>
