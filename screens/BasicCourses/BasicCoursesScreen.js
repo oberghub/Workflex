@@ -48,7 +48,7 @@ const BasicCoursesScreen = ({ navigation }) => {
   const renderItem = ({ item, index }) => {
     return (
       <View key={index} style={{
-        height: 370,
+        height: 400,
         width: '100%',
         borderWidth: 1,
         borderColor: 'lightgray',
@@ -76,6 +76,9 @@ const BasicCoursesScreen = ({ navigation }) => {
           <Text style={{ marginLeft: 10, marginTop: 10 }}>
             เวลารวม{" "}
             <Text style={{ fontWeight: '700' }}>{formatTime(item.postureData.map(data => data.timeDuration).reduce((prev, curr) => (prev + 15) + curr))}</Text>
+          </Text>
+          <Text style={{ marginLeft: 10, marginTop: 10 }}>
+            พลังงานที่ใช้ <Text style={{ fontWeight: '700' }}>{item.calorie} kcal</Text>
           </Text>
 
         </View>

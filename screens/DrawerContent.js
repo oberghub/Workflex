@@ -11,6 +11,9 @@ export const DrawerContent = (props) => {
     const [height, setHeight] = useState('')
     const [weight, setWeight] = useState('')
     const [bmi, setBmi] = useState(null)
+    const [bmr, setbmr] = useState(0)
+    const [age, setAge] = useState("")
+    const [gender, setGender] = useState("")
 
     const signOutAcc = () => {
         signOut(auth)
@@ -37,6 +40,12 @@ export const DrawerContent = (props) => {
     const bmiCal = () => {
         // setFilter(false)
         setBmi(parseFloat(weight / (height / 100) ** 2).toFixed(2));
+        setbmr(parseFloat(66 + (13.7 * weight) + (5 * height) - (6.8 * age)).toFixed(2));
+        //let result = parseFloat(weight / (height / 100) ** 2).toFixed(2);
+    }
+    const bmrCal = () => {
+        // setFilter(false)
+        setbmr(parseFloat(66 + (13.7 * weight) + (5 * height) - (6.8 * age)).toFixed(2));
         //let result = parseFloat(weight / (height / 100) ** 2).toFixed(2);
     }
     return (
@@ -110,6 +119,21 @@ export const DrawerContent = (props) => {
                         width: '100%', borderBottomWidth: 1,
                         borderBottomColor: 'lightgray', marginTop: 20
                     }} />
+                    <View style={{ width: '40%', marginRight: 10, marginTop: 10, paddingLeft: 30 }}>
+                        <Text style={{ marginBottom: 5 }}>อายุ</Text>
+                        <TextInput style={{
+                            width: '100%',
+                            height: 40,
+                            borderWidth: 1,
+                            borderColor: 'lightgray',
+                            borderRadius: 5, padding: 5
+                        }}
+                            placeholder="อายุ"
+                            keyboardType='numeric'
+                            onChangeText={setAge}
+                            value={age}
+                        />
+                    </View>
                     <View style={{ flexDirection: 'row', marginTop: 10, paddingLeft: 30 }}>
                         <View style={{ width: '40%', marginRight: 10 }}>
                             <Text style={{ marginBottom: 5 }}>ส่วนสูง</Text>
@@ -142,22 +166,26 @@ export const DrawerContent = (props) => {
                             />
                         </View>
                     </View>
-                    <View style={{ alignItems:"center"}}>
+                    <View style={{ alignItems: "center" }}>
                         <TouchableOpacity style={{
                             width: '40%', height: 40, backgroundColor: 'lightblue',
                             borderRadius: 5, alignItems: 'center', justifyContent: 'center', marginTop: 10
                         }} onPress={() => { bmiCal() }}>
                             <Text style={{ color: 'white' }}>คํานวณ</Text>
                         </TouchableOpacity>
-                    {!bmi ?
-                        null
-                     :
-                        <View style={{alignItems:"center", justifyContent : 'center',
-                        width : '75%', height : 40, borderRadius : 5,
-                                    borderWidth : 1, borderColor : 'lightgray', marginTop : 10}}>
-                        <Text style={{fontSize:16}}>ค่า BMI ของคุณคือ {bmi}</Text>
-                        </View>     
-                    }
+                        {!bmi ?
+                            null
+                            :
+                            <View style={{
+                                alignItems: "center", justifyContent: 'center',
+                                width: '75%', height: 80, borderRadius: 5,
+                                borderWidth: 1, borderColor: 'lightgray', marginTop: 10
+                            }}>
+                                <Text style={{ fontSize: 16 }}>ค่า BMI ของคุณคือ {bmi}</Text>
+                                <Text style={{ fontSize: 16 }}>BMR ของคุณคือ {bmr} kcal</Text>
+                                <Text style={{ fontSize: 16 }}>พลังงานที่ต้องใช้ {bmr*1.2} kcal</Text>
+                            </View>
+                        }
                     </View>
                 </View>
             }
