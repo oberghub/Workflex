@@ -139,7 +139,6 @@ export const DrawerContent = (props) => {
                         borderBottomColor: 'lightgray'
                     }} />
 
-
                     <View style={{ width: '100%', paddingLeft: 30, paddingTop: 20 }}>
                         <TouchableOpacity onPress={() => { signOutAcc() }} style={{ flexDirection: 'row' }}>
                             <Ionicons name="ios-exit-outline" size={23} color={'#444444'} style={{ marginTop: -2, marginRight: 10 }} />

@@ -94,21 +94,32 @@ export default function PlayACourse({ route, navigation }) {
       setImg(postureData[count].imgEx)
       setSec(postureData[count].timeDuration)
     }
-
+  }
+  const prevPost = () => {
+    if (count > 0) {
+      setCount(count - 1)
+      console.log(count)
+      setName(postureData[count - 1].postureName)
+      setImg(postureData[count - 1].imgEx)
+      setSec(postureData[count - 1].timeDuration)
+    }
+    else {
+      console.log("No Previous Exercise")
+    }
   }
 
   return (
     <View style={styles.container}>
       {/* รูปภาพ */}
-      {!!img ? 
+      {!!img ?
         <View style={{
-        width : '100%',
-        alignItems : 'center'
+          width: '100%',
+          alignItems: 'center'
         }}>
-        <Image
-            style={{width : '80%', height : 400, borderRadius : 10}}
-            source={{uri: img}}
-        />
+          <Image
+            style={{ width: '90%', height: 350, borderRadius: 10 }}
+            source={{ uri: img }}
+          />
         </View>
         :
         null
@@ -147,26 +158,44 @@ export default function PlayACourse({ route, navigation }) {
         justifyContent: 'center',
         borderRadius: 5,
         marginTop: 20,
-      }}  onPress={() => {toReset()}}>
+      }} onPress={() => { toReset() }}>
         <Text style={{
           fontSize: 22,
           fontWeight: '500'
         }}>รีเซ็ต</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={{
-        height: 50,
-        width: '70%',
-        backgroundColor: 'orange',
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderRadius: 5,
-        marginTop: 20,
-      }} onPress={() => {nextPose()}}>
-        <Text style={{
-          fontSize: 22,
-          fontWeight: '500'
-        }}>ท่าต่อไป</Text>
-      </TouchableOpacity>
+      <View style={{ flexDirection: 'row', alignItems: 'center', marginRight: 55, }}>
+        <TouchableOpacity style={{
+          height: 50,
+          width: '60%',
+          backgroundColor: 'orange',
+          alignItems: 'center',
+          justifyContent: 'center',
+          borderRadius: 5,
+          marginTop: 20,
+        }} onPress={() => { prevPost() }}>
+          <Text style={{
+            fontSize: 22,
+            fontWeight: '500'
+          }}>ท่าก่อนหน้า</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={{
+          height: 50,
+          width: '60%',
+          backgroundColor: 'orange',
+          alignItems: 'center',
+          justifyContent: 'center',
+          borderRadius: 5,
+          marginTop: 20,
+          marginLeft: 20,
+        }} onPress={() => { nextPose() }}>
+          <Text style={{
+            fontSize: 22,
+            fontWeight: '500'
+          }}>ท่าต่อไป</Text>
+        </TouchableOpacity>
+
+      </View>
     </View>
   );
 }
