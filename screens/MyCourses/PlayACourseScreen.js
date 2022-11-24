@@ -164,10 +164,9 @@ export default function PlayACourse({ route, navigation }) {
           fontWeight: '500'
         }}>รีเซ็ต</Text>
       </TouchableOpacity>
-      <View style={{ flexDirection: 'row', alignItems: 'center', marginRight: 55, }}>
         <TouchableOpacity style={{
           height: 50,
-          width: '60%',
+          width: '70%',
           backgroundColor: 'orange',
           alignItems: 'center',
           justifyContent: 'center',
@@ -181,13 +180,12 @@ export default function PlayACourse({ route, navigation }) {
         </TouchableOpacity>
         <TouchableOpacity style={{
           height: 50,
-          width: '60%',
+          width: '70%',
           backgroundColor: 'orange',
           alignItems: 'center',
           justifyContent: 'center',
           borderRadius: 5,
           marginTop: 20,
-          marginLeft: 20,
         }} onPress={() => { nextPose() }}>
           <Text style={{
             fontSize: 22,
@@ -196,7 +194,6 @@ export default function PlayACourse({ route, navigation }) {
         </TouchableOpacity>
 
       </View>
-    </View>
   );
 }
 
